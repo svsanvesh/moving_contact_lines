@@ -1,0 +1,9 @@
+rho1: 1 
+rho2: 0.917 
+mu1: 0.01 
+mu2: 0.3 
+sigma: 0.0728 
+refLength: 1e-05 
+refVelocity: 10 
+Reynolds Number: 100 
+Weber Number: 13.7363 

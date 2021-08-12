@@ -1,0 +1,1 @@
+return  dirichlet(0.);
