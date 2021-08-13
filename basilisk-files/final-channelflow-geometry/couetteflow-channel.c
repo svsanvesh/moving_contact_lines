@@ -1,6 +1,10 @@
-// This code is written to implement a channel flow in the middle of the domain with width 2 and length 8. 
-//Author : Anvesh 	
-//status: Working (cp embeded-couetteflow-channel.c) 
+// This code is written to implement a channel flow in the middle of the domain with width 2 and length 8. wiht the help of embed.h header and by giving the boundary conditions on u.n[embed.h](contraary to assuming u.n[] is the normal component. ).
+// The code now has to be followed up to introduce an interface in the middle of the domain.  
+//Author : Anvesh
+//
+//status: working. 
+//comment: In this code giving the initial velocity as 0.0 makes it converge too quickly hence as a workaround the initial velocity is given as 0.001 and the mesh size has been refined to 10. 
+//
 // Date : 12-aug-2021 
 //
 //libraries used - 
@@ -41,7 +45,6 @@ event properties (i++)
 {
         foreach_face()
          muv.x[] = U0*H0/Reynolds;
-        //muv.x[] = fm.x[]/Reynolds; 
 }
 
 // Setting the boundary conditions
@@ -82,11 +85,6 @@ event init (t = 0)
 
 	mu = fm;
 
-/*	u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
-	u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);*/
-// The above embed boundary condition is given as an IF condition to specify two different 
-// embed conditions namely, the top embed wall going to the right and the
-//  bottom embed wall going to the left. 
 
 
 
@@ -95,6 +93,10 @@ event init (t = 0)
 
 u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
 u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);
+
+// The above embed boundary condition is given as an IF condition to specify two different 
+// embed conditions namely, the top embed wall going to the right and the
+//  bottom embed wall going to the left. 
 
 // Printing out standard text outputs on the screen
 event logfile (i++)
@@ -105,7 +107,7 @@ event logfile (i++)
 
 
 
-// Produce vorticity animation
+// Prost processing the results
 event parview (i += 10  ; t <=20)
 {
         scalar  m[];
@@ -122,6 +124,6 @@ event parview (i += 10  ; t <=20)
 }
 // Using adaptive grid based on velocity
 event adapt (i++) {
-        adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 7);  //channges 
+        adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 10);  //changes 
 }
 
