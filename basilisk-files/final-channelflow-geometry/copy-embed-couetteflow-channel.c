@@ -16,7 +16,7 @@ char name_vtk[100];
 double H0, U0; 
 
 double Reynolds = 20.;
-int maxlevel = 6;
+int maxlevel = 10;
 face vector muv[];
 
 int main() 
@@ -26,9 +26,9 @@ int main()
 
 
         H0 = 1.;            // Height of the channel
-        U0 =10.;             // Velocity of the bottom plate
+        U0 =1.;             // Velocity of the bottom plate
         origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
-        N = 64;
+        N = 1024;
         mu = muv;           // constant viscosity. Exact value given below
 
         run();
@@ -69,7 +69,7 @@ event init (t = 0)
 
      foreach()
           
-          u.x[] = cs[] ? 1.0  : 0.;
+          u.x[] = 0.001 ;
   
      vertex scalar phi[];
   
@@ -82,8 +82,8 @@ event init (t = 0)
 
 	mu = fm;
 
-	u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
-	u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);
+/*	u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
+	u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);*/
 // The above embed boundary condition is given as an IF condition to specify two different 
 // embed conditions namely, the top embed wall going to the right and the
 //  bottom embed wall going to the left. 
@@ -93,6 +93,8 @@ event init (t = 0)
 }
 
 
+u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
+u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);
 
 // Printing out standard text outputs on the screen
 event logfile (i++)
@@ -104,7 +106,7 @@ event logfile (i++)
 
 
 // Produce vorticity animation
-event parview (i += 10  ; t <=4)
+event parview (i += 10  ; t <=20)
 {
         scalar  m[];
         foreach()
