@@ -108,7 +108,7 @@ event logfile (i++)
 
 
 // Prost processing the results
-event parview (i += 10  ; t <=20)
+event parview (i += 5  ; t <=5)
 {
         scalar  m[];
         foreach()
