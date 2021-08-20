@@ -30,7 +30,7 @@ int main()
 
 
         H0 = 1.;            // Height of the channel
-        U0 =1.;             // Velocity of the bottom plate
+        U0 =10.;             // Velocity of the plate
         origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
         N = 128;
         mu = muv;           // constant viscosity. Exact value given below
