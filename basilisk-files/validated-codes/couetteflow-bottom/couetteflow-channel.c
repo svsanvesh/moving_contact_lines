@@ -1,4 +1,4 @@
-// This code is written to implement a channel flow in the middle of the domain with width 2 and length 8. wiht the help of embed.h header and by giving the boundary conditions on u.n[embed.h](contraary to assuming u.n[] is the normal component. ).
+// This code is written to implement a channel flow in the bottom  of the domain with width 2 and length 8. wiht the help of embed.h header and by giving the boundary conditions on u.n[embed.h](contraary to assuming u.n[] is the normal component. ).
 // The code now has to be followed up to introduce an interface in the middle of the domain.  
 //Author : Anvesh
 //
