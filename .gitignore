@@ -1,5 +1,5 @@
 *.vtk
 *.ppm
 *.mp4
-./a.out
+a.out
 *.swp
