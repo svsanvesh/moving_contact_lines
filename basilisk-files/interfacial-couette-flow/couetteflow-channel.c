@@ -79,7 +79,7 @@ event init (t = 0)
      double eps = L0/(1 << 7)/1000.;
   
      foreach_vertex()
-	     phi[] = intersection (-(y - L0/8. + eps), -(- L0/8. + eps - y));
+	     phi[] = intersection ((  L0/8. - y + eps), ( L0/8. + y + eps));
 	fractions (phi, cs, fs);
 	boundary (all );
 
