@@ -6,7 +6,8 @@
 //#include"embed.h"
 #include"navier-stokes/centered.h"
 #include"vtk.h"
-//#include"vof.h"
+#include"vof.h"
+#include"geometry.h"
 //#include"contact.h"
 //#include"tension.h"
 #include"fractions.h"
@@ -19,10 +20,26 @@ char name_vtk[100];
 
 scalar f[], * interfaces = {f};
 double rho1 = 1., mu1 = 1., rho2 = 1., mu2 = 1.;
+vector h[];
+
+double theta0 = 90;
+h.t[bottom] = contact_angle (theta0*pi/180.);
+
+double Reynolds = 20.;
+int maxlevel = 7;
+face vector muv[];
+double H0=2., U0=10.;
+
+event properties (i++)
+{
+        foreach_face()
+         muv.x[] = U0*H0/Reynolds;
+}
+
 
 int main ()
 {
-
+	L0=8.;
 
 	run();
 

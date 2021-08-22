@@ -13,11 +13,23 @@
 #include "embed.h"
 #include"navier-stokes/centered.h"
 #include"vtk.h"
+#include"vof.h"
+#include"tension.h"
+#include"contact.h"
+
 
 
 char name[100];
 char name_vtk[100];
 double H0, U0; 
+
+scalar f[], * interfaces = {f};
+
+
+vector h[];
+double theta0 = 30;
+h.t[bottom] = contact_angle (theta0*pi/180.);
+
 
 double Reynolds = 20.;
 int maxlevel = 7;
@@ -27,7 +39,9 @@ int main()
 {	       // Main program begins here
         L0 = 8.;            // Size of the square box
 
+	f.height = h;
 
+	f.sigma = 1.;
 
         H0 = 1.;            // Height of the channel
         U0 =10.;             // Velocity of the plate
@@ -68,11 +82,15 @@ pf[right]  = dirichlet(0.);
 
 event init (t = 0)
 {
+
+
+	fraction (f, x );
+
 	boundary(all);
 
      foreach()
           
-          u.x[] = 0.001 ;
+          u.x[] = 0.01 ;
   
      vertex scalar phi[];
   
@@ -85,9 +103,6 @@ event init (t = 0)
 
 	mu = fm;
 
-
-
-
 }
 
 
@@ -99,6 +114,7 @@ u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);
 //  bottom embed wall going to the left. 
 
 // Printing out standard text outputs on the screen
+
 event logfile (i++)
         fprintf (stderr, "%d %g\n", i, t);
 
