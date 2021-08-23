@@ -3,14 +3,9 @@
 // Date : 25 th july 2021
 //
 // libraries used -
-//#include"embed.h"
 #include"navier-stokes/centered.h"
 #include"vtk.h"
-#include"vof.h"
-#include"geometry.h"
-//#include"contact.h"
-//#include"tension.h"
-#include"fractions.h"
+#include"two-phase.h"
 
 
 
@@ -28,7 +23,29 @@ h.t[bottom] = contact_angle (theta0*pi/180.);
 double Reynolds = 20.;
 int maxlevel = 7;
 face vector muv[];
-double H0=2., U0=10.;
+double H0=0.4, U0=10.;
+
+// Setting the boundary conditions
+u.n[left] = neumann(0.);
+u.t[left] = neumann(0.);
+p[left]    = dirichlet(0.);  // We give no pressure gradient to check for linear profile 
+pf[left]   = dirichlet(0.);
+
+
+u.n[right] = neumann(0.);
+u.t[right] = neumann(0.);
+p[right]   = dirichlet(0.);  //we give no pressure gradient - couette flow 
+pf[right]  = dirichlet(0.);
+
+
+
+u.n[top] = dirichlet(0.);
+u.t[top] = dirichlet(U0);
+
+u.n[bottom] = dirichlet(0.);
+u.t[bottom] = dirichlet(-U0);
+
+
 
 event properties (i++)
 {
@@ -36,10 +53,22 @@ event properties (i++)
          muv.x[] = U0*H0/Reynolds;
 }
 
+event init (t = 0)
+{
 
+	fraction (f, - (sq(x) + sq(y) - sq(0.5)));
+	foreach()
+		u.x[] = 0.01;      //(IT DOESNT )  THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
+
+
+
+
+}
 int main ()
 {
-	L0=8.;
+	L0=1.;
+	U0 =10;             // Velocity of the bottom plate
+        origin (-L0/2, 0.0);  // Origin is at the bottom centre of the box
 
 	run();
 
