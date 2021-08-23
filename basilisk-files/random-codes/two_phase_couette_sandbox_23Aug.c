@@ -236,7 +236,7 @@ event logstats (t += 1.0) {
 //   output_field ({shear}, fp_shear, linear=true);
 //   fclose(fp_shear);
 // }
-
+/*
 event interface (t+=1)
 {
   char name_interface[1000];
@@ -253,7 +253,7 @@ event loginterface (t += 1.0) {
     fprintf(fp_interface, "%i %g %1.4f %1.4f %1.4f %1.4f %1.4f\n", i, t, statsf(f).sum, statsf(posX).min, statsf(posX).max, statsf(posY).min, statsf(posY).max);
     fflush(fp_interface);
 }
-
+/*
 event profiles (t = 0; t+=1.0; t<=100) // RC restricted the output a little, don't overdo it at first!
 {
   FILE * fp = fopen("xprof", "a");
@@ -291,7 +291,7 @@ event profiles (t = 0; t+=1.0; t<=100) // RC restricted the output a little, don
   // for (double x = -4; x <= 4; x += 0.01)
   //   fprintf (fp, "%g %g %g\n", t, x, shear);
   // fclose (fp);
-}
+}*/
 // Produces vtk files to post process in paraview. 
 event movies (i += 10  ; t <=10)
 {
@@ -305,6 +305,10 @@ event movies (i += 10  ; t <=10)
 
 
 }
+
+
+event logfile (i++)
+        fprintf (stderr, "%d %g\n", i, t);
 
 
 
