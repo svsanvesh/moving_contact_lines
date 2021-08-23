@@ -77,7 +77,7 @@ event logfile (i++)
 
 // This section helps in generating vtk files for postprocessing in paraview. 
 
-event movies (i += 10  ; t <=220)
+event movies (i += 10  ; t <=20)
 {
         scalar omega[], m[];
         vorticity (u, omega);
@@ -96,4 +96,37 @@ event movies (i += 10  ; t <=220)
 
 
 
+event logfile (i++)
+        fprintf (stderr, "%d %g\n", i, t);
+
+
+
+// This section helps in generating vtk files for postprocessing in paraview. 
+
+event movies (i += 10  ; t <=20)
+{
+        scalar omega[], m[];
+        vorticity (u, omega);
+        foreach()
+                sprintf (name_vtk, "data-%g.vtk", t);
+                FILE * fpvtk = fopen (name_vtk, "w");
+                output_vtk ({u.x,u.y,p},N,fpvtk,1);
+
+
+}
+
+
+
+event movies (i += 10  ; t <=20)
+{
+        scalar omega[], m[];
+        vorticity (u, omega);
+        foreach()
+                sprintf (name_vtk, "data-%g.vtk", t);
+                FILE * fpvtk = fopen (name_vtk, "w");
+                output_vtk ({u.x,u.y,p},N,fpvtk,1);
+
+
+}
+// This section helps in generating vtk files for postprocessing in paraview. 
 
