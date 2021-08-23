@@ -32,8 +32,8 @@
 #include "vtk.h"
 
 // Computational parameters
-double Reynolds = 100.0;       // Reynolds number
-int maxlevel = 8;              // Maximum mesh refinement
+double Reynolds = 20.0;       // Reynolds number
+int maxlevel = 5;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
@@ -50,7 +50,7 @@ int main() {                // Main program begins here
 	H0 = 1.;            // Height of the channel
 	U0 =1;             // Velocity of the bottom plate
 	origin (-L0/2, 0.0);  // Origin is at the bottom centre of the box
-	N = 256 ; 
+	N = 32; 
 	mu = muv;           // constant viscosity. Exact value given below
 
 	run();
@@ -80,10 +80,10 @@ pf[right]  = dirichlet(0.);
 
 
 u.n[top] = dirichlet(0.);
-u.t[top] = dirichlet(-U0);
+u.t[top] = dirichlet(U0);
 
 u.n[bottom] = dirichlet(0.);
-u.t[bottom] = dirichlet(U0);
+u.t[bottom] = dirichlet(-U0);
 
 
 event init (t=0)

@@ -26,15 +26,13 @@
 //
 //
 //
-  U0 =10;             // Velocity of the bottom plate
-        origin (-L0/2, 0.0);  // Origin is at the bottom centre of the box
 //// Libraries included
 #include "embed.h"
 #include "navier-stokes/centered.h"
 #include "vtk.h"
 
 // Computational parameters
-double Reynolds = 100.0;       // Reynolds number
+double Reynolds = 20.0;       // Reynolds number
 int maxlevel = 5;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
@@ -50,9 +48,9 @@ int main() {                // Main program begins here
 
 
 	H0 = 1.;            // Height of the channel
-	U0 =10;             // Velocity of the bottom plate
+	U0 =1;             // Velocity of the bottom plate
 	origin (-L0/2, 0.0);  // Origin is at the bottom centre of the box
-	N = 32 ; 
+	N = 32; 
 	mu = muv;           // constant viscosity. Exact value given below
 
 	run();
@@ -100,28 +98,6 @@ event init (t=0)
 
 	boundary(all);
 
-
-// Setting the boundary conditions
-u.n[left] = neumann(0.);
-u.t[left] = neumann(0.);
-p[left]    = dirichlet(0.);  // We give no pressure gradient to check for linear profile 
-pf[left]   = dirichlet(0.);
-
-
-u.n[right] = neumann(0.);
-u.t[right] = neumann(0.);
-p[right]   = dirichlet(0.);  //we give no pressure gradient - couette flow 
-pf[right]  = dirichlet(0.);
-
-
-
-u.n[top] = dirichlet(0.);
-u.t[top] = dirichlet(U0);
-
-u.n[bottom] = dirichlet(0.);
-u.t[bottom] = dirichlet(-U0);
-
-
      foreach()
 
 	  u.x[] = cs[] ? H0  : 0.;	//(IT DOESNT ) 	THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
@@ -140,9 +116,9 @@ event movies (i += 10  ; t <=10)
 	foreach()
 		m[] = cs[]  ;
 	boundary ({m});
-foreach()
-
-          u.x[] = cs[] ? H0  : 0.;      //(IT DOESNT )  THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
+output_ppm (omega, file = "vort.mp4", box = {{-L0/2., 0.0},{L0/2., 1. }}, 
+			
+		min = -0.5, max = 2.0, linear = true, mask = m);
 
         sprintf (name, "vort-%g.ppm", t);
         sprintf (name_vtk, "data-%g.vtk", t);
@@ -151,16 +127,10 @@ foreach()
         output_vtk ({u.x,u.y,p},N,fpvtk,1);
         output_ppm (u.x, fp, min = -2, max = 2, n = 512);
 
-// Printing out standard text outputs on the screen
-event logfile (i++)
-        fprintf (stderr, "%d %g\n", i, t);
-
 
 }
 
 // Using adaptive grid based on velocity
 event adapt (i++) {
-	adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 5);
-event logfile (i++)
-        fprintf (stderr, "%d %g\n", i, t);
- 
+	adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 10);  //channges 
+}
