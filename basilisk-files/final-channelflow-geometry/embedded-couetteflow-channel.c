@@ -31,6 +31,8 @@ int main()
         N = 64;
         mu = muv;           // constant viscosity. Exact value given below
 
+ U0 =10.;             // Velocity of the bottom plate
+        origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
         run();
 
 

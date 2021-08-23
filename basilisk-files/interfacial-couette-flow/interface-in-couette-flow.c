@@ -7,19 +7,15 @@
 #include"vtk.h"
 #include"two-phase.h"
 
-
-
 char name[100];
 char name_vtk[100];
 
 
-scalar f[], * interfaces = {f};
-double rho1 = 1., mu1 = 1., rho2 = 1., mu2 = 1.;
 vector h[];
-
+/*
 double theta0 = 90;
 h.t[bottom] = contact_angle (theta0*pi/180.);
-
+*/
 double Reynolds = 20.;
 int maxlevel = 7;
 face vector muv[];
@@ -74,28 +70,21 @@ int main ()
 
 
 }
+event logfile (i++)
+        fprintf (stderr, "%d %g\n", i, t);
 
 
 
 // This section helps in generating vtk files for postprocessing in paraview. 
 
-event movies (i += 10  ; t <=10)
+event movies (i += 10  ; t <=220)
 {
         scalar omega[], m[];
         vorticity (u, omega);
         foreach()
-                m[] = cs[]  ;
-        boundary ({m});
-output_ppm (omega, file = "vort.mp4", box = {{-0.5, -0.5},{0.5, 0.5 }},
-
-                min = -0.5, max = 2.0, linear = true, mask = m);
-
-        sprintf (name, "vort-%g.ppm", t);
-        sprintf (name_vtk, "data-%g.vtk", t);
-        FILE * fpvtk = fopen (name_vtk, "w");
-        FILE * fp = fopen (name, "w");
-        output_vtk ({u.x,u.y,p},N,fpvtk,1);
-        output_ppm (u.x, fp, min = -2, max = 2, n = 512);
+	       	sprintf (name_vtk, "data-%g.vtk", t);
+        	FILE * fpvtk = fopen (name_vtk, "w");
+        	output_vtk ({u.x,u.y,p},N,fpvtk,1);
 
 
 }

@@ -26,6 +26,8 @@
 //
 //
 //
+  U0 =10;             // Velocity of the bottom plate
+        origin (-L0/2, 0.0);  // Origin is at the bottom centre of the box
 //// Libraries included
 #include "embed.h"
 #include "navier-stokes/centered.h"
@@ -98,6 +100,28 @@ event init (t=0)
 
 	boundary(all);
 
+
+// Setting the boundary conditions
+u.n[left] = neumann(0.);
+u.t[left] = neumann(0.);
+p[left]    = dirichlet(0.);  // We give no pressure gradient to check for linear profile 
+pf[left]   = dirichlet(0.);
+
+
+u.n[right] = neumann(0.);
+u.t[right] = neumann(0.);
+p[right]   = dirichlet(0.);  //we give no pressure gradient - couette flow 
+pf[right]  = dirichlet(0.);
+
+
+
+u.n[top] = dirichlet(0.);
+u.t[top] = dirichlet(U0);
+
+u.n[bottom] = dirichlet(0.);
+u.t[bottom] = dirichlet(-U0);
+
+
      foreach()
 
 	  u.x[] = cs[] ? H0  : 0.;	//(IT DOESNT ) 	THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
@@ -116,6 +140,9 @@ event movies (i += 10  ; t <=10)
 	foreach()
 		m[] = cs[]  ;
 	boundary ({m});
+foreach()
+
+          u.x[] = cs[] ? H0  : 0.;      //(IT DOESNT )  THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
 
         sprintf (name, "vort-%g.ppm", t);
         sprintf (name_vtk, "data-%g.vtk", t);
@@ -124,10 +151,16 @@ event movies (i += 10  ; t <=10)
         output_vtk ({u.x,u.y,p},N,fpvtk,1);
         output_ppm (u.x, fp, min = -2, max = 2, n = 512);
 
+// Printing out standard text outputs on the screen
+event logfile (i++)
+        fprintf (stderr, "%d %g\n", i, t);
+
 
 }
 
 // Using adaptive grid based on velocity
 event adapt (i++) {
 	adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 5);
+event logfile (i++)
+        fprintf (stderr, "%d %g\n", i, t);
  
