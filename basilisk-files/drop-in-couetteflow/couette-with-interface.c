@@ -15,8 +15,8 @@
 #include"two-phase.h"
 
 // Computational parameters
-double Reynolds = 10.0;       // Reynolds number
-int maxlevel = 8;              // Maximum mesh refinement
+double Reynolds = 5.0;       // Reynolds number
+int maxlevel = 10;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
@@ -27,10 +27,10 @@ int main() {                // Main program begins here
 	
 
 
-	H0 = 1.;            // Height of the channel
-	U0 =1;             // Velocity of the bottom plate
+	H0 = 0.2;            // Height of the channel
+	U0 =10.0;             // Velocity of the bottom plate
 	origin (-L0/2., -L0/2.0);  // Origin is at the bottom centre of the box
-	N = 256; 
+	N = 1024; 
 	mu = muv;           // constant viscosity. Exact value given below
 
 	run();
@@ -81,7 +81,7 @@ event logfile (i++)
 	fprintf (stderr, "%d %g\n", i, t);
 
 // Produce vorticity animation
-event movies (i += 1  ; t <=0.5)
+event movies (i += 1  ; t <=0.1)
 {
 	foreach()
 		
@@ -96,5 +96,5 @@ event movies (i += 1  ; t <=0.5)
 
 // Using adaptive grid based on velocity
 event adapt (i++) {
-	adapt_wavelet ({u}, (double[]){3e-2}, maxlevel, 10);   
+	adapt_wavelet ({f}, (double[]){3e-2}, maxlevel, 11);   
 }
