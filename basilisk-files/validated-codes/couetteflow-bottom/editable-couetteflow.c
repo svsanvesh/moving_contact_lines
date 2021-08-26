@@ -1,7 +1,11 @@
-// This code is written to implement a channel flow in the middle of the domain with width 2 and length 8. 
-//Author : Anvesh 	
-//status: Working (cp embeded-couetteflow-channel.c) 
-// Date : 12-aug-2021 
+// This code is written to implement a channel flow in the bottom  of the domain with width 2 and length 8. wiht the help of embed.h header and by giving the boundary conditions on u.n[embed.h](contraary to assuming u.n[] is the normal component. ).
+// The code now has to be followed up to introduce an interface in the middle of the domain.  
+//Author : Anvesh
+//
+//status: working. 
+//comment: In this code giving the initial velocity as 0.0 makes it converge too quickly hence as a workaround the initial velocity is given as 0.001 and the mesh size has been refined to 10. 
+//
+// Date : 24-aug-2021 
 //
 //libraries used - 
 
@@ -9,14 +13,14 @@
 #include "embed.h"
 #include"navier-stokes/centered.h"
 #include"vtk.h"
-
+#include"two-phase.h"
 
 char name[100];
 char name_vtk[100];
 double H0, U0; 
 
 double Reynolds = 20.;
-int maxlevel = 10;
+int maxlevel = 7;
 face vector muv[];
 
 int main() 
@@ -26,9 +30,9 @@ int main()
 
 
         H0 = 1.;            // Height of the channel
-        U0 =1.;             // Velocity of the bottom plate
-        origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
-        N = 1024;
+        U0 =10.;             // Velocity of the plate
+        origin (-L0/2., -L0/8.);  // Origin is at the bottom centre of the box
+        N = 128;
         mu = muv;           // constant viscosity. Exact value given below
 
         run();
@@ -41,7 +45,6 @@ event properties (i++)
 {
         foreach_face()
          muv.x[] = U0*H0/Reynolds;
-        //muv.x[] = fm.x[]/Reynolds; 
 }
 
 // Setting the boundary conditions
@@ -65,6 +68,9 @@ pf[right]  = dirichlet(0.);
 
 event init (t = 0)
 {
+	 fraction (f , x );
+
+
 	boundary(all);
 
      foreach()
@@ -82,11 +88,6 @@ event init (t = 0)
 
 	mu = fm;
 
-/*	u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
-	u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);*/
-// The above embed boundary condition is given as an IF condition to specify two different 
-// embed conditions namely, the top embed wall going to the right and the
-//  bottom embed wall going to the left. 
 
 
 
@@ -95,6 +96,10 @@ event init (t = 0)
 
 u.t[embed] = y > 0.5 ? dirichlet(0.) : dirichlet(0.);
 u.n[embed] = y > 0.0 ? dirichlet(U0) : dirichlet(-U0);
+
+// The above embed boundary condition is given as an IF condition to specify two different 
+// embed conditions namely, the top embed wall going to the right and the
+//  bottom embed wall going to the left. 
 
 // Printing out standard text outputs on the screen
 event logfile (i++)
@@ -105,23 +110,23 @@ event logfile (i++)
 
 
 
-// Produce vorticity animation
-event parview (i += 10  ; t <=20)
+// Prost processing the results
+event parview (i += 5  ; t <=5)
 {
         scalar  m[];
         foreach()
-                m[] = cs[]  ;
-        boundary ({m});
-
-
-        sprintf (name_vtk, "data-%g.vtk", t);
-        FILE * fpvtk = fopen (name_vtk, "w");
-        output_vtk ({u.x,u.y,p},N,fpvtk,1);
+		sprintf (name_vtk, "data-%g.vtk", t);
+        	FILE * fpvtk = fopen (name_vtk, "w");
+        	output_vtk ({u.x,u.y,p},N,fpvtk,1);
 
 
 }
+
+
+
+
 // Using adaptive grid based on velocity
 event adapt (i++) {
-        adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 7);  //channges 
+        adapt_wavelet ({u}, (double[]){3e-2}, maxlevel, 11);
 }
 
