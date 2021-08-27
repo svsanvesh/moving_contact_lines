@@ -27,8 +27,6 @@ int main()
 {	       // Main program begins here
         L0 = 8.;            // Size of the square box
 
-
-
         H0 = 1.;            // Height of the channel
         U0 =10.;             // Velocity of the plate
         origin (-L0/2., -L0/8.);  // Origin is at the bottom centre of the box
@@ -83,7 +81,6 @@ event init (t = 0)
   
      foreach_vertex()
 	     phi[] = intersection (-(y - L0/8. + eps), -(- L0/8. + eps - y));
-	fractions (phi, cs, fs);
 	boundary (all );
 
 	mu = fm;
@@ -113,11 +110,10 @@ event logfile (i++)
 // Prost processing the results
 event parview (i += 5  ; t <=5)
 {
-        scalar  m[];
         foreach()
-		sprintf (name_vtk, "data-%g.vtk", t);
+		sprintf (name_vtk, "data-%d.vtk", i);
         	FILE * fpvtk = fopen (name_vtk, "w");
-        	output_vtk ({u.x,u.y,p},N,fpvtk,1);
+        	output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
 
 
 }

@@ -16,7 +16,7 @@
 
 // Computational parameters
 double Reynolds = 5.0;       // Reynolds number
-int maxlevel = 10;              // Maximum mesh refinement
+int maxlevel = 6;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
@@ -30,7 +30,7 @@ int main() {                // Main program begins here
 	H0 = 0.2;            // Height of the channel
 	U0 =10.0;             // Velocity of the bottom plate
 	origin (-L0/2., -L0/2.0);  // Origin is at the bottom centre of the box
-	N = 1024; 
+	N = 128;
 	mu = muv;           // constant viscosity. Exact value given below
 
 	run();
@@ -81,7 +81,7 @@ event logfile (i++)
 	fprintf (stderr, "%d %g\n", i, t);
 
 // Produce vorticity animation
-event movies (i += 1  ; t <=0.1)
+event movies (i += 1  ; t <=0.5)
 {
 	foreach()
 		
@@ -93,8 +93,11 @@ event movies (i += 1  ; t <=0.1)
 
 
 }
-
+event snapshot (i += 1  ; t <=0.2) {
+  char name[80];
+  dump (name, list = {f});
+}
 // Using adaptive grid based on velocity
 event adapt (i++) {
-	adapt_wavelet ({f}, (double[]){3e-2}, maxlevel, 11);   
+	adapt_wavelet ({f}, (double[]){3e-2}, maxlevel, 8);   
 }
