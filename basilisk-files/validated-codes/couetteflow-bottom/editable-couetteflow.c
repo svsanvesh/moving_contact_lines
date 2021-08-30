@@ -10,12 +10,11 @@
 //libraries used - 
 
 
-#include "embed.h"
 #include"navier-stokes/centered.h"
 #include"vtk.h"
+#include "embed_Anvesh.h"
 #include"two-phase.h"
 
-char name[100];
 char name_vtk[100];
 double H0, U0; 
 
@@ -73,14 +72,20 @@ event init (t = 0)
 
      foreach()
           
-          u.x[] = 0.001 ;
+          u.x[] = 1.0 ;
   
      vertex scalar phi[];
   
      double eps = L0/(1 << 7)/1000.;
   
-     foreach_vertex()
-	     phi[] = intersection (-(y - L0/8. + eps), -(- L0/8. + eps - y));
+     foreach_vertex() {
+//	     phi[] = intersection (-(y - L0/8. + eps), -(- L0/8. + eps - y));
+        if( abs( y )<1 )
+                phi[] = 1;
+        else
+                phi[] = 0;
+      }
+
 	boundary (all );
 
 	mu = fm;
@@ -108,10 +113,10 @@ event logfile (i++)
 
 
 // Prost processing the results
-event parview (i += 5  ; t <=5)
+event movies (i += 1  ; t <=5)
 {
         foreach()
-		sprintf (name_vtk, "data-%d.vtk", i);
+		sprintf (name_vtk, "data-%d.vtk", i); 
         	FILE * fpvtk = fopen (name_vtk, "w");
         	output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
 

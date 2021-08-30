@@ -12,26 +12,41 @@
 
 #include "navier-stokes/centered.h"
 #include "vtk.h"
-#include"two-phase.h"
+#include "two-phase.h"
+//#include "vof.h"
+#include "contact.h"
+#include "tension.h"
+
+
+//scalar f[], * interfaces = {f};
 
 // Computational parameters
 double Reynolds = 5.0;       // Reynolds number
-int maxlevel = 6;              // Maximum mesh refinement
+int maxlevel = 15;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
 char name_vtk[100];
 
+double theta_bot = 120;
+double theta_top = 60;
+vector h[];
+h.t[bottom] = contact_angle (theta_bot*pi/180.);
+h.t[top] = contact_angle (theta_top*pi/180.);
 int main() {                // Main program begins here
 	L0 = 1.;            // Size of the square box
 	
 
-
 	H0 = 0.2;            // Height of the channel
 	U0 =10.0;             // Velocity of the bottom plate
 	origin (-L0/2., -L0/2.0);  // Origin is at the bottom centre of the box
-	N = 128;
+//	N = 128;
 	mu = muv;           // constant viscosity. Exact value given below
+
+	init_grid(128);
+
+        f.sigma = 1.;
+	f.height = h;
 
 	run();
 
@@ -81,7 +96,7 @@ event logfile (i++)
 	fprintf (stderr, "%d %g\n", i, t);
 
 // Produce vorticity animation
-event movies (i += 1  ; t <=0.5)
+event movies (i += 1  ; t <=0.05)
 {
 	foreach()
 		
@@ -93,11 +108,11 @@ event movies (i += 1  ; t <=0.5)
 
 
 }
-event snapshot (i += 1  ; t <=0.2) {
+/*event snapshot (i += 1  ; t <=0.2) {
   char name[80];
   dump (name, list = {f});
-}
-// Using adaptive grid based on velocity
+} */
+// Using adaptive grid based on interface position
 event adapt (i++) {
-	adapt_wavelet ({f}, (double[]){3e-2}, maxlevel, 8);   
+	adapt_wavelet ((scalar*){f}, (double[]){0.1}, 8);   
 }
