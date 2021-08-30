@@ -1,7 +1,7 @@
 /* This file solves  for velocity and pressure field in a single phase Couette flow
  * The bottom plate is moving to the right and the to plate is moving to the left */
-/* Date: 12-July-2021 */
-// Author:  Harish(prime) Anvesh  
+/* Date: 30-Aug-2021 */
+// Author: Anvesh  
 // Code comments: The code runs and provides the right results i.e.  the desired linear velocity profile.  
 //
 //THE VARIOUS CHANGES DONE IN  THE CODE AS AN EXPERIMENT-
@@ -62,9 +62,6 @@ event properties (i++)
 {
 	foreach_face()
 	 muv.x[] = U0*H0/Reynolds;
-	//muv.x[] = fm.x[]/Reynolds; 
-}
-
 // Setting the boundary conditions
 u.n[left] = neumann(0.);
 u.t[left] = neumann(0.);
@@ -88,19 +85,10 @@ u.t[bottom] = dirichlet(-U0);
 
 event init (t=0)
 {
-//	vertex scalar phi[];
-//	foreach_vertex() {
-//phi[] = intersection (0.5 - y, 0.5 + y);
-//	 phi[] = (y < H0); 
-//	}
-//	boundary ({phi});
-//	fractions (phi, cs, fs);
-
-	boundary(all);
 
      foreach()
 
-	  u.x[] = cs[] ? H0  : 0.;	//(IT DOESNT ) 	THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
+	  u.x[] =   0.01;	//(IT DOESNT ) 	THIS LINE IS COMMENTED TO CHECK IF THE CODE STILL RUNS 
 
 }
 
@@ -111,26 +99,16 @@ event logfile (i++)
 // Produce vorticity animation
 event movies (i += 10  ; t <=10)
 {
-	scalar omega[], m[];
-	vorticity (u, omega);
 	foreach()
-		m[] = cs[]  ;
-	boundary ({m});
-output_ppm (omega, file = "vort.mp4", box = {{-L0/2., 0.0},{L0/2., 1. }}, 
-			
-		min = -0.5, max = 2.0, linear = true, mask = m);
-
-        sprintf (name, "vort-%g.ppm", t);
-        sprintf (name_vtk, "data-%g.vtk", t);
-        FILE * fpvtk = fopen (name_vtk, "w");
-        FILE * fp = fopen (name, "w");
-        output_vtk ({u.x,u.y,p},N,fpvtk,1);
-        output_ppm (u.x, fp, min = -2, max = 2, n = 512);
+		boundary ({m});
+        	sprintf (name_vtk, "data-%d.vtk", i);
+        	FILE * fpvtk = fopen (name_vtk, "w");
+        	output_vtk ({u.x,u.y,p},N,fpvtk,1);
 
 
 }
 
 // Using adaptive grid based on velocity
 event adapt (i++) {
-	adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 10);  //channges 
+	adapt_wavelet ({u}, (double[]){3e-2,3e-2}, maxlevel, 10);   
 }
