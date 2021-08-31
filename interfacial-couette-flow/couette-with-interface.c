@@ -12,22 +12,21 @@
 
 #include "navier-stokes/centered.h"
 #include "vtk.h"
-#include "vof.h"
+#include "two-phase.h"
 #include "contact.h"
 #include "tension.h"
 
 
-scalar f[], * interfaces = {f};
 
 // Computational parameters
-double Reynolds = 5.0;       // Reynolds number
+double Reynolds = 20.0;       // Reynolds number
 int maxlevel = 7;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
 char name_vtk[100];
 
-double theta_bot = 160;
+double theta_bot = 90;
 double theta_top = 90;
 vector h[];
 h.t[bottom] = contact_angle (theta_bot*pi/180.);
@@ -40,9 +39,8 @@ int main() {                // Main program begins here
 	U0 =10.0;             // Velocity of the bottom plate
 	origin (-L0/2., -L0/2.0);  // Origin is at the bottom centre of the box
 	N = 128;
-	mu = muv;           // constant viscosity. Exact value given below
+//	mu = muv;           // constant viscosity. Exact value given below
 
-	init_grid(512);
 
         f.sigma = 1.;
 	f.height = h;
@@ -73,7 +71,7 @@ pf[right]  = dirichlet(0.);
 
 
 u.n[top] = dirichlet(0.);
-u.t[top] = dirichlet(U0);
+u.t[top] = dirichlet(0.0);
 
 u.n[bottom] = dirichlet(0.);
 u.t[bottom] = dirichlet(-U0);
@@ -96,7 +94,7 @@ event logfile (i++)
 
 
 //THIS IS WHERE GFS FILES AARE GENERATED. 
-/*
+
 event snapshot (i += 1  ; t <=0.05) {
   char name[80];
   sprintf (name, "snapshot-%d.gfs", i);
@@ -105,10 +103,10 @@ event snapshot (i += 1  ; t <=0.05) {
     pid[] = tid();
   output_gfs (file = name);
   dump("t"); 
-}*/
+}
 
 // Produce paraviewable files 
-event movies (i += 1  ; t <=0.05)
+event movies (i += 1  ; t <=0.04)
 {
 	foreach()
 		
@@ -126,5 +124,5 @@ event movies (i += 1  ; t <=0.05)
 } */
 // Using adaptive grid based on interface position
 event adapt (i++) {
-	adapt_wavelet ((scalar*){f,u}, (double[]){0.0001,0.0001,0.0001}, 7);   
+	adapt_wavelet ((scalar*){u}, (double[]){0.0001,0.0001}, 10);   
 }

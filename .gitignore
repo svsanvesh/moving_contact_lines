@@ -5,3 +5,7 @@ a.out
 *.swp
 *.dat
 *.txt
+snapshot*
+dump 
+trash
+*.html 
