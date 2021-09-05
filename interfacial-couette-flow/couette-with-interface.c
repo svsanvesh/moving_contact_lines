@@ -1,4 +1,4 @@
-/* This file solves  for velocity and pressure field in a single phase Couette flow
+/* This file solqcc -O2 couette-with-interface.c -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lmves  for velocity and pressure field in a single phase Couette flow
  * The bottom plate is moving to the right and the to plate is moving to the left */
 /* Date: 31-Aug-2021 */
 // Author: Anvesh  
@@ -13,25 +13,24 @@
 #include "navier-stokes/centered.h"
 #include "vtk.h"
 #include "two-phase.h"
-//#include "contact.h"
-//#include "tension.h"
+#include "contact.h"
+#include "tension.h"
 #include "view.h"
-
+#include "adapt_wavelet_leave_interface.h"
 // Computational parameters
-double Reynolds = 5.0;       // Reynolds number
-int maxlevel = 6;              // Maximum mesh refinement
+double Reynolds = 20.0;       // Reynolds number
+int maxlevel = 7;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
 char name_vtk[100];
 
-/*
 double theta_bot = 90;
 double theta_top = 90;
 vector h[];
 h.t[bottom] = contact_angle (theta_bot*pi/180.);
 h.t[top] = contact_angle (theta_top*pi/180.);
-*/
+
 
 
 int main() {                // Main program begins here
@@ -41,7 +40,7 @@ int main() {                // Main program begins here
 	H0 = 0.2;            // Height of the channel
 	U0 =10.0;             // Velocity of the bottom plate
 	origin (-L0/2., -L0/2.0);  // Origin is at the bottom centre of the box
-	N = 64;
+	N = 128;
 
 
 /*        f.sigma = 1.;
@@ -107,43 +106,51 @@ event snapshot (i += 1  ; t <=0.4) {
   dump("t"); 
 }
 */
-event mp(i += 1  ; t <=0.5) 
+event mp(i += 1  ; t <=0.2) 
 {
 
   clear();
   draw_vof ("f");
-  begin_mirror ({0,-1});
+/*  squares("f==1", min=0,max =1 ); 
+  //  begin_mirror ({0,-1});
   cells();
-  end_mirror();
+  box(); 
+//  end_mirror();
+*/
+  save ("fscalar.mp4");
 
-  save ("movie.mp4");
+
+
+
+    clear();
+    draw_vof ("f", lc = {1, 0, 0}, lw = 2);
+    vectors ("u", scale = .0000025, lc = {0, 1, 0}, lw = .8);
+    box ();
+    save ("u.mp4");
+
 }	
 
 	
 // Produce paraviewable files 
-event movies (i += 1  ; t <=0.4)
+event movies (i += 1  ; t <=0.2)
 {
 	foreach()
 	       	sprintf (name_vtk, "data-%d.vtk", i);
         	FILE * fpvtk = fopen (name_vtk, "w");
         	output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
-
-
 }
 /*event snapshot (i += 1  ; t <=0.2) {
   char name[80];
   dump (name, list = {f});
 } */
 
-
+/*
 // Using adaptive grid based on interface position
 event adapt (i++) {
-	adapt_wavelet ((scalar*){f,u}, (double[]){0.1, 0.1,0.1}, 8);   
+	adapt_wavelet ((scalar*){f,u}, (double[]){0.1, 0.1,0.1}, 9);   
 }
+*/
 
-
-
-
-
-
-
+event adapt(i++){
+ adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.01,0.01, 0.01}, 9);
+}
