@@ -15,7 +15,7 @@
 
 // Computational parameters
 double Reynolds = 20.0;       // Reynolds number
-int maxlevel = 5;              // Maximum mesh refinement
+int maxlevel = 7;              // Maximum mesh refinement
 face vector muv[];             // viscosity
 double H0;
 double U0;
@@ -24,14 +24,14 @@ char name_vtk[100];
 //#define Rectangle ()
 
 int main() {                // Main program begins here
-	L0 = 1.;            // Size of the square box
+	L0 = .2;            // Size of the square box
 	
 
 
 	H0 = 1.;            // Height of the channel
-	U0 =1;             // Velocity of the bottom plate
-	origin (-L0/2, 0.0);  // Origin is at the bottom centre of the box
-	N = 32; 
+	U0 =0.005;             // Velocity of the bottom plate
+	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
+	N = 128; 
 	mu = muv;           // constant viscosity. Exact value given below
 
 	run();
@@ -82,10 +82,10 @@ event logfile (i++)
 	fprintf (stderr, "%d %g\n", i, t);
 
 // Produce vorticity animation
-event movies (i += 10  ; t <=10)
+event movies (i += 1  ; t <= 1.)
 {
 	foreach()
-		sprintf (name_vtk, "data-%g.vtk", t);
+		sprintf (name_vtk, "data-%d.vtk", i);
         	FILE * fpvtk = fopen (name_vtk, "w");
         	output_vtk ({u.x,u.y,p},N,fpvtk,1);
 
