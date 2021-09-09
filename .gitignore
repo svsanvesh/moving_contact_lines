@@ -8,4 +8,7 @@ a.out
 snapshot*
 dump 
 trash
-*.html 
+*.html
+snapshot*
+*.mpg
+t 

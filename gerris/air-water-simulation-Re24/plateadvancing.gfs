@@ -1,0 +1,148 @@
+#2D couette flow
+# SI systems of units used for non-dimensionalising the results.
+#simulation time 0.2 units
+#length of the domain 0.02 units
+
+6 5 GfsSimulation GfsBox GfsGEdge { } {
+    GfsGlobal {  
+	#define rhoL 500  //density 
+        #define rhoG 100
+        #define muL 0.89e-3
+	#define muG 0.0183e-3
+	#define g 2.5  // gravitational acceleration
+        #define sigmaL1 0.072
+
+        #define Uplate 0.005
+        #define theta 60
+        #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
+        #define Ldomain 5*Lc   // Domain size perpendicular to the moving plate
+
+        // refinement parameters
+        static int ref_far_interface = 5;
+        static int ref_near_interface = 7;
+        static int ref_domain = 5;
+	}
+   
+
+        # Define filtered B field
+	VariableTracerVOFHeight {} B
+	GfsVariableFiltered B1 B 1
+	#GfsAdaptGradient { istep = 1 } { minlevel = 4 maxlevel = 6 cmax=1e-2 } B1
+
+        # Define grid refinement
+	Refine ref_domain
+        GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (y > -0.032 ? ( y > -0.024 ? (y > -0.016 ?(y > 0 ? 5: 6) : 8): 10) : 12)  minlevel =4 } B1
+
+        # Define physical parameters
+	GfsVariableCurvature KB B KBmax
+        GfsSourceTension B sigmaL1 KB
+	Source {} U g
+	GfsPhysicalParams { L = 0.08 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }
+        SourceViscosity {} ((muL*B+(1-B)*muG))
+	 
+
+        # Running the simulation here
+	GfsTime { start =0 end = 10 dtmax = 0.1e-3}
+	GfsInitFraction {} B (x-0.2 )   # initial interface position
+
+        # Saving the output
+        OutputTime { istep = 10 } stderr
+	OutputSimulation { start=0 step=1 } alpha-%g.gfs {variables = B,U,V,P}
+	OutputPPM {step=.0005} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
+
+}
+#box 1      
+	GfsBox {
+	top = Boundary {	
+	BcDirichlet U 0
+        BcDirichlet V 0
+	BcAngle B 90
+         }
+        bottom = Boundary{
+        BcDirichlet U Uplate
+        BcDirichlet V 0
+	BcAngle B theta
+        }
+        left = Boundary{
+        BcDirichlet U 0
+        BcDirichlet V 0
+        BcNeumann P 0
+        }
+}
+#box2
+GfsBox {
+        top = Boundary {
+        BcDirichlet U 0
+        BcDirichlet V 0
+	BcAngle B 90
+         }
+        bottom = Boundary{
+        BcDirichlet U Uplate
+        BcDirichlet V 0
+        BcAngle B theta
+        }
+}
+#box3
+
+GfsBox {
+        top = Boundary {
+        BcDirichlet U 0
+        BcDirichlet V 0
+	BcAngle B 90
+         }
+        bottom = Boundary{
+        BcDirichlet U Uplate
+        BcDirichlet V 0
+	BcAngle B theta
+        }
+}
+#box4
+GfsBox {
+        top = Boundary {
+        BcDirichlet U 0
+        BcDirichlet V 0
+	BcAngle B 90
+         }
+        bottom = Boundary{
+        BcDirichlet U Uplate
+        BcDirichlet V 0
+	BcAngle B theta
+        }
+}
+#box5
+GfsBox {
+        top = Boundary {
+        BcDirichlet U 0
+        BcDirichlet V 0
+	BcAngle B 90
+         }
+        bottom = Boundary{
+        BcDirichlet U Uplate
+        BcDirichlet V 0
+	BcAngle B theta
+        }
+}
+#box6
+GfsBox {
+        top = Boundary {
+        BcDirichlet U 0
+        BcDirichlet V 0
+	BcAngle B 90
+         }
+        bottom = Boundary{
+        BcDirichlet U Uplate
+        BcDirichlet V 0
+	BcAngle B theta
+        }
+        right = Boundary{
+        BcDirichlet U 0
+        BcDirichlet V 0
+        BcNeumann P 0
+        }
+}
+
+1 2 right
+2 3 right
+3 4 right
+4 5 right 
+5 6 right
