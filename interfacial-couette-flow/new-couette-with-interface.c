@@ -11,9 +11,9 @@
 #include "vof.h"
 #include "view.h"
 #include "adapt_wavelet_leave_interface.h"
-#include "contact.h"
+//#include "contact.h"
 #include "tension.h"
-
+//#include "vof_angle.h"
 // Computational parameters
 double Reynolds = 20.0;       // Reynolds number
 int maxlevel = 7;              // Maximum mesh refinement
@@ -21,12 +21,12 @@ face vector muv[];             // viscosity
 double H0;
 double U0;
 char name_vtk[100];
-double theta_bot = 90;
-double theta_top = 90;
+//double theta_bot = 90;
+//double theta_top = 90;
 vector h[];
 scalar f[], * interfaces = {f};
 double rho1 = 1000., mu1 = 0.01, rho2 = 100., mu2 = 0.01;
-h.t[bottom] = contact_angle (theta_bot*pi/180.);
+//h.t[bottom] = contact_angle (theta_bot*pi/180.);
 
 int main() {                // Main program begins here
         L0 = .2;            // Size of the square box
@@ -39,7 +39,7 @@ int main() {                // Main program begins here
         N = 128;
         mu = muv;           // constant viscosity. Exact value given below
 	
-	f.sigma = 1.;
+	f.sigma = 0.072;
         f.height = h;
 
 
@@ -97,11 +97,11 @@ event logfile (i++)
         fprintf (stderr, "%d %g\n", i, t);
 
 // Produce vorticity animation
-event movies (i += 5  ; t <= 0.03)
+event movies (i += 5  ; t <= 0.005)
 {
 	clear();
 	  draw_vof ("f");
-	  cells();
+//	  cells();
 	  box();
 	  save ("fscalar.mp4");
 
@@ -133,6 +133,6 @@ event adapt (i++) {
 */
 
 event adapt(i++){
- adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.01,0.01, 0.01}, 10);
+ adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.01,0.01, 0.01}, 9);
 }
                     

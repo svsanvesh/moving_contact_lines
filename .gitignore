@@ -11,4 +11,5 @@ trash
 *.html
 snapshot*
 *.mpg
-t 
+t
+alpha* 
