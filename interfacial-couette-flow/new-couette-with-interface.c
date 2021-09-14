@@ -1,6 +1,6 @@
 // THIS CODE IS WRITTEN TO REWRITE HE COUETTE WITH INTERFACE CODE AND RUN IT.
 // AUTHOR: ANVESH 
-// DATE : 9-SEPT-2021
+// DATE : 13-SEPT-2021
 // COMMETS: 
 //FOR COMPILING : qcc new-couette-with-interface.c -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 
@@ -39,7 +39,7 @@ int main() {                // Main program begins here
         N = 128;
         mu = muv;           // constant viscosity. Exact value given below
 	
-	f.sigma = 0.072;
+	f.sigma = 10.;
         f.height = h;
 
 
@@ -101,7 +101,7 @@ event movies (i += 5  ; t <= 0.005)
 {
 	clear();
 	  draw_vof ("f");
-//	  cells();
+	  cells();
 	  box();
 	  save ("fscalar.mp4");
 
