@@ -15,7 +15,7 @@
         #define Uplate 0.005
         #define theta 60
         #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
-        #define Ldomain 5*Lc   // Domain size perpendicular to the moving plate
+        #define Ldomain 10*Lc   // Domain size perpendicular to the moving plate
 
         // refinement parameters
         static int ref_far_interface = 5;
@@ -31,24 +31,25 @@
 
         # Define grid refinement
 	Refine ref_domain
-        GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (y > -0.032 ? ( y > -0.024 ? (y > -0.016 ?(y > 0 ? 5: 6) : 8): 8) : 8)  minlevel =4 } B1
+        GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = 9  minlevel =4 } B1
 
         # Define physical parameters
 	GfsVariableCurvature KB B KBmax
         GfsSourceTension B sigmaL1 KB
 	Source {} U g
-	GfsPhysicalParams { L = 0.08 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }
+	GfsPhysicalParams { L = 0.08 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }  #domain size is here 
+
         SourceViscosity {} ((muL*B+(1-B)*muG))
 	 
 
         # Running the simulation here
-	GfsTime { start =0 end = 10 dtmax = 1e-3}
+	GfsTime { start =0 end = 250 dtmax=1e-3}
 	GfsInitFraction {} B (x-0.2 )   # initial interface position
 
         # Saving the output
         OutputTime { istep = 10 } stderr
-	OutputSimulation { start=0 step=0.1 } alpha-%g.gfs {variables = B,U,V,P}
-	OutputPPM {step=.0005} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
+	OutputSimulation { start=0 step=1 } alpha-%g.gfs {variables = B,U,V,P}
+	OutputPPM {step=.001} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
 
 }
 #box 1      
