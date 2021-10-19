@@ -40,20 +40,13 @@ event properties (i++)
 	 muv.x[] = Uplate*L0/Reynolds;
 }
 
-event adapt (t=0) {
-	scalar s[];
-	foreach()
-		s[] = sqrt( x*x + y*y)-sqrt(0.5);
-	boundary ({s});
-	adapt_wavelet ({s}, (double[]){1e-2},10 , 13);
-}
 vertex scalar phi[];
 event init (t = 0)
 {
-//	refine (sqrt( x*x + y*y)  <  0.4  && level < maxlevel);
-
+//refine ( sqrt( x*x + y*y)> 0.5 ? 6 : sqrt( x*x + y*y) > 0.25 ? 7 :8 ) ;
+      refine (sqrt( x*x + y*y)  <  0.25  && level < maxlevel);
 	foreach()
-		u.x[] = 0.001 ;
+         u.x[] = 0.001 ;
 
 
 
@@ -182,6 +175,6 @@ event profile (i++)
 
 // Using adaptive grid based on velocity
 event adapt (i++) {
-        adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, 6, 9); 
+        adapt_wavelet ({cs,u}, (double[]){1e-2,3e-2,3e-2}, maxlevel, 9); 
 }
 
