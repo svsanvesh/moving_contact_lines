@@ -1,0 +1,8 @@
+trail.c: In function ‘movies’:
+trail.c:130:33: warning: unused variable ‘r’ [-Wunused-variable]
+  130 |     double theta = atan2(x, y), r = sqrt(x*x + y*y);
+      |                                 ^
+trail.c: In function ‘profile’:
+trail.c:148:34: warning: unused variable ‘r’ [-Wunused-variable]
+  148 |     double theta = atan2(x, -y), r = sqrt(x*x + y*y);
+      |                                  ^

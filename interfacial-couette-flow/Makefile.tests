@@ -1,0 +1,19 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	couette-with-int-not-working.c \
+	karman-sv.c \
+	new-couette-with-interface.c \
+
+plots: \
+	couette-with-int-not-working/plots.page \
+	new-couette-with-interface/plots.page \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+	couette-with-int-not-working.c.page \
+	new-couette-with-interface.c.page \
+

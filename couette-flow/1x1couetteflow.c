@@ -12,7 +12,7 @@
 //// Libraries included
 #include "navier-stokes/centered.h"
 #include "vtk.h"
-
+#include "grid/quadtree.h"
 // Computational parameters
 double Reynolds = 20.0;       // Reynolds number
 int maxlevel = 7;              // Maximum mesh refinement
@@ -29,7 +29,7 @@ int main() {                // Main program begins here
 
 
 	H0 = 1.;            // Height of the channel
-	U0 =0.005;             // Velocity of the bottom plate
+	U0 =1.;             // Velocity of the bottom plate
 	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
 	N = 128; 
 	mu = muv;           // constant viscosity. Exact value given below
@@ -81,21 +81,12 @@ event init (t=0)
 event logfile (i++)
 	fprintf (stderr, "%d %g\n", i, t);
 
-// Produce vorticity animation
-event movies (i += 1  ; t <= 1.)
-{
-	foreach()
-		sprintf (name_vtk, "data-%d.vtk", i);
-        	FILE * fpvtk = fopen (name_vtk, "w");
-        	output_vtk ({u.x,u.y,p},N,fpvtk,1);
-
-
-}
                                                                                          
 
 
 // Using adaptive grid based on velocity
-event adapt (i++) {
-        adapt_wavelet ({u}, (double[]){3e-2}, maxlevel, 11);
-}
 
+
+event adapt (i++) {
+        adapt_wavelet ((scalar*){u}, (double[]){3e-2,0.001}, 12, maxlevel);
+}

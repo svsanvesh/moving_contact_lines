@@ -1,0 +1,15 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	1x1couetteflow.c \
+	couette.c \
+	karman-sv.c \
+
+plots: \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+

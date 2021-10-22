@@ -1,0 +1,63 @@
+0 0
+1 0.568182
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 4.44499 sum: 914.028 nrelax: 98
+2 0.574553
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 2.37299 sum: 3213.24 nrelax: 100
+3 0.577619
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 813.854 sum: 5846.34 nrelax: 100
+4 0.58069
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 682.002 sum: 7358.54 nrelax: 100
+5 0.583624
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 532.33 sum: 9094.74 nrelax: 100
+6 0.5866
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 471.989 sum: 10778.1 nrelax: 100
+7 0.589579
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 383.445 sum: 9978.22 nrelax: 100
+8 0.591907
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 467.876 sum: 11113.5 nrelax: 100
+9 0.594215
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 611.573 sum: 11626.7 nrelax: 100
+10 0.59632
+ffmpeg version 4.2.4-1ubuntu0.1 Copyright (c) 2000-2020 the FFmpeg developers
+  built with gcc 9 (Ubuntu 9.3.0-10ubuntu2)
+  configuration: --prefix=/usr --extra-version=1ubuntu0.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-nvenc --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared
+  WARNING: library configuration mismatch
+  avcodec     configuration: --prefix=/usr --extra-version=1ubuntu0.1 --toolchain=hardened --libdir=/usr/lib/x86_64-linux-gnu --incdir=/usr/include/x86_64-linux-gnu --arch=amd64 --enable-gpl --disable-stripping --enable-avresample --disable-filter=resample --enable-avisynth --enable-gnutls --enable-ladspa --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca --enable-libcdio --enable-libcodec2 --enable-libflite --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libjack --enable-libmp3lame --enable-libmysofa --enable-libopenjpeg --enable-libopenmpt --enable-libopus --enable-libpulse --enable-librsvg --enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libssh --enable-libtheora --enable-libtwolame --enable-libvidstab --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx265 --enable-libxml2 --enable-libxvid --enable-libzmq --enable-libzvbi --enable-lv2 --enable-omx --enable-openal --enable-opencl --enable-opengl --enable-sdl2 --enable-libdc1394 --enable-libdrm --enable-libiec61883 --enable-nvenc --enable-chromaprint --enable-frei0r --enable-libx264 --enable-shared --enable-version3 --disable-doc --disable-programs --enable-libaribb24 --enable-liblensfun --enable-libopencore_amrnb --enable-libopencore_amrwb --enable-libtesseract --enable-libvo_amrwbenc
+  libavutil      56. 31.100 / 56. 31.100
+  libavcodec     58. 54.100 / 58. 54.100
+  libavformat    58. 29.100 / 58. 29.100
+  libavdevice    58.  8.100 / 58.  8.100
+  libavfilter     7. 57.100 /  7. 57.100
+  libavresample   4.  0.  0 /  4.  0.  0
+  libswscale      5.  5.100 /  5.  5.100
+  libswresample   3.  5.100 /  3.  5.100
+  libpostproc    55.  5.100 / 55.  5.100
+Input #0, image2pipe, from 'pipe:':
+  Duration: N/A, bitrate: N/A
+    Stream #0:0: Video: ppm, rgb24, 128x128, 25 fps, 25 tbr, 25 tbn, 25 tbc
+Stream mapping:
+  Stream #0:0 -> #0:0 (ppm (native) -> h264 (libx264))
+Finishing stream 0:0 without any data written to it.
+[libx264 @ 0x5555555f0f80] using cpu capabilities: MMX2 SSE2Fast SSSE3 SSE4.2 AVX
+[libx264 @ 0x5555555f0f80] profile High, level 1.1
+Output #0, mpegts, to 'vort.mp4':
+  Metadata:
+    encoder         : Lavf58.29.100
+    Stream #0:0: Video: h264 (libx264), yuv420p, 128x128, q=-1--1, 25 fps, 90k tbn, 25 tbc
+    Metadata:
+      encoder         : Lavc58.54.100 libx264
+    Side data:
+      cpb: bitrate max/min/avg: 0/0/0 buffer size: 0 vbv_delay: -1
+frame=    0 fps=0.0 q=0.0 Lsize=       0kB time=00:00:00.00 bitrate=N/A speed=   0x    
+video:0kB audio:0kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: unknown
+Output file is empty, nothing was encoded (check -ss / -t / -frames parameters if used)
+Exiting normally, received signal 2.

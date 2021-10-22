@@ -1,0 +1,1502 @@
+qcc -autolink -DDISPLAY=-1 -O2 -fopenmp -g -Wall -pipe -D_FORTIFY_SOURCE=2 -o 1x1couetteflow/1x1couetteflow 1x1couetteflow.c  -lm
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘timer_timing’:
+/home/fpl/softwares/basilisk/src/utils.h:69:1: warning: implicit declaration of function ‘foreach’; did you mean ‘fread’? [-Wimplicit-function-declaration]
+   69 |     foreach(reduction(+:n)) n++;
+      | ^   ~~~
+      | fread
+/home/fpl/softwares/basilisk/src/utils.h:69:10: error: expected ‘;’ before ‘{’ token
+   69 |     foreach(reduction(+:n)) n++;
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘timer_print’:
+/home/fpl/softwares/basilisk/src/utils.h:108:11: error: expected ‘)’ before ‘GRIDNAME’
+  108 |     "\n# " GRIDNAME
+      |           ^~~~~~~~~
+      |           )
+/home/fpl/softwares/basilisk/src/utils.h:106:10: warning: unused variable ‘s’ [-Wunused-variable]
+  106 |   timing s = timer_timing (t, i, tnc, NULL);
+      |          ^
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘normf’:
+/home/fpl/softwares/basilisk/src/utils.h:135:10: error: expected ‘;’ before ‘{’ token
+  135 |   foreach(reduction(max:max) reduction(+:avg)
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h:135:10: error: expected ‘;’ before ‘{’ token
+  135 |   foreach(reduction(max:max) reduction(+:avg)
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘statsf’:
+/home/fpl/softwares/basilisk/src/utils.h:163:10: error: expected ‘;’ before ‘{’ token
+  163 |   foreach(reduction(+:sum) reduction(+:sum2) reduction(+:volume)
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h:163:10: error: expected ‘;’ before ‘{’ token
+  163 |   foreach(reduction(+:sum) reduction(+:sum2) reduction(+:volume)
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘gradients’:
+/home/fpl/softwares/basilisk/src/utils.h:240:15: error: expected ‘;’ before ‘{’ token
+  240 |   foreach() {
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/utils.h:263:3: warning: implicit declaration of function ‘boundary’; did you mean ‘_boundary9’? [-Wimplicit-function-declaration]
+  263 |   boundary ((scalar *) g);
+      |   ^~~~~~~~
+      |   _boundary9
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘vorticity’:
+/home/fpl/softwares/basilisk/src/utils.h:283:10: error: expected ‘;’ before ‘{’ token
+  283 |   foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h:283:10: error: expected ‘;’ before ‘{’ token
+  283 |   foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h:283:10: error: expected ‘;’ before ‘{’ token
+  283 |   foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h:283:10: error: expected ‘;’ before ‘{’ token
+  283 |   foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h: In function ‘change’:
+/home/fpl/softwares/basilisk/src/utils.h:298:10: error: expected ‘;’ before ‘{’ token
+  298 |   foreach(reduction(max:max)) {
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/utils.h:298:10: error: expected ‘;’ before ‘{’ token
+  298 |   foreach(reduction(max:max)) {
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/output.h: In function ‘output_field’:
+/home/fpl/softwares/basilisk/src/output.h:69:28: warning: implicit declaration of function ‘interpolate’ [-Wimplicit-function-declaration]
+   69 |    field[i][len*j + k++] = interpolate (s, x, y);
+      |                            ^~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/output.h:72:2: error: variable ‘point’ has initializer but incomplete type
+   72 |  Point point = locate (x, y);
+      |  ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:72:16: warning: implicit declaration of function ‘locate’; did you mean ‘localtime’? [-Wimplicit-function-declaration]
+   72 |  Point point = locate (x, y);
+      |                ^~~~~~
+      |                localtime
+/home/fpl/softwares/basilisk/src/output.h:72:8: error: storage size of ‘point’ isn’t known
+   72 |  Point point = locate (x, y);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:72:88: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+   72 |  Point point = locate (x, y);
+      |                                                                                        ^              
+/home/fpl/softwares/basilisk/src/output.h:72:88: note: each undeclared identifier is reported only once for each function it appears in
+/home/fpl/softwares/basilisk/src/common.h:814:22: warning: implicit declaration of function ‘data’ [-Wimplicit-function-declaration]
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                      ^~~~
+/home/fpl/softwares/basilisk/src/output.h:75:47: note: in expansion of macro ‘val’
+   75 |    field[i][len*j + k++] = point.level >= 0 ? s[] : nodata;
+      |                                               ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:75:47: note: in expansion of macro ‘val’
+   75 |    field[i][len*j + k++] = point.level >= 0 ? s[] : nodata;
+      |                                               ^~~
+/home/fpl/softwares/basilisk/src/output.h:72:8: warning: unused variable ‘point’ [-Wunused-variable]
+   72 |  Point point = locate (x, y);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/output.h: In function ‘output_matrix’:
+/home/fpl/softwares/basilisk/src/output.h:167:2: error: variable ‘point’ has initializer but incomplete type
+  167 |  Point point = locate (xp, yp);
+      |  ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:167:8: error: storage size of ‘point’ isn’t known
+  167 |  Point point = locate (xp, yp);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:167:90: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  167 |  Point point = locate (xp, yp);
+      |                                                                                          ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:169:6: note: in expansion of macro ‘val’
+  169 |  v = val(p.f);
+      |      ^~~
+/home/fpl/softwares/basilisk/src/output.h:167:8: warning: unused variable ‘point’ [-Wunused-variable]
+  167 |  Point point = locate (xp, yp);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/output.h: In function ‘output_ppm’:
+/home/fpl/softwares/basilisk/src/output.h:624:8: error: variable ‘point’ has initializer but incomplete type
+  624 |        Point point = locate (xp, yp, p.z);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:624:14: error: storage size of ‘point’ isn’t known
+  624 |        Point point = locate (xp, yp, p.z);
+      |              ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:624:101: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  624 |        Point point = locate (xp, yp, p.z);
+      |                                                                                                     ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:625:31: note: in expansion of macro ‘val’
+  625 |        if (point.level < 0 || val(p.mask) < 0.)
+      |                               ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:628:7: note: in expansion of macro ‘val’
+  628 |   v = val(p.f);
+      |       ^~~
+/home/fpl/softwares/basilisk/src/output.h:624:14: warning: unused variable ‘point’ [-Wunused-variable]
+  624 |        Point point = locate (xp, yp, p.z);
+      |              ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:634:6: error: variable ‘point’ has initializer but incomplete type
+  634 |      Point point = locate (xp, yp, p.z);
+      |      ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:634:12: error: storage size of ‘point’ isn’t known
+  634 |      Point point = locate (xp, yp, p.z);
+      |            ^~~~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:635:29: note: in expansion of macro ‘val’
+  635 |      v = point.level >= 0 ? val(p.f) : nodata;
+      |                             ^~~
+/home/fpl/softwares/basilisk/src/output.h:634:12: warning: unused variable ‘point’ [-Wunused-variable]
+  634 |      Point point = locate (xp, yp, p.z);
+      |            ^~~~~
+/home/fpl/softwares/basilisk/src/output.h: In function ‘output_grd’:
+/home/fpl/softwares/basilisk/src/output.h:745:4: error: variable ‘point’ has initializer but incomplete type
+  745 |    Point point = locate (xp, yp);
+      |    ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:745:10: error: storage size of ‘point’ isn’t known
+  745 |    Point point = locate (xp, yp);
+      |          ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:745:92: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  745 |    Point point = locate (xp, yp);
+      |                                                                                            ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:746:27: note: in expansion of macro ‘val’
+  746 |    if (point.level < 0 || val(p.mask) < 0.)
+      |                           ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:749:10: note: in expansion of macro ‘val’
+  749 |      v = val(p.f);
+      |          ^~~
+/home/fpl/softwares/basilisk/src/output.h:745:10: warning: unused variable ‘point’ [-Wunused-variable]
+  745 |    Point point = locate (xp, yp);
+      |          ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:755:2: error: variable ‘point’ has initializer but incomplete type
+  755 |  Point point = locate (xp, yp);
+      |  ^~~~~
+/home/fpl/softwares/basilisk/src/output.h:755:8: error: storage size of ‘point’ isn’t known
+  755 |  Point point = locate (xp, yp);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/output.h:756:25: note: in expansion of macro ‘val’
+  756 |  v = point.level >= 0 ? val(p.f) : nodata;
+      |                         ^~~
+/home/fpl/softwares/basilisk/src/output.h:755:8: warning: unused variable ‘point’ [-Wunused-variable]
+  755 |  Point point = locate (xp, yp);
+      |        ^~~~~
+/home/fpl/softwares/basilisk/src/input.h: In function ‘input_pgm’:
+/home/fpl/softwares/basilisk/src/input.h:73:17: error: expected ‘;’ before ‘{’ token
+   73 |     foreach() {
+      |                 ^
+      |                 ;
+/home/fpl/softwares/basilisk/src/input.h:96:17: error: expected ‘;’ before ‘{’ token
+   96 |     foreach() {
+      |                 ^
+      |                 ;
+/home/fpl/softwares/basilisk/src/input.h:26:10: warning: unused variable ‘s’ [-Wunused-variable]
+   26 |   scalar s = p.s;
+      |          ^
+/home/fpl/softwares/basilisk/src/input.h: At top level:
+/home/fpl/softwares/basilisk/src/input.h:167:24: warning: ‘struct OutputGfs’ declared inside parameter list will not be visible outside of this definition or declaration
+  167 | void input_gfs (struct OutputGfs p)
+      |                        ^~~~~~~~~
+/home/fpl/softwares/basilisk/src/input.h:167:34: error: parameter 1 (‘p’) has incomplete type
+  167 | void input_gfs (struct OutputGfs p)
+      |                 ~~~~~~~~~~~~~~~~~^
+/home/fpl/softwares/basilisk/src/input.h: In function ‘input_gfs’:
+/home/fpl/softwares/basilisk/src/input.h:224:19: warning: implicit declaration of function ‘replace’ [-Wimplicit-function-declaration]
+  224 |     char * name = replace (s1, '_', '.', false);
+      |                   ^~~~~~~
+/home/fpl/softwares/basilisk/src/input.h:224:19: warning: initialization of ‘char *’ from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+/home/fpl/softwares/basilisk/src/input.h:233:13: warning: implicit declaration of function ‘new_scalar’; did you mean ‘init_scalar’? [-Wimplicit-function-declaration]
+  233 |  scalar s = new scalar;
+      |             ^~~~~~~~~~
+      |             init_scalar
+/home/fpl/softwares/basilisk/src/input.h:233:13: error: invalid initializer
+/home/fpl/softwares/basilisk/src/input.h:273:6: warning: implicit declaration of function ‘foreach_cell’ [-Wimplicit-function-declaration]
+  273 |   foreach_cell() {
+      |      ^~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/input.h:273:20: error: expected ‘;’ before ‘{’ token
+  273 |   foreach_cell() {
+      |                    ^
+      |                    ;
+/home/fpl/softwares/basilisk/src/input.h:325:20: warning: implicit declaration of function ‘events’ [-Wimplicit-function-declaration]
+  325 |   while (t < t1 && events (false))
+      |                    ^~~~~~
+/home/fpl/softwares/basilisk/src/input.h: In function ‘input_grd’:
+/home/fpl/softwares/basilisk/src/input.h:445:11: error: expected ‘;’ before ‘{’ token
+  445 |   foreach (serial) {
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/input.h:378:10: warning: unused variable ‘input’ [-Wunused-variable]
+  378 |   scalar input = p.s;
+      |          ^~~~~
+/home/fpl/softwares/basilisk/src/view.h: In function ‘add_cexpr’:
+/home/fpl/softwares/basilisk/src/view.h:119:5: warning: implicit declaration of function ‘delete’ [-Wimplicit-function-declaration]
+  119 |     delete ({s});
+      |     ^~~~~~
+/home/fpl/softwares/basilisk/src/myc2d.h: At top level:
+/home/fpl/softwares/basilisk/src/myc2d.h:6:19: error: parameter 1 (‘point’) has incomplete type
+    6 | coord mycs (Point point, scalar c)
+      |             ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/myc2d.h: In function ‘mycs’:
+/home/fpl/softwares/basilisk/src/myc2d.h:7:59: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+    7 | {
+      |                                                           ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:13:9: note: in expansion of macro ‘val’
+   13 |   c_t = c[-1,1] + c[0,1] + c[1,1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:13:25: note: in expansion of macro ‘val’
+   13 |   c_t = c[-1,1] + c[0,1] + c[1,1];
+      |                         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:13:40: note: in expansion of macro ‘val’
+   13 |   c_t = c[-1,1] + c[0,1] + c[1,1];
+      |                                        ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:14:9: note: in expansion of macro ‘val’
+   14 |   c_b = c[-1,-1] + c[0,-1] + c[1,-1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:14:26: note: in expansion of macro ‘val’
+   14 |   c_b = c[-1,-1] + c[0,-1] + c[1,-1];
+      |                          ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:14:42: note: in expansion of macro ‘val’
+   14 |   c_b = c[-1,-1] + c[0,-1] + c[1,-1];
+      |                                          ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:15:9: note: in expansion of macro ‘val’
+   15 |   c_r = c[1,-1] + c[1,0] + c[1,1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:15:25: note: in expansion of macro ‘val’
+   15 |   c_r = c[1,-1] + c[1,0] + c[1,1];
+      |                         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:15:40: note: in expansion of macro ‘val’
+   15 |   c_r = c[1,-1] + c[1,0] + c[1,1];
+      |                                        ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:16:9: note: in expansion of macro ‘val’
+   16 |   c_l = c[-1,-1] + c[-1,0] + c[-1,1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:16:26: note: in expansion of macro ‘val’
+   16 |   c_l = c[-1,-1] + c[-1,0] + c[-1,1];
+      |                          ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:16:42: note: in expansion of macro ‘val’
+   16 |   c_l = c[-1,-1] + c[-1,0] + c[-1,1];
+      |                                          ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:34:9: note: in expansion of macro ‘val’
+   34 |   mm1 = c[-1,-1] + 2.0*c[-1,0] + c[-1,1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:34:30: note: in expansion of macro ‘val’
+   34 |   mm1 = c[-1,-1] + 2.0*c[-1,0] + c[-1,1];
+      |                              ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:34:46: note: in expansion of macro ‘val’
+   34 |   mm1 = c[-1,-1] + 2.0*c[-1,0] + c[-1,1];
+      |                                              ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:35:9: note: in expansion of macro ‘val’
+   35 |   mm2 = c[1,-1] + 2.0*c[1,0] + c[1,1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:35:29: note: in expansion of macro ‘val’
+   35 |   mm2 = c[1,-1] + 2.0*c[1,0] + c[1,1];
+      |                             ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:35:44: note: in expansion of macro ‘val’
+   35 |   mm2 = c[1,-1] + 2.0*c[1,0] + c[1,1];
+      |                                            ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:37:9: note: in expansion of macro ‘val’
+   37 |   mm1 = c[-1,-1] + 2.0*c[0,-1] + c[1,-1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:37:30: note: in expansion of macro ‘val’
+   37 |   mm1 = c[-1,-1] + 2.0*c[0,-1] + c[1,-1];
+      |                              ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:37:46: note: in expansion of macro ‘val’
+   37 |   mm1 = c[-1,-1] + 2.0*c[0,-1] + c[1,-1];
+      |                                              ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:38:9: note: in expansion of macro ‘val’
+   38 |   mm2 = c[-1,1] + 2.0*c[0,1] + c[1,1];
+      |         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:38:29: note: in expansion of macro ‘val’
+   38 |   mm2 = c[-1,1] + 2.0*c[0,1] + c[1,1];
+      |                             ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/myc2d.h:38:44: note: in expansion of macro ‘val’
+   38 |   mm2 = c[-1,1] + 2.0*c[0,1] + c[1,1];
+      |                                            ^  
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘fractions’:
+/home/fpl/softwares/basilisk/src/fractions.h:133:34: warning: implicit declaration of function ‘new_face_vector’; did you mean ‘init_face_vector’? [-Wimplicit-function-declaration]
+  133 |   face vector s = automatic (a.s);
+      |                                  ^              
+      |                                  init_face_vector
+/home/fpl/softwares/basilisk/src/fractions.h:133:32: error: type mismatch in conditional expression
+  133 |   face vector s = automatic (a.s);
+      |                                ^
+/home/fpl/softwares/basilisk/src/fractions.h:155:6: warning: implicit declaration of function ‘foreach_edge’; did you mean ‘foreach_segment’? [-Wimplicit-function-declaration]
+  155 |   foreach_edge() {
+      |      ^~~~~~~~~~~~
+      |      foreach_segment
+/home/fpl/softwares/basilisk/src/fractions.h:155:20: error: expected ‘;’ before ‘{’ token
+  155 |   foreach_edge() {
+      |                    ^
+      |                    ;
+/home/fpl/softwares/basilisk/src/fractions.h:197:3: warning: implicit declaration of function ‘boundary_flux’ [-Wimplicit-function-declaration]
+  197 |   boundary_flux ({s});
+      |   ^~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/fractions.h:199:15: error: expected ‘;’ before ‘{’ token
+  199 |   foreach()
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/fractions.h:198:10: warning: unused variable ‘s_z’ [-Wunused-variable]
+  198 |   scalar s_z = c;
+      |          ^~~
+/home/fpl/softwares/basilisk/src/fractions.h:145:10: warning: variable ‘p’ set but not used [-Wunused-but-set-variable]
+  145 |   vector p;
+      |          ^
+/home/fpl/softwares/basilisk/src/fractions.h:134:10: warning: unused variable ‘val’ [-Wunused-variable]
+  134 |   double val = a.val;
+      |          ^~~
+/home/fpl/softwares/basilisk/src/fractions.h:131:10: warning: unused variable ‘Phi’ [-Wunused-variable]
+  131 |   vertex scalar Phi = a.Phi;
+      |          ^~~
+/home/fpl/softwares/basilisk/src/fractions.h: At top level:
+/home/fpl/softwares/basilisk/src/fractions.h:384:28: error: parameter 1 (‘point’) has incomplete type
+  384 | coord youngs_normal (Point point, scalar c)
+      |                      ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘youngs_normal’:
+/home/fpl/softwares/basilisk/src/fractions.h:385:59: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  385 | {
+      |                                                           ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:390:12: note: in expansion of macro ‘val’
+  390 |     n.x = (c[-1,1] + 2.*c[-1,0] + c[-1,-1] -
+      |            ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:390:31: note: in expansion of macro ‘val’
+  390 |     n.x = (c[-1,1] + 2.*c[-1,0] + c[-1,-1] -
+      |                               ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:390:47: note: in expansion of macro ‘val’
+  390 |     n.x = (c[-1,1] + 2.*c[-1,0] + c[-1,-1] -
+      |                                               ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:391:5: note: in expansion of macro ‘val’
+  391 |     c[+1,1] - 2.*c[+1,0] - c[+1,-1]);
+      |     ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:391:24: note: in expansion of macro ‘val’
+  391 |     c[+1,1] - 2.*c[+1,0] - c[+1,-1]);
+      |                        ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:391:40: note: in expansion of macro ‘val’
+  391 |     c[+1,1] - 2.*c[+1,0] - c[+1,-1]);
+      |                                        ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:390:12: note: in expansion of macro ‘val’
+  390 |     n.x = (c[-1,1] + 2.*c[-1,0] + c[-1,-1] -
+      |            ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:390:31: note: in expansion of macro ‘val’
+  390 |     n.x = (c[-1,1] + 2.*c[-1,0] + c[-1,-1] -
+      |                               ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:390:47: note: in expansion of macro ‘val’
+  390 |     n.x = (c[-1,1] + 2.*c[-1,0] + c[-1,-1] -
+      |                                               ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:391:5: note: in expansion of macro ‘val’
+  391 |     c[+1,1] - 2.*c[+1,0] - c[+1,-1]);
+      |     ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:391:24: note: in expansion of macro ‘val’
+  391 |     c[+1,1] - 2.*c[+1,0] - c[+1,-1]);
+      |                        ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:391:40: note: in expansion of macro ‘val’
+  391 |     c[+1,1] - 2.*c[+1,0] - c[+1,-1]);
+      |                                        ^  
+/home/fpl/softwares/basilisk/src/fractions.h: At top level:
+/home/fpl/softwares/basilisk/src/fractions.h:407:27: error: parameter 1 (‘point’) has incomplete type
+  407 | coord facet_normal (Point point, scalar c, face vector s)
+      |                     ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘facet_normal’:
+/home/fpl/softwares/basilisk/src/fractions.h:408:59: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  408 | {
+      |                                                           ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:413:13: note: in expansion of macro ‘val’
+  413 |       n.x = s.x[] - s.x[1];
+      |             ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:413:30: note: in expansion of macro ‘val’
+  413 |       n.x = s.x[] - s.x[1];
+      |                              ^  
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:413:13: note: in expansion of macro ‘val’
+  413 |       n.x = s.x[] - s.x[1];
+      |             ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/fractions.h:413:30: note: in expansion of macro ‘val’
+  413 |       n.x = s.x[] - s.x[1];
+      |                              ^  
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘reconstruction’:
+/home/fpl/softwares/basilisk/src/fractions.h:437:15: error: expected ‘;’ before ‘{’ token
+  437 |   foreach() {
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘output_facets’:
+/home/fpl/softwares/basilisk/src/fractions.h:519:15: error: expected ‘;’ before ‘{’ token
+  519 |   foreach()
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/fractions.h:514:10: warning: unused variable ‘c’ [-Wunused-variable]
+  514 |   scalar c = p.c;
+      |          ^
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘interface_area’:
+/home/fpl/softwares/basilisk/src/fractions.h:553:11: error: expected ‘;’ before ‘{’ token
+  553 |   foreach (reduction(+:area))
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/draw.h: At top level:
+/home/fpl/softwares/basilisk/src/draw.h:401:36: error: parameter 1 (‘point’) has incomplete type
+  401 | static inline double interp (Point point, coord p, scalar col) {
+      |                              ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘interp’:
+/home/fpl/softwares/basilisk/src/draw.h:401:122: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  401 | static inline double interp (Point point, coord p, scalar col) {
+      |                                                                                                                          ^              
+/home/fpl/softwares/basilisk/src/draw.h:402:10: error: variable ‘_r’ has initializer but incomplete type
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |          ^~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:402:30: warning: excess elements in struct initializer
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                              ^~~
+/home/fpl/softwares/basilisk/src/draw.h:402:30: note: (near initialization for ‘_r’)
+/home/fpl/softwares/basilisk/src/draw.h:402:35: error: ‘x’ undeclared (first use in this function)
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                                   ^
+/home/fpl/softwares/basilisk/src/draw.h:402:43: error: ‘Delta’ undeclared (first use in this function)
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                                           ^~~~~
+/home/fpl/softwares/basilisk/src/draw.h:402:35: warning: excess elements in struct initializer
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                                   ^
+/home/fpl/softwares/basilisk/src/draw.h:402:35: note: (near initialization for ‘_r’)
+/home/fpl/softwares/basilisk/src/draw.h:402:50: error: ‘y’ undeclared (first use in this function)
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                                                  ^
+/home/fpl/softwares/basilisk/src/draw.h:402:50: warning: excess elements in struct initializer
+/home/fpl/softwares/basilisk/src/draw.h:402:50: note: (near initialization for ‘_r’)
+/home/fpl/softwares/basilisk/src/draw.h:402:65: error: ‘z’ undeclared (first use in this function)
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                                                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:402:65: warning: excess elements in struct initializer
+/home/fpl/softwares/basilisk/src/draw.h:402:65: note: (near initialization for ‘_r’)
+/home/fpl/softwares/basilisk/src/draw.h:402:23: error: storage size of ‘_r’ isn’t known
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                       ^~
+/home/fpl/softwares/basilisk/src/draw.h:403:10: warning: implicit declaration of function ‘interpolate_linear’ [-Wimplicit-function-declaration]
+  403 |   return interpolate_linear (point, _r);
+      |          ^~~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:402:23: warning: unused variable ‘_r’ [-Wunused-variable]
+  402 |   struct _interpolate _r = { col, x + p.x*Delta, y + p.y*Delta, z + p.z*Delta };
+      |                       ^~
+/home/fpl/softwares/basilisk/src/draw.h: At top level:
+/home/fpl/softwares/basilisk/src/draw.h:406:42: error: parameter 1 (‘point’) has incomplete type
+  406 | static double evaluate_expression (Point point, Node * n)
+      |                                    ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘evaluate_expression’:
+/home/fpl/softwares/basilisk/src/draw.h:407:59: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  407 | {
+      |                                                           ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:448:12: note: in expansion of macro ‘val’
+  448 |     return s[k[0],k[1],k[2]];
+      |            ^~~
+/home/fpl/softwares/basilisk/src/draw.h:443:12: warning: variable ‘s’ set but not used [-Wunused-but-set-variable]
+  443 |     scalar s = {n->s};
+      |            ^
+/home/fpl/softwares/basilisk/src/draw.h:450:20: error: ‘Delta’ undeclared (first use in this function)
+  450 |   case 'D': return Delta;
+      |                    ^~~~~
+/home/fpl/softwares/basilisk/src/draw.h:451:20: error: ‘x’ undeclared (first use in this function)
+  451 |   case 'x': return x;
+      |                    ^
+/home/fpl/softwares/basilisk/src/draw.h:452:20: error: ‘y’ undeclared (first use in this function)
+  452 |   case 'y': return y;
+      |                    ^
+/home/fpl/softwares/basilisk/src/draw.h:453:20: error: ‘z’ undeclared (first use in this function)
+  453 |   case 'z': return z;
+      |                    ^
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘compile_expression’:
+/home/fpl/softwares/basilisk/src/draw.h:533:7: error: incompatible types when assigning to type ‘scalar’ {aka ‘struct <anonymous>’} from type ‘int’
+  533 |   s = new scalar;
+      |       ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:536:15: error: expected ‘;’ before ‘{’ token
+  536 |   foreach()
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/draw.h:539:3: warning: implicit declaration of function ‘restriction’; did you mean ‘reconstruction’? [-Wimplicit-function-declaration]
+  539 |   restriction ({s});
+      |   ^~~~~~~~~~~
+      |   reconstruction
+/home/fpl/softwares/basilisk/src/draw.h: At top level:
+/home/fpl/softwares/basilisk/src/draw.h:681:28: error: parameter 1 (‘point’) has incomplete type
+  681 | static bool cfilter (Point point, scalar c, double cmin)
+      |                      ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘cfilter’:
+/home/fpl/softwares/basilisk/src/draw.h:682:59: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  682 | {
+      |                                                           ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:684:7: note: in expansion of macro ‘val’
+  684 |   if (c[] <= cmin) {
+      |       ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:686:11: note: in expansion of macro ‘val’
+  686 |       if (c[1] >= 1. - cmin1 || c[-1] >= 1. - cmin1)
+      |           ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:686:41: note: in expansion of macro ‘val’
+  686 |       if (c[1] >= 1. - cmin1 || c[-1] >= 1. - cmin1)
+      |                                         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:686:11: note: in expansion of macro ‘val’
+  686 |       if (c[1] >= 1. - cmin1 || c[-1] >= 1. - cmin1)
+      |           ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:686:41: note: in expansion of macro ‘val’
+  686 |       if (c[1] >= 1. - cmin1 || c[-1] >= 1. - cmin1)
+      |                                         ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:690:7: note: in expansion of macro ‘val’
+  690 |   if (c[] >= 1. - cmin) {
+      |       ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:692:11: note: in expansion of macro ‘val’
+  692 |       if (c[1] <= cmin1 || c[-1] <= cmin1)
+      |           ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:692:36: note: in expansion of macro ‘val’
+  692 |       if (c[1] <= cmin1 || c[-1] <= cmin1)
+      |                                    ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:692:11: note: in expansion of macro ‘val’
+  692 |       if (c[1] <= cmin1 || c[-1] <= cmin1)
+      |           ^~~
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/draw.h:692:36: note: in expansion of macro ‘val’
+  692 |       if (c[1] <= cmin1 || c[-1] <= cmin1)
+      |                                    ^~~
+/home/fpl/softwares/basilisk/src/draw.h:698:6: warning: implicit declaration of function ‘foreach_neighbor’ [-Wimplicit-function-declaration]
+  698 |   foreach_neighbor(1) {
+      |      ^~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:698:25: error: expected ‘;’ before ‘{’ token
+  698 |   foreach_neighbor(1) {
+      |                         ^ 
+      |                         ;
+/home/fpl/softwares/basilisk/src/draw.h:696:7: warning: unused variable ‘n’ [-Wunused-variable]
+  696 |   int n = 0;
+      |       ^
+/home/fpl/softwares/basilisk/src/draw.h: At top level:
+/home/fpl/softwares/basilisk/src/draw.h:728:52: error: parameter 2 (‘point’) has incomplete type
+  728 | static void glvertex_normal3d (bview * view, Point point, vector n,
+      |                                              ~~~~~~^~~~~
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘glvertex_normal3d’:
+/home/fpl/softwares/basilisk/src/draw.h:730:59: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+  730 | {
+      |                                                           ^              
+/home/fpl/softwares/basilisk/src/draw.h:731:20: error: ‘x’ undeclared (first use in this function)
+  731 |   coord v = {(xp - x)/Delta, (yp - y)/Delta}, np;
+      |                    ^
+/home/fpl/softwares/basilisk/src/draw.h:731:23: error: ‘Delta’ undeclared (first use in this function)
+  731 |   coord v = {(xp - x)/Delta, (yp - y)/Delta}, np;
+      |                       ^~~~~
+/home/fpl/softwares/basilisk/src/draw.h:731:36: error: ‘y’ undeclared (first use in this function)
+  731 |   coord v = {(xp - x)/Delta, (yp - y)/Delta}, np;
+      |                                    ^
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘draw_vof’:
+/home/fpl/softwares/basilisk/src/draw.h:749:298: warning: implicit declaration of function ‘depth’ [-Wimplicit-function-declaration]
+  749 |   colorize_args (p);
+      |                                                                                                                                                                                                                                                                                                          ^    
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:751:10: warning: unused variable ‘cmin’ [-Wunused-variable]
+  751 |   double cmin = 1e-3; // do not reconstruct fragments smaller than this
+      |          ^~~~
+/home/fpl/softwares/basilisk/src/draw.h:747:10: warning: unused variable ‘s’ [-Wunused-variable]
+  747 |   face vector s = lookup_vector (p.s);
+      |          ^
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘isoline’:
+/home/fpl/softwares/basilisk/src/draw.h:935:27: error: invalid initializer
+  935 |   scalar phi = col, fiso[];
+      |                           ^         
+/home/fpl/softwares/basilisk/src/draw.h:936:16: error: invalid initializer
+  936 |   face vector siso[];
+      |                ^~~~~~         
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘cells’:
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘vectors’:
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:1033:12: warning: unused variable ‘scale’ [-Wunused-variable]
+ 1033 |     double scale = (p.scale ? p.scale : 1.)*view->res/view->samples;
+      |            ^~~~~
+/home/fpl/softwares/basilisk/src/draw.h:1021:10: warning: variable ‘u’ set but not used [-Wunused-but-set-variable]
+ 1021 |   vector u;
+      |          ^
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘squares’:
+/home/fpl/softwares/basilisk/src/draw.h:1099:9: warning: implicit declaration of function ‘new_vector’; did you mean ‘init_vector’? [-Wimplicit-function-declaration]
+ 1099 |     n = new vector;
+      |         ^~~~~~~~~~
+      |         init_vector
+/home/fpl/softwares/basilisk/src/draw.h:1099:9: error: incompatible types when assigning to type ‘vector’ {aka ‘struct <anonymous>’} from type ‘int’
+/home/fpl/softwares/basilisk/src/draw.h:1100:17: error: expected ‘;’ before ‘{’ token
+ 1100 |     foreach()
+      |                 ^
+      |                 ;
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:1140:5: warning: implicit declaration of function ‘foreach_leaf’ [-Wimplicit-function-declaration]
+ 1140 |  foreach_leaf() // fixme: foreach_visible() would be better
+      |     ^~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:1140:19: error: expected ‘;’ before ‘{’ token
+ 1140 |  foreach_leaf() // fixme: foreach_visible() would be better
+      |                   ^
+      |                   ;
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:1107:10: warning: unused variable ‘f’ [-Wunused-variable]
+ 1107 |   scalar f = col;
+      |          ^
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘box’:
+/home/fpl/softwares/basilisk/src/draw.h:1328:8: warning: implicit declaration of function ‘foreach_level’; did you mean ‘foreach_segment’? [-Wimplicit-function-declaration]
+ 1328 |     foreach_level (0) {
+      |        ^~~~~~~~~~~~~
+      |        foreach_segment
+/home/fpl/softwares/basilisk/src/draw.h:1328:25: error: expected ‘;’ before ‘{’ token
+ 1328 |     foreach_level (0) {
+      |                         ^
+      |                         ;
+/home/fpl/softwares/basilisk/src/draw.h: In function ‘labels’:
+/home/fpl/softwares/basilisk/src/draw.h:305:16: error: expected ‘;’ before ‘{’ token
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:305:16: note: in definition of macro ‘foreach_visible’
+  305 | foreach_cell() {
+      |                ^
+  306 | #if dimension == 2
+      | ~~~~~~~~~~~~~~~~~~
+  307 |   double _r = Delta*0.71;
+      |                 
+/home/fpl/softwares/basilisk/src/draw.h:1569:39: warning: unused variable ‘height’ [-Wunused-variable]
+ 1569 |   float width  = gl_StrokeWidth ('1'), height = gl_StrokeHeight();
+      |                                       ^~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:1569:9: warning: unused variable ‘width’ [-Wunused-variable]
+ 1569 |   float width  = gl_StrokeWidth ('1'), height = gl_StrokeHeight();
+      |         ^~~~~
+/home/fpl/softwares/basilisk/src/view.h: In function ‘process_line’:
+/home/fpl/softwares/basilisk/src/view.h:663:12: warning: implicit declaration of function ‘restore’ [-Wimplicit-function-declaration]
+  663 |       if (!restore (file = file, list = all))
+      |            ^~~~~~~
+/home/fpl/softwares/basilisk/src/view.h:663:34: error: ‘list’ undeclared (first use in this function)
+  663 |       if (!restore (file = file, list = all))
+      |                                  ^~~~
+/home/fpl/softwares/basilisk/src/view.h:676:5: warning: implicit declaration of function ‘dump’ [-Wimplicit-function-declaration]
+  676 |     dump (file = file);
+      |     ^~~~
+/home/fpl/softwares/basilisk/src/view.h:683:38: error: ‘struct OutputGfs’ has no member named ‘file’
+  683 |       input_gfs (file = file, list = all);
+      |                                      ^~~~
+/home/fpl/softwares/basilisk/src/view.h:683:45: warning: excess elements in struct initializer
+  683 |       input_gfs (file = file, list = all);
+      |                                             ^   
+/home/fpl/softwares/basilisk/src/view.h:683:45: note: (near initialization for ‘(anonymous)’)
+/home/fpl/softwares/basilisk/src/view.h:683:52: error: ‘struct OutputGfs’ has no member named ‘list’
+  683 |       input_gfs (file = file, list = all);
+      |                                                    ^   
+/home/fpl/softwares/basilisk/src/view.h:683:59: warning: excess elements in struct initializer
+  683 |       input_gfs (file = file, list = all);
+      |                                                           ^  
+/home/fpl/softwares/basilisk/src/view.h:683:59: note: (near initialization for ‘(anonymous)’)
+/home/fpl/softwares/basilisk/src/view.h:683:36: error: invalid use of undefined type ‘struct OutputGfs’
+  683 |       input_gfs (file = file, list = all);
+      |                                    ^
+/home/fpl/softwares/basilisk/src/display.h: In function ‘display_command’:
+/home/fpl/softwares/basilisk/src/display.h:152:11: warning: implicit declaration of function ‘dup’ [-Wimplicit-function-declaration]
+  152 |     bak = dup (2);
+      |           ^~~
+/home/fpl/softwares/basilisk/src/display.h:154:5: warning: implicit declaration of function ‘dup2’ [-Wimplicit-function-declaration]
+  154 |     dup2 (fileno (fp), 2);
+      |     ^~~~
+/home/fpl/softwares/basilisk/src/display.h:186:5: warning: implicit declaration of function ‘close’; did you mean ‘pclose’? [-Wimplicit-function-declaration]
+  186 |     close (bak);
+      |     ^~~~~
+      |     pclose
+/home/fpl/softwares/basilisk/src/display.h: In function ‘display_url’:
+/home/fpl/softwares/basilisk/src/display.h:707:3: warning: implicit declaration of function ‘gethostname’; did you mean ‘gethostbyname’? [-Wimplicit-function-declaration]
+  707 |   gethostname (hostname, 1023);
+      |   ^~~~~~~~~~~
+      |   gethostbyname
+/home/fpl/softwares/basilisk/src/run.h: In function ‘run’:
+/home/fpl/softwares/basilisk/src/run.h:17:3: warning: implicit declaration of function ‘init_grid’; did you mean ‘input_grd’? [-Wimplicit-function-declaration]
+   17 |   init_grid (N);
+      |   ^~~~~~~~~
+      |   input_grd
+/home/fpl/softwares/basilisk/src/run.h:36:3: warning: implicit declaration of function ‘free_grid’ [-Wimplicit-function-declaration]
+   36 |   free_grid();
+      |   ^~~~~~~~~
+/home/fpl/softwares/basilisk/src/timestep.h: In function ‘timestep’:
+/home/fpl/softwares/basilisk/src/timestep.h:6:1: warning: implicit declaration of function ‘foreach_face_generic’ [-Wimplicit-function-declaration]
+    6 |   foreach_face(reduction(min:dtmax))
+      | ^ ~~~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/timestep.h:6:23: error: expected ‘;’ before ‘{’ token
+    6 |   foreach_face(reduction(min:dtmax))
+      |                       ^~
+      |                       ;
+/home/fpl/softwares/basilisk/src/timestep.h:6:23: error: expected ‘;’ before ‘{’ token
+    6 |   foreach_face(reduction(min:dtmax))
+      |                       ^~
+      |                       ;
+/home/fpl/softwares/basilisk/src/bcg.h: In function ‘tracer_fluxes’:
+/home/fpl/softwares/basilisk/src/bcg.h:22:13: error: invalid initializer
+   22 |   vector g[];
+      |             ^         
+/home/fpl/softwares/basilisk/src/bcg.h:28:23: error: expected ‘;’ before ‘{’ token
+   28 |   foreach_face() {
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/bcg.h:28:23: error: expected ‘;’ before ‘{’ token
+   28 |   foreach_face() {
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/bcg.h:28:23: error: expected ‘;’ before ‘{’ token
+   28 |   foreach_face() {
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/bcg.h:28:23: error: expected ‘;’ before ‘{’ token
+   28 |   foreach_face() {
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/bcg.h: In function ‘advection’:
+/home/fpl/softwares/basilisk/src/bcg.h:88:18: warning: implicit declaration of function ‘new_const_scalar’ [-Wimplicit-function-declaration]
+   88 |     const scalar zero[] = 0.;
+      |                  ^~~~~~~~~~~~    
+/home/fpl/softwares/basilisk/src/bcg.h:88:18: error: invalid initializer
+/home/fpl/softwares/basilisk/src/bcg.h:96:18: error: invalid initializer
+   96 |     face vector flux[];
+      |                  ^~~~~~         
+/home/fpl/softwares/basilisk/src/bcg.h:99:10: error: expected ‘;’ before ‘{’ token
+   99 |     foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/bcg.h:99:10: error: expected ‘;’ before ‘{’ token
+   99 |     foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/poisson.h: In function ‘mg_cycle’:
+/home/fpl/softwares/basilisk/src/poisson.h:55:10: warning: implicit declaration of function ‘foreach_level_or_leaf’ [-Wimplicit-function-declaration]
+   55 |       foreach_level_or_leaf (l)
+      |          ^~~~~~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/poisson.h:55:35: error: expected ‘;’ before ‘{’ token
+   55 |       foreach_level_or_leaf (l)
+      |                                   ^
+      |                                   ;
+/home/fpl/softwares/basilisk/src/poisson.h:65:27: error: expected ‘;’ before ‘{’ token
+   65 |       foreach_level (l)
+      |                           ^
+      |                           ;
+/home/fpl/softwares/basilisk/src/poisson.h:74:5: warning: implicit declaration of function ‘boundary_level’ [-Wimplicit-function-declaration]
+   74 |     boundary_level (da, l);
+      |     ^~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/poisson.h:84:15: error: expected ‘;’ before ‘{’ token
+   84 |   foreach() {
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/poisson.h: In function ‘mg_solve’:
+/home/fpl/softwares/basilisk/src/poisson.h:147:17: warning: implicit declaration of function ‘list_clone’; did you mean ‘list_copy’? [-Wimplicit-function-declaration]
+  147 |   scalar * da = list_clone (p.a), * res = p.res;
+      |                 ^~~~~~~~~~
+      |                 list_copy
+/home/fpl/softwares/basilisk/src/poisson.h:147:17: warning: initialization of ‘scalar *’ {aka ‘struct <anonymous> *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+/home/fpl/softwares/basilisk/src/poisson.h:149:9: warning: assignment to ‘scalar *’ {aka ‘struct <anonymous> *’} from ‘int’ makes pointer from integer without a cast [-Wint-conversion]
+  149 |     res = list_clone (p.b);
+      |         ^
+/home/fpl/softwares/basilisk/src/poisson.h:165:11: error: expected ‘;’ before ‘{’ token
+  165 |   foreach (reduction(+:sum))
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/poisson.h: In function ‘relax’:
+/home/fpl/softwares/basilisk/src/poisson.h:308:26: error: expected ‘;’ before ‘{’ token
+  308 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/poisson.h:308:26: error: expected ‘;’ before ‘{’ token
+  308 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/poisson.h:308:26: error: expected ‘;’ before ‘{’ token
+  308 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/poisson.h:308:26: error: expected ‘;’ before ‘{’ token
+  308 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/poisson.h:301:10: warning: unused variable ‘c’ [-Wunused-variable]
+  301 |   scalar c = a;
+      |          ^
+/home/fpl/softwares/basilisk/src/poisson.h:281:21: warning: unused variable ‘b’ [-Wunused-variable]
+  281 |   scalar a = al[0], b = bl[0];
+      |                     ^
+/home/fpl/softwares/basilisk/src/poisson.h: In function ‘residual’:
+/home/fpl/softwares/basilisk/src/poisson.h:378:11: error: expected ‘;’ before ‘{’ token
+  378 |   foreach (reduction(max:maxres)) {
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/poisson.h:378:11: error: expected ‘;’ before ‘{’ token
+  378 |   foreach (reduction(max:maxres)) {
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/poisson.h:378:11: error: expected ‘;’ before ‘{’ token
+  378 |   foreach (reduction(max:maxres)) {
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/poisson.h:378:11: error: expected ‘;’ before ‘{’ token
+  378 |   foreach (reduction(max:maxres)) {
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/poisson.h:352:32: warning: unused variable ‘res’ [-Wunused-variable]
+  352 |   scalar a = al[0], b = bl[0], res = resl[0];
+      |                                ^~~
+/home/fpl/softwares/basilisk/src/poisson.h:352:21: warning: unused variable ‘b’ [-Wunused-variable]
+  352 |   scalar a = al[0], b = bl[0], res = resl[0];
+      |                     ^
+/home/fpl/softwares/basilisk/src/poisson.h:352:10: warning: unused variable ‘a’ [-Wunused-variable]
+  352 |   scalar a = al[0], b = bl[0], res = resl[0];
+      |          ^
+/home/fpl/softwares/basilisk/src/poisson.h: In function ‘project’:
+/home/fpl/softwares/basilisk/src/poisson.h:490:15: error: invalid initializer
+  490 |   scalar div[];
+      |               ^         
+/home/fpl/softwares/basilisk/src/poisson.h:491:15: error: expected ‘;’ before ‘{’ token
+  491 |   foreach() {
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/poisson.h:513:23: error: expected ‘;’ before ‘{’ token
+  513 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/poisson.h:513:23: error: expected ‘;’ before ‘{’ token
+  513 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/viscosity.h: In function ‘relax_viscosity’:
+/home/fpl/softwares/basilisk/src/viscosity.h:39:26: error: expected ‘;’ before ‘{’ token
+   39 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/viscosity.h:39:26: error: expected ‘;’ before ‘{’ token
+   39 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/viscosity.h:39:26: error: expected ‘;’ before ‘{’ token
+   39 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/viscosity.h:39:26: error: expected ‘;’ before ‘{’ token
+   39 |   foreach_level_or_leaf (l) {
+      |                          ^
+      |                          ;
+/home/fpl/softwares/basilisk/src/viscosity.h:36:10: warning: unused variable ‘w’ [-Wunused-variable]
+   36 |   vector w = u;
+      |          ^
+/home/fpl/softwares/basilisk/src/viscosity.h:31:38: warning: unused variable ‘r’ [-Wunused-variable]
+   31 |   vector u = vector(a[0]), r = vector(b[0]);
+      |                                      ^
+/home/fpl/softwares/basilisk/src/viscosity.h:30:10: warning: unused variable ‘dt’ [-Wunused-variable]
+   30 |   double dt = p->dt;
+      |          ^~
+/home/fpl/softwares/basilisk/src/viscosity.h: In function ‘residual_viscosity’:
+/home/fpl/softwares/basilisk/src/viscosity.h:127:11: error: expected ‘;’ before ‘{’ token
+  127 |   foreach (reduction(max:maxres))
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/viscosity.h:127:11: error: expected ‘;’ before ‘{’ token
+  127 |   foreach (reduction(max:maxres))
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/viscosity.h:127:11: error: expected ‘;’ before ‘{’ token
+  127 |   foreach (reduction(max:maxres))
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/viscosity.h:127:11: error: expected ‘;’ before ‘{’ token
+  127 |   foreach (reduction(max:maxres))
+      |           ^
+      |           ;
+/home/fpl/softwares/basilisk/src/viscosity.h:94:66: warning: unused variable ‘res’ [-Wunused-variable]
+   94 |   vector u = vector(a[0]), r = vector(b[0]), res = vector(resl[0]);
+      |                                                                  ^~ 
+/home/fpl/softwares/basilisk/src/viscosity.h:94:38: warning: unused variable ‘r’ [-Wunused-variable]
+   94 |   vector u = vector(a[0]), r = vector(b[0]), res = vector(resl[0]);
+      |                                      ^
+/home/fpl/softwares/basilisk/src/viscosity.h:94:10: warning: unused variable ‘u’ [-Wunused-variable]
+   94 |   vector u = vector(a[0]), r = vector(b[0]), res = vector(resl[0]);
+      |          ^
+/home/fpl/softwares/basilisk/src/viscosity.h:93:10: warning: unused variable ‘dt’ [-Wunused-variable]
+   93 |   double dt = p->dt;
+      |          ^~
+/home/fpl/softwares/basilisk/src/viscosity.h: In function ‘viscosity’:
+/home/fpl/softwares/basilisk/src/viscosity.h:161:22: error: invalid initializer
+  161 |   vector u = p.u, r[];
+      |                      ^         
+/home/fpl/softwares/basilisk/src/viscosity.h:162:15: error: expected ‘;’ before ‘{’ token
+  162 |   foreach()
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/viscosity.h: In function ‘viscosity_explicit’:
+/home/fpl/softwares/basilisk/src/viscosity.h:177:22: error: invalid initializer
+  177 |   vector u = p.u, r[];
+      |                      ^         
+/home/fpl/softwares/basilisk/src/viscosity.h:180:15: error: expected ‘;’ before ‘{’ token
+  180 |   foreach()
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘defaults_0’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:145:23: error: expected ‘;’ before ‘{’ token
+  145 |     foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:145:23: error: expected ‘;’ before ‘{’ token
+  145 |     foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:144:12: warning: unused variable ‘alphav’ [-Wunused-variable]
+  144 |     face vector alphav = alpha;
+      |            ^~~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘init’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:192:23: error: expected ‘;’ before ‘{’ token
+  192 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:192:23: error: expected ‘;’ before ‘{’ token
+  192 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:199:3: warning: implicit declaration of function ‘event’ [-Wimplicit-function-declaration]
+  199 |   event ("properties");
+      |   ^~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘stability’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:219:8: warning: implicit declaration of function ‘dtnext’ [-Wimplicit-function-declaration]
+  219 |   dt = dtnext (stokes ? dtmax : timestep (uf, dtmax));
+      |        ^~~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘prediction’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:255:16: error: invalid initializer
+  255 |     scalar s = new scalar;
+      |                ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:255:16: error: invalid initializer
+  255 |     scalar s = new scalar;
+      |                ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:260:17: error: expected ‘;’ before ‘{’ token
+  260 |     foreach()
+      |                 ^
+      |                 ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:270:17: error: expected ‘;’ before ‘{’ token
+  270 |     foreach()
+      |                 ^
+      |                 ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:282:23: error: expected ‘;’ before ‘{’ token
+  282 |   foreach_face() {
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:282:23: error: expected ‘;’ before ‘{’ token
+  282 |   foreach_face() {
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘correction’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:331:15: error: expected ‘;’ before ‘{’ token
+  331 |   foreach()
+      |               ^
+      |               ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘viscous_term’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:358:30: error: expected ‘;’ before ‘{’ token
+  358 |     foreach_face()
+      |                              ^ 
+      |                              ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:356:12: warning: unused variable ‘af’ [-Wunused-variable]
+  356 |     face vector af = a;
+      |            ^~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘acceleration’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:383:23: error: expected ‘;’ before ‘{’ token
+  383 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:383:23: error: expected ‘;’ before ‘{’ token
+  383 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:383:23: error: expected ‘;’ before ‘{’ token
+  383 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:383:23: error: expected ‘;’ before ‘{’ token
+  383 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h: In function ‘centered_gradient’:
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:402:14: error: invalid initializer
+  402 |   face vector gf[];
+      |              ^~~~~~         
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:403:23: error: expected ‘;’ before ‘{’ token
+  403 |   foreach_face()
+      |                       ^ 
+      |                       ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:412:10: error: expected ‘;’ before ‘{’ token
+  412 |   foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:412:10: error: expected ‘;’ before ‘{’ token
+  412 |   foreach()
+      |          ^
+      |          ;
+/home/fpl/softwares/basilisk/src/vtk.h: In function ‘output_vtk’:
+/home/fpl/softwares/basilisk/src/vtk.h:32:4: error: variable ‘point’ has initializer but incomplete type
+   32 |    Point point = locate (x, y);
+      |    ^~~~~
+/home/fpl/softwares/basilisk/src/vtk.h:32:10: error: storage size of ‘point’ isn’t known
+   32 |    Point point = locate (x, y);
+      |          ^~~~~
+/home/fpl/softwares/basilisk/src/vtk.h:32:90: error: ‘POINT_VARIABLES’ undeclared (first use in this function)
+   32 |    Point point = locate (x, y);
+      |                                                                                          ^              
+/home/fpl/softwares/basilisk/src/common.h:814:33: error: subscripted value is neither array nor pointer nor vector
+  814 |  *   http://codingcastles.blogspot.co.nz/2008/12/nans-in-c.html
+      |                                 ^
+/home/fpl/softwares/basilisk/src/vtk.h:33:27: note: in expansion of macro ‘val’
+   33 |    v = point.level >= 0 ? val(s) : nodata;
+      |                           ^~~
+/home/fpl/softwares/basilisk/src/vtk.h:32:10: warning: unused variable ‘point’ [-Wunused-variable]
+   32 |    Point point = locate (x, y);
+      |          ^~~~~
+/home/fpl/softwares/basilisk/src/grid/tree.h: In function ‘cache_level_append’:
+/home/fpl/softwares/basilisk/src/grid/tree.h:188:33: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+  188 |   c->p[c->n].j = p.j;
+      |                                 ^
+/home/fpl/softwares/basilisk/src/grid/tree.h: In function ‘cache_append’:
+/home/fpl/softwares/basilisk/src/grid/tree.h:213:33: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+  213 |   c->p[c->n].j = p.j;
+      |                                 ^
+/home/fpl/softwares/basilisk/src/grid/tree.h:218:37: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+  218 |   c->p[c->n].level = p.level;
+      |                                     ^
+/home/fpl/softwares/basilisk/src/grid/tree.h: At top level:
+/home/fpl/softwares/basilisk/src/grid/tree.h:1457:6: warning: conflicting types for ‘free_grid’
+ 1457 | void free_grid (void)
+      |      ^~~~~~~~~
+/home/fpl/softwares/basilisk/src/run.h:36:3: note: previous implicit declaration of ‘free_grid’ was here
+   36 |   free_grid();
+      |   ^~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/tree.h:1494:6: warning: conflicting types for ‘init_grid’
+ 1494 | void init_grid (int n)
+      |      ^~~~~~~~~
+/home/fpl/softwares/basilisk/src/run.h:17:3: note: previous implicit declaration of ‘init_grid’ was here
+   17 |   init_grid (N);
+      |   ^~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/tree.h:1627:7: error: conflicting types for ‘locate’
+ 1627 | Point locate (struct _locate p)
+      |       ^~~~~~
+/home/fpl/softwares/basilisk/src/output.h:72:16: note: previous implicit declaration of ‘locate’ was here
+   72 |  Point point = locate (x, y);
+      |                ^~~~~~
+/home/fpl/softwares/basilisk/src/grid/events.h:190:5: error: conflicting types for ‘events’
+  190 | int events (bool action)
+      |     ^~~~~~
+/home/fpl/softwares/basilisk/src/grid/events.h:191:1: note: an argument type that has a default promotion can’t match an empty parameter name list declaration
+  191 | {
+      | ^
+/home/fpl/softwares/basilisk/src/input.h:325:20: note: previous implicit declaration of ‘events’ was here
+  325 |   while (t < t1 && events (false))
+      |                    ^~~~~~
+/home/fpl/softwares/basilisk/src/grid/events.h:229:6: warning: conflicting types for ‘event’
+  229 | void event (const char * name)
+      |      ^~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:199:3: note: previous implicit declaration of ‘event’ was here
+  199 |   event ("properties");
+      |   ^~~~~
+/home/fpl/softwares/basilisk/src/grid/events.h:241:8: error: conflicting types for ‘dtnext’
+  241 | double dtnext (double dt)
+      |        ^~~~~~
+/home/fpl/softwares/basilisk/src/navier-stokes/centered.h:219:8: note: previous implicit declaration of ‘dtnext’ was here
+  219 |   dt = dtnext (stokes ? dtmax : timestep (uf, dtmax));
+      |        ^~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:89:8: error: conflicting types for ‘new_scalar’
+   89 | scalar new_scalar (const char * name)
+      |        ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/input.h:233:13: note: previous implicit declaration of ‘new_scalar’ was here
+  233 |  scalar s = new scalar;
+      |             ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:108:8: error: conflicting types for ‘new_vector’
+  108 | vector new_vector (const char * name)
+      |        ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:1099:9: note: previous implicit declaration of ‘new_vector’ was here
+ 1099 |     n = new vector;
+      |         ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:115:8: error: conflicting types for ‘new_face_vector’
+  115 | vector new_face_vector (const char * name)
+      |        ^~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/fractions.h:133:34: note: previous implicit declaration of ‘new_face_vector’ was here
+  133 |   face vector s = automatic (a.s);
+      |                                  ^              
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:207:8: error: conflicting types for ‘new_const_scalar’
+  207 | scalar new_const_scalar (const char * name, int i, double val)
+      |        ^~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/bcg.h:88:18: note: previous implicit declaration of ‘new_const_scalar’ was here
+   88 |     const scalar zero[] = 0.;
+      |                  ^~~~~~~~~~~~    
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:246:10: error: conflicting types for ‘list_clone’
+  246 | scalar * list_clone (scalar * l)
+      |          ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/poisson.h:147:17: note: previous implicit declaration of ‘list_clone’ was here
+  147 |   scalar * da = list_clone (p.a), * res = p.res;
+      |                 ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:266:6: warning: conflicting types for ‘delete’
+  266 | void delete (scalar * list)
+      |      ^~~~~~
+/home/fpl/softwares/basilisk/src/view.h:119:5: note: previous implicit declaration of ‘delete’ was here
+  119 |     delete ({s});
+      |     ^~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:340:9: error: ‘boundary_level’ redeclared as different kind of symbol
+  340 | void (* boundary_level) (scalar *, int l);
+      |         ^~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/poisson.h:74:5: note: previous implicit declaration of ‘boundary_level’ was here
+   74 |     boundary_level (da, l);
+      |     ^~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:341:9: error: ‘boundary_flux’ redeclared as different kind of symbol
+  341 | void (* boundary_flux)  (vector *);
+      |         ^~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/fractions.h:197:3: note: previous implicit declaration of ‘boundary_flux’ was here
+  197 |   boundary_flux ({s});
+      |   ^~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:344:6: warning: conflicting types for ‘boundary’
+  344 | void boundary (scalar * list)
+      |      ^~~~~~~~
+/home/fpl/softwares/basilisk/src/utils.h:263:3: note: previous implicit declaration of ‘boundary’ was here
+  263 |   boundary ((scalar *) g);
+      |   ^~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:685:15: error: conflicting types for ‘interpolate_linear’
+  685 | static double interpolate_linear (Point point, struct _interpolate p)
+      |               ^~~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:403:10: note: previous implicit declaration of ‘interpolate_linear’ was here
+  403 |   return interpolate_linear (point, _r);
+      |          ^~~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/cartesian-common.h:717:8: error: conflicting types for ‘interpolate’
+  717 | double interpolate (struct _interpolate p)
+      |        ^~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/output.h:69:28: note: previous implicit declaration of ‘interpolate’ was here
+   69 |    field[i][len*j + k++] = interpolate (s, x, y);
+      |                            ^~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/multigrid-common.h:24:9: error: ‘restriction’ redeclared as different kind of symbol
+   24 | void (* restriction) (scalar *);
+      |         ^~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:539:3: note: previous implicit declaration of ‘restriction’ was here
+  539 |   restriction ({s});
+      |   ^~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/grid/tree-common.h: In function ‘refine_cell’:
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:38:21: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   38 |      p.level = point.level - 1;
+      |                     ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:40:51: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   40 |      periodic_clamp (p.i, p.level);
+      |                                                   ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:40:100: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   40 |      periodic_clamp (p.i, p.level);
+      |                                                                                                    ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:40:136: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   40 |      periodic_clamp (p.i, p.level);
+      |                                                                                                                                        ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:42:23: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+   42 |        p.j = (point.j + GHOSTS)/2 + l;
+      |                       ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:32: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:55: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                                       ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:81: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                                                                 ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:113: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                                                                                                 ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:144: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                                                                                                                                ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:168: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘j’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                                                                                                                                                        ^
+/home/fpl/softwares/basilisk/src/grid/tree-common.h:43:194: error: ‘_Attributes’ {aka ‘struct <anonymous>’} has no member named ‘level’
+   43 |        periodic_clamp (p.j, p.level);
+      |                                                                                                                                                                                                  ^
+/home/fpl/softwares/basilisk/src/fractions.h: In function ‘facet_normal’:
+/home/fpl/softwares/basilisk/src/fractions.h:425:1: warning: control reaches end of non-void function [-Wreturn-type]
+  425 | }
+      | ^
+At top level:
+/home/fpl/softwares/basilisk/src/draw.h:728:13: warning: ‘glvertex_normal3d’ defined but not used [-Wunused-function]
+  728 | static void glvertex_normal3d (bview * view, Point point, vector n,
+      |             ^~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:718:13: warning: ‘glvertex2d’ defined but not used [-Wunused-function]
+  718 | static void glvertex2d (bview * view, double x, double y) {
+      |             ^~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:681:13: warning: ‘cfilter’ defined but not used [-Wunused-function]
+  681 | static bool cfilter (Point point, scalar c, double cmin)
+      |             ^~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:406:15: warning: ‘evaluate_expression’ defined but not used [-Wunused-function]
+  406 | static double evaluate_expression (Point point, Node * n)
+      |               ^~~~~~~~~~~~~~~~~~~
+/home/fpl/softwares/basilisk/src/draw.h:288:13: warning: ‘mapped_position’ defined but not used [-Wunused-function]
+  288 | static void mapped_position (bview * view, coord * p, double * r)
+      |             ^~~~~~~~~~~~~~~
+make: *** [1x1couetteflow.s] Error 1

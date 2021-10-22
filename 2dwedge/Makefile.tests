@@ -1,0 +1,14 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	2dwedge.c \
+	karman-sv.c \
+
+plots: \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+

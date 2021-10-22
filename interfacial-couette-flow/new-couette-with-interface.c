@@ -6,6 +6,7 @@
 
 //LIBRARIES USED- 
 
+//#include "navier-stokes/conserving.h"
 #include "navier-stokes/centered.h"
 #include "vtk.h"
 #include "vof.h"
@@ -85,7 +86,7 @@ event init (t=0)
 
 
      foreach()
-	     u.x[] =  0.01;
+	     u.x[] =  0.0001;
 
 }
 
@@ -97,7 +98,7 @@ event logfile (i++)
         fprintf (stderr, "%d %g\n", i, t);
 
 // Produce vorticity animation
-event movies (i += 5  ; t <= 0.005)
+event movies (i += 5  ; t <= 1.)
 {
 	clear();
 	  draw_vof ("f");
@@ -112,7 +113,7 @@ event movies (i += 5  ; t <= 0.005)
 	    save ("u.mp4");
 
 
-
+/*
 
 
 
@@ -121,7 +122,7 @@ event movies (i += 5  ; t <= 0.005)
                 FILE * fpvtk = fopen (name_vtk, "w");
                 output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
 
-
+*/
 }
 
 /*
