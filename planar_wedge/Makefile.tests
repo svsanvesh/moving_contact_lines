@@ -2,13 +2,22 @@
 # DO NOT EDIT, edit 'Makefile' instead
 ALLTESTS = \
 	karman-sv.c \
-	wedge_v2.c \
+	triangular-wedge.c \
+	wedge-driven-cavity.c \
+	wedge-slip-wall.c \
+	working-wedge.c \
 
 plots: \
+	triangular-wedge/plots.page \
+	wedge-slip-wall/plots.page \
+	working-wedge/plots.page \
 
 TESTS = \
 
 SPECIAL_TESTS = \
 
 ALLPAGES = \
+	triangular-wedge.c.page \
+	wedge-slip-wall.c.page \
+	working-wedge.c.page \
 
