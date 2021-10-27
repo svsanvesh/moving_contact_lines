@@ -5,12 +5,12 @@
 //FOR COMPILING : qcc new-couette-with-interface.c -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 
 //LIBRARIES USED- 
-
+#include "grid/multigrid.h"
 #include "navier-stokes/conserving.h"
-//#include "navier-stokes/centered.h"
+#include "navier-stokes/centered.h"
 #include "vtk.h"
-#include "vof.h"
-#include "view.h"
+#include "two-phase.h"
+//#include "view.h"
 #include "adapt_wavelet_leave_interface.h"
 //#include "contact.h"
 #include "tension.h"
@@ -25,8 +25,8 @@ char name_vtk[100];
 //double theta_bot = 90;
 //double theta_top = 90;
 vector h[];
-scalar f[], * interfaces = {f};
-double rho1 = 1000., mu1 = 0.01, rho2 = 100., mu2 = 0.01;
+//scalar f[], * interfaces = {f};
+//double rho1 = 1000., mu1 = 0.01, rho2 = 100., mu2 = 0.01;
 //h.t[bottom] = contact_angle (theta_bot*pi/180.);
 
 int main() {                // Main program begins here

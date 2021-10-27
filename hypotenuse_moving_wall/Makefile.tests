@@ -1,0 +1,16 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	hyp_moving_wall.c \
+	karman-sv.c \
+
+plots: \
+	hyp_moving_wall/plots.page \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+	hyp_moving_wall.c.page \
+

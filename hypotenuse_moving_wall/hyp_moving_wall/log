@@ -1,0 +1,68 @@
+0 0
+1 0.568182
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 0.00683747 sum: -2393.89 nrelax: 98
+2 0.568222
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 0.0404125 sum: -195.641 nrelax: 100
+3 0.568266
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 12.2454 sum: 7180.06 nrelax: 100
+4 0.568321
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 25.6967 sum: 22688.2 nrelax: 100
+5 0.5684
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 37.6817 sum: 40005.1 nrelax: 100
+6 0.568518
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 37.7148 sum: 59590.2 nrelax: 100
+7 0.568686
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 23.6841 sum: 90059.2 nrelax: 100
+8 0.568917
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 34.9084 sum: 115790 nrelax: 100
+9 0.569179
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 37.1251 sum: 122606 nrelax: 100
+10 0.569465
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 6.84805 sum: 130787 nrelax: 100
+11 0.569772
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 9.46932 sum: 145067 nrelax: 100
+12 0.570098
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 6.29863 sum: 153609 nrelax: 100
+13 0.570446
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 8.58162 sum: 158887 nrelax: 100
+14 0.570815
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 6.36619 sum: 173324 nrelax: 100
+15 0.571209
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 27.4254 sum: 184242 nrelax: 100
+16 0.571628
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 7.55123 sum: 193221 nrelax: 100
+17 0.572074
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 15.9199 sum: 203528 nrelax: 100
+18 0.572547
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 10.1805 sum: 218516 nrelax: 100
+19 0.573045
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 20.2616 sum: 223968 nrelax: 100
+20 0.573563
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 13.2119 sum: 230007 nrelax: 100
+21 0.574097
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 15.8334 sum: 237057 nrelax: 100
+22 0.574646
+WARNING: convergence for u.x not reached after 100 iterations
+  res: 16.9385 sum: 240154 nrelax: 100
+23 0.575208
