@@ -55,13 +55,12 @@ event adapt (i++) {
 // Setting the boundary conditions
 // left wall is given stress free condition with pressure.
 u.n[left] = dirichlet(0.0);
-u.t[left] = neumann(1.);
+u.t[left] = neumann(0.);
 p[left]= dirichlet(1.);
 
 // Outflow BC according to http://basilisk.fr/src/test/swirl.c
-u.n[bottom] = neumann(0.);
-p[bottom] = dirichlet(0.);
-pf[bottom] = dirichlet(0.);
+u.n[bottom] = dirichlet(0.);
+u.t[bottom] = dirichlet(0.);
 
 
  scalar phi[];   // We solve for flow inside a wedge
@@ -154,5 +153,5 @@ event profile (i++)
 
 // Using adaptive grid based on velocity
 event adapt (i++) {
-        adapt_wavelet ((scalar*){u,phi}, (double[]){3e-2,3e-2,0.001}, 9,7); 
+        adapt_wavelet ((scalar*){phi}, (double[]){0.001}, 9,7); 
 }

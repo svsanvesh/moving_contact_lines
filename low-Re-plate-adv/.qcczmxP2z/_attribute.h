@@ -1,0 +1,2 @@
+
+  void (* coarsen) (Point, scalar);
