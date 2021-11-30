@@ -17,7 +17,6 @@
 #include "tension.h"
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
 #include "two-phase.h"
-#include "adapt2.h"
 
 double Reynolds = 2.0;       // Reynolds number
 int maxlevel = 9;              // Maximum mesh refinement

@@ -1,0 +1,3 @@
+qcc -autolink -DDISPLAY=-1 -O2 -fopenmp -g -Wall -pipe -D_FORTIFY_SOURCE=2 -o adv_plate_edit/adv_plate_edit adv_plate_edit.c  -lm
+adv_plate_edit.c:20: error: adapt2.h: No such file or directory
+make: *** [adv_plate_edit.s] Error 1
