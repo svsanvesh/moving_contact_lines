@@ -26,35 +26,34 @@ double U0;
 double H0;
 
 
-/*
 	#define grav  9.81 // gravitational acceleration
         #define rhoL 1000  //density of water
         #define muL 0.001 //viscosity of water
         #define surf 0.072 // surface tension air-water
         #define rhoG 1.225 //density of air
         #define muG 0.0000181 // viscosity of air
-
-*/
+	#define lc 2.7e-3// capillary length 
+double h0;
 
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ; 
 int main() 
 {	
-        L0 = 15.;            // Size of the square box
-
+        L0 = 0.015;            // Size of the square box
+	h0=lc/tan(theta0); 
 //        H0 = 1.;            // Height of the channel
 	dt=0.1;
-        U0 = 1 ;             // Velocity of the left plate
+        U0 = -0.001 ;             // Velocity of the left plate
         origin (0, -L0/2);  // Origin is at the bottom centre of the box
         N = 256;
       //  mu = muv;           // constant viscosity. Exact value given below
 
 	stokes = true;
-        f.sigma = 1.;
+        f.sigma = surf;
         f.height = h;
 	display_control (maxlevel, 6, 12);
 
-	theta0 = 150; 
+	theta0 = 30; 
 	h.t[left] = contact_angle (theta0*pi/180.); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
@@ -72,22 +71,11 @@ int main()
 
 }
 
-event adapt (i++) {
-scalar impose_refine[], f1[];
-foreach(){
-          //        f1[] = f[];
-                  if(y>-1.&&y<1.&&x<15)
-                          impose_refine[] = noise();
-                  else
-                          impose_refine[] = 0;
-}  
-          boundary({impose_refine});
- adapt_wavelet2((scalar *){impose_refine},(double []){0.001},(int []){13,10},3);
 
-}
 event init (t = 0)
 {
-	fraction (f , y );
+//	fraction (f , -y-h0*exp(-x/lc) );
+	fraction (f , -y - exp(-x) - 0.005 );
 	boundary ({f});
      
   foreach()
@@ -107,7 +95,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-U0);
+u.t[left] = dirichlet(-0.001);
 
 
 u.n[right] = dirichlet(0.);
