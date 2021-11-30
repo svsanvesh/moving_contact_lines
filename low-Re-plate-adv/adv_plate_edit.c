@@ -38,8 +38,9 @@ double H0;
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ; 
 int main() 
-{                // Main program begins here
+{	
         L0 = 15.;            // Size of the square box
+
 //        H0 = 1.;            // Height of the channel
 	dt=0.1;
         U0 = 1 ;             // Velocity of the left plate
@@ -52,7 +53,7 @@ int main()
         f.height = h;
 	display_control (maxlevel, 6, 12);
 
-	theta0 = 30; 
+	theta0 = 150; 
 	h.t[left] = contact_angle (theta0*pi/180.); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
