@@ -26,6 +26,8 @@ char name_vtk[100];		// vtk file name decleration.
 double U0;
 double H0;
 
+
+/*
 	#define grav  9.81 // gravitational acceleration
         #define rhoL 1000  //density of water
         #define muL 0.001 //viscosity of water
@@ -33,7 +35,7 @@ double H0;
         #define rhoG 1.225 //density of air
         #define muG 0.0000181 // viscosity of air
 
-
+*/
 
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ; 
