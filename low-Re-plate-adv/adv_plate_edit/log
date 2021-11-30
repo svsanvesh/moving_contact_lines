@@ -1,0 +1,85 @@
+0 0
+1 2.98219e-05
+2 0.000114171
+3 0.000352747
+4 0.000591322
+5 0.000829897
+6 0.00106847
+7 0.00130705
+8 0.00154562
+9 0.0017842
+10 0.00202277
+11 0.00226135
+12 0.00249993
+13 0.0027385
+14 0.00297708
+15 0.00321565
+16 0.00345423
+17 0.0036928
+18 0.00393138
+../sysdeps/unix/sysv/linux/poll.c:29:error: [Thread debugging using libthread_db enabled]
+../sysdeps/unix/sysv/linux/poll.c:29:error: Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff6ada700 (LWP 32686)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff62d9700 (LWP 32687)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff5ad8700 (LWP 32688)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff52d7700 (LWP 32689)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff4ad6700 (LWP 32690)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff42d5700 (LWP 32691)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff3ad4700 (LWP 32692)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff32d3700 (LWP 32693)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff2ad2700 (LWP 32694)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff22d1700 (LWP 32695)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff1ad0700 (LWP 32696)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff12cf700 (LWP 32697)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff0ace700 (LWP 32698)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7ffff02cd700 (LWP 32699)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffefacc700 (LWP 32700)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffef2cb700 (LWP 32701)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffeeaca700 (LWP 32702)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffee2c9700 (LWP 32703)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffedac8700 (LWP 32704)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffed2c7700 (LWP 32705)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffecac6700 (LWP 32706)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffec2c5700 (LWP 32707)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffebac4700 (LWP 32708)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffeb2c3700 (LWP 32709)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffeaac2700 (LWP 32710)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffea2c1700 (LWP 32711)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe9ac0700 (LWP 32712)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe92bf700 (LWP 32713)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe8abe700 (LWP 32714)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe82bd700 (LWP 32715)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe7abc700 (LWP 32716)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe72bb700 (LWP 32717)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe6aba700 (LWP 32718)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe62b9700 (LWP 32719)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe5ab8700 (LWP 32720)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe52b7700 (LWP 32721)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe4ab6700 (LWP 32722)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe42b5700 (LWP 32723)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe3ab4700 (LWP 32724)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe32b3700 (LWP 32725)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe2ab2700 (LWP 32726)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe22b1700 (LWP 32727)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe1ab0700 (LWP 32728)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe12af700 (LWP 32729)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe0aae700 (LWP 32730)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffe02ad700 (LWP 32731)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdfaac700 (LWP 32732)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdf2ab700 (LWP 32733)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdeaaa700 (LWP 32734)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffde2a9700 (LWP 32735)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffddaa8700 (LWP 32736)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdd2a7700 (LWP 32737)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdcaa6700 (LWP 32738)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdc2a5700 (LWP 32739)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdbaa4700 (LWP 32740)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdb2a3700 (LWP 32741)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffdaaa2700 (LWP 32742)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffda2a1700 (LWP 32743)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffd9aa0700 (LWP 32744)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffd929f700 (LWP 32745)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffd8a9e700 (LWP 32746)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffd829d700 (LWP 32747)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: [New Thread 0x7fffd7a9c700 (LWP 32748)]
+../sysdeps/unix/sysv/linux/poll.c:29:error: Thread 1 "adv_plate_edit" received signal SIGINT, Interrupt.
