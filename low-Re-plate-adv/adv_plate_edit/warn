@@ -12,10 +12,3 @@ In file included from /home/fpl/Software/basilisk/src/draw.h:5,
 /home/fpl/Software/basilisk/src/fractions.h:29: note: this is the location of the previous definition
    29 | # define interface_normal(point, c) mycs (point, c)
       | 
-adv_plate_edit.c: In function ‘init_1’:
-adv_plate_edit.c:80:10: error: cannot convert to a pointer type
-   80 |          f =(scalar *)(-y - exp(-x) - 0.005) ;
-      |          ^
-adv_plate_edit.c:80:13: error: incompatible types when assigning to type ‘scalar’ {aka ‘struct <anonymous>’} from type ‘scalar *’ {aka ‘struct <anonymous> *’}
-   80 |          f =(scalar *)(-y - exp(-x) - 0.005) ;
-      |             ^

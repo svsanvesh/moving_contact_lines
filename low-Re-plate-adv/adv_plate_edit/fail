@@ -1,23 +1,76 @@
-qcc -autolink -DDISPLAY=-1 -O2 -fopenmp -lm -g -Wall -pipe -D_FORTIFY_SOURCE=2 -o adv_plate_edit/adv_plate_edit adv_plate_edit.c  -lm
-In file included from adv_plate_edit.c:16:
-/home/fpl/Software/basilisk/src/contact.h:12: warning: "interface_normal" redefined
-   12 | #define interface_normal(point, c) interface_normal (point, c)
-      | 
-In file included from /home/fpl/Software/basilisk/src/draw.h:5,
-                 from /home/fpl/Software/basilisk/src/view.h:426,
-                 from /home/fpl/Software/basilisk/src/display.h:90,
-                 from /home/fpl/Software/basilisk/src/utils.h:391,
-                 from /home/fpl/Software/basilisk/src/run.h:11,
-                 from /home/fpl/Software/basilisk/src/navier-stokes/centered.h:27,
-                 from adv_plate_edit.c:13:
-/home/fpl/Software/basilisk/src/fractions.h:29: note: this is the location of the previous definition
-   29 | # define interface_normal(point, c) mycs (point, c)
-      | 
-adv_plate_edit.c: In function ‘init_1’:
-adv_plate_edit.c:80:10: error: cannot convert to a pointer type
-   80 |          f =(scalar *)(-y - exp(-x) - 0.005) ;
-      |          ^
-adv_plate_edit.c:80:13: error: incompatible types when assigning to type ‘scalar’ {aka ‘struct <anonymous>’} from type ‘scalar *’ {aka ‘struct <anonymous> *’}
-   80 |          f =(scalar *)(-y - exp(-x) - 0.005) ;
-      |             ^
-make: *** [adv_plate_edit.s] Error 1
+0 0
+1 0.000168802
+2 0.000337603
+3 0.000506405
+4 0.000566085
+5 0.000625766
+6 0.000685446
+7 0.000745126
+8 0.000804807
+9 0.000864487
+10 0.000924168
+11 0.000983848
+12 0.00104353
+13 0.00110321
+14 0.00116289
+15 0.00122257
+16 0.00128225
+17 0.00134193
+18 0.00140161
+19 0.00146129
+20 0.00152097
+21 0.00158065
+22 0.00164033
+23 0.00170001
+24 0.00175969
+25 0.00181937
+26 0.00187905
+27 0.00193873
+28 0.00199841
+29 0.00205809
+30 0.00207919
+31 0.0021003
+32 0.0021214
+33 0.00212886
+34 0.00213632
+35 0.00214378
+36 0.00215124
+37 0.00215387
+38 0.00215651
+39 0.00215915
+40 0.00216179
+41 0.00216272
+42 0.00216365
+43 0.00216458
+44 0.00216552
+45 0.00216585
+46 0.00216618
+47 0.0021665
+48 0.00216683
+49 0.00216695
+50 0.00216707
+51 0.00216718
+52 0.0021673
+53 0.00216734
+54 0.00216738
+55 0.00216742
+56 0.00216747
+57 0.00216751
+58 0.00216755
+59 0.00216759
+60 0.00216763
+61 0.00216767
+62 0.00216771
+63 0.00216775
+64 0.0021678
+65 0.00216784
+66 0.00216788
+67 0.00216792
+68 0.00216796
+69 0.002168
+70 0.00216804
+71 0.00216808
+72 0.00216812
+73 0.00216817
+74 0.00216821
+75 0.00216825
