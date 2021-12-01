@@ -13,3 +13,7 @@ snapshot*
 *.mpg
 t
 alpha* 
+fail
+*.err
+log
+*.s
