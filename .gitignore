@@ -17,3 +17,7 @@ fail
 *.err
 log
 *.s
+*.py
+*.log
+*.tst
+*.log~
