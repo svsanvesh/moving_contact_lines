@@ -19,7 +19,7 @@
 #include "two-phase.h"
 
 double Reynolds = 2.0;       // Reynolds number
-int maxlevel = 9;              // Maximum mesh refinement
+int maxlevel = 11;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
 char name_vtk[100];		// vtk file name decleration.
 double U0;
@@ -74,8 +74,8 @@ int main()
 
 event init (t = 0)
 {
-//	fraction (f , -y-h0*exp(-x/lc) );
-	fraction (f , -y - exp(-x) - 0.005 );
+  	fraction (f , -y );
+//	fraction (f , -y - exp(-x) - 0.005 );
 	boundary ({f});
      
   foreach()
@@ -119,7 +119,7 @@ event logfile (i++)
 
 
 // Produce vorticity animation
-event movies (i += 5  ; t <= 20.)
+event movies (i += 5  ; t <= 200.)
 {
         dump( );
         foreach()
@@ -128,13 +128,13 @@ event movies (i += 5  ; t <= 20.)
                 output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
 
 }
+/*
 event adapt (i++) {
         adapt_wavelet ((scalar*){f,u}, (double[]){0.1, 0.1,0.1}, 9,6);
 }
-/*
+*/
 // Using adaptive grid based on interface position
 event adapt(i++){
  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.0 ,0.0, 0.01}, maxlevel);
 }
 
-*/
