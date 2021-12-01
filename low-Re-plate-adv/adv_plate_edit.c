@@ -15,7 +15,7 @@
 #include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
-#define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
+#define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2) )  // this code is incorperated from http://basilisk.fr/src/examples/bubble.c .
 #include "two-phase.h"
 
 double Reynolds = 2.0;       // Reynolds number
@@ -45,7 +45,7 @@ int main()
 	dt=0.1;
         U0 = -0.001 ;             // Velocity of the left plate
         origin (0, -L0/2);  // Origin is at the bottom centre of the box
-        N = 256;
+        N = 128;
       //  mu = muv;           // constant viscosity. Exact value given below
 
 	stokes = true;
@@ -74,8 +74,10 @@ int main()
 
 event init (t = 0)
 {
-  	fraction (f , -y );
-//	fraction (f , -y - exp(-x) - 0.005 );
+	// the interface shape is given here. 
+//	fraction (f , -y );
+	foreach()
+	       	f =(scalar *)(-y - exp(-x) - 0.005) ;
 	boundary ({f});
      
   foreach()
@@ -95,7 +97,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.001);
+u.t[left] = dirichlet(-0.01);
 
 
 u.n[right] = dirichlet(0.);
@@ -128,11 +130,13 @@ event movies (i += 5  ; t <= 200.)
                 output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
 
 }
-/*
-event adapt (i++) {
-        adapt_wavelet ((scalar*){f,u}, (double[]){0.1, 0.1,0.1}, 9,6);
+event adapt (i++)
+{
+        adapt_wavelet ((scalar*){f,u}, (double[]){0.1, 0.1,0.1}, maxlevel,6);
 }
-*/
+
+
+
 // Using adaptive grid based on interface position
 event adapt(i++){
  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.0 ,0.0, 0.01}, maxlevel);
