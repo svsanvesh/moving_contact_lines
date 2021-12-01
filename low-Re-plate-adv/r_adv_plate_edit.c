@@ -16,10 +16,12 @@
 #include "contact.h"
 #include "tension.h"
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2) )  // this code is incorperated from http://basilisk.fr/src/examples/bubble.c .
+#define rho(f)  (1./(clamp(f,0,1)*(1./rho1 - 1./rho2) + 1./rho2))
 #include "two-phase.h"
 
+
 double Reynolds = 2.0;       // Reynolds number
-int maxlevel = 11;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
 char name_vtk[100];		// vtk file name decleration.
 double U0;
@@ -50,7 +52,7 @@ int main()
 	dt=0.1;
         U0 = -0.001 ;             // Velocity of the left plate
         origin (0, -L0/2);  // Origin is at the bottom centre of the box
-        N = 64;
+        N = 1024;
       //  mu = muv;           // constant viscosity. Exact value given below
 
 	stokes = true;
@@ -76,6 +78,21 @@ int main()
 
 }
 
+event adapt (i++) {
+
+                scalar impose_refine[], f1[];
+                foreach(){
+                  f1[] = f[];
+                  if(x<0.002 && y<0.001 && y> -0.001)
+                          impose_refine[] = noise();
+                  else
+                          impose_refine[] = 0;
+          }
+          boundary({impose_refine});
+          boundary({f1});
+          adapt_wavelet({impose_refine,f1}, (double[]){1e-4,1e-4}, 10,7 );
+
+        }
 
 event init (t = 0)
 {
@@ -86,7 +103,7 @@ event init (t = 0)
   foreach()
              u.x[] =  0.0001;
 */   
-// test case to check the initial f scalar definition 
+//Here the approximate static meniscus shape is given as an initial condition.  
 	fraction (f, -y-0.0027/(tan(theta0)*exp(x/0.0027)));
 	boundary ({f});
 }
@@ -104,7 +121,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.01);
+u.t[left] = dirichlet(-0.001);
 
 
 u.n[right] = dirichlet(0.);
@@ -137,6 +154,7 @@ event movies (i += 10  ; t <= 200.)
                 output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
 
 }
+/*dd
 // normal adapt wavelet based on f. 
 event adapt (i++)
 
@@ -144,10 +162,9 @@ event adapt (i++)
         adapt_wavelet ((scalar*){f}, (double[]){0.1}, 15,maxlevel); // here maxlevel is given as the bottom limit. 
 }
 
-/*
-
 // Using adaptive grid based on interface position
 event adapt(i++){
  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.0 ,0.0, 0.01}, maxlevel);
 }
 */
+
