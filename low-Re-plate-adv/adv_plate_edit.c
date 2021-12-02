@@ -63,10 +63,10 @@ int main()
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
 	//The viscosity and desinties of the two fluids is specified here. 
-	rho1 = rhoG;
-	mu1 = muG;
-	rho2 = rhoL;
-	mu2 = muL;
+	rho1 = rhoL; // fluid 1 is given by f = 1
+	mu1 = muL;
+	rho2 = rhoG; // fluid 2 is given by f =0.
+	mu2 = muG;
 	
 	/*
 	const face vector muc[] = {.1,.1};
@@ -87,6 +87,9 @@ event init (t = 0)
              u.x[] =  0.0001;
 */   
 // test case to check the initial f scalar definition 
+// //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid.
+//refer: http://basilisk.fr/src/two-phase.h
+
 	fraction (f, -y-0.0027/(tan(theta0)*exp(x/0.0027)));
 	boundary ({f});
 }
