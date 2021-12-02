@@ -29,10 +29,10 @@ double H0;
 
 
 	#define grav  9.81 // gravitational acceleration
-        #define rhoL 1000  //density of water
-        #define muL 0.001 //viscosity of water
-        #define surf 0.072 // surface tension air-water
-        #define rhoG 1.225 //density of air
+        #define rhoL 1  //density of water
+        #define muL 10 //viscosity of water
+        #define surf  1  // surface tension air-water
+        #define rhoG 1 //density of air
         #define muG 0.0000181 // viscosity of air
 	#define lc 2.7e-3// capillary length 
 double h0;
@@ -52,23 +52,26 @@ int main()
 	dt=0.1;
         U0 = -0.001 ;             // Velocity of the left plate
         origin (0, -L0/2);  // Origin is at the bottom centre of the box
-        N = 1024;
       //  mu = muv;           // constant viscosity. Exact value given below
 
+	if (t <0.0005)
+		N = 1024;
+	else 
+		N = 256;
 	stokes = true;
         f.sigma = surf;
         f.height = h;
 	display_control (maxlevel, 6, 12);
 
-	theta0 = 30; 
+	theta0 = 150; 
 	h.t[left] = contact_angle (theta0*pi/180.); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
 	//The viscosity and desinties of the two fluids is specified here. 
 	rho1 = rhoL;   // fluid 1 is given by f = 1.
 	mu1 = muL;    
-	rho2 = rhoG;   // fluid 2 is given by f =0. 
-	mu2 = muG;
+	rho2 = rhoL;   // fluid 2 is given by f =0. 
+	mu2 = muL;
 	
 	/*
 	const face vector muc[] = {.1,.1};
