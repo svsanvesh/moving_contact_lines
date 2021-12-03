@@ -21,7 +21,7 @@
 # 
 # 
 # double Reynolds = 2.0;       // Reynolds number
-# int maxlevel = 15;              // Maximum mesh refinement
+# int maxlevel = 14;              // Maximum mesh refinement
 # //face vector muv[];             // viscosity
 # char name_vtk[100];		// vtk file name decleration.
 # double U0;
@@ -33,7 +33,7 @@
 #         #define muL 10 //viscosity of water
 #         #define surf  1  // surface tension air-water
 #         #define rhoG 1 //density of air
-#         #define muG 0.0000181 // viscosity of air
+#         #define muG  1 // viscosity of air
 # 	#define lc 2.7e-3// capillary length 
 # double h0;
 # 
@@ -57,7 +57,7 @@
 # 	if (t <0.0005)
 # 		N = 1024;
 # 	else 
-# 		N = 256;
+# 		N = 128;
 # 	stokes = true;
 #         f.sigma = surf;
 #         f.height = h;
@@ -70,8 +70,8 @@
 # 	//The viscosity and desinties of the two fluids is specified here. 
 # 	rho1 = rhoL;   // fluid 1 is given by f = 1.
 # 	mu1 = muL;    
-# 	rho2 = rhoL;   // fluid 2 is given by f =0. 
-# 	mu2 = muL;
+# 	rho2 = rhoG;   // fluid 2 is given by f =0. 
+# 	mu2 = muG;
 # 	
 # 	/*
 # 	const face vector muc[] = {.1,.1};
@@ -93,7 +93,7 @@
 #           }
 #           boundary({impose_refine});
 #           boundary({f1});
-#           adapt_wavelet({impose_refine,f1}, (double[]){1e-4,1e-4}, 13,7 );
+#           adapt_wavelet({f1}, (double[]){1e-4}, maxlevel ,7 );
 # 
 #         }
 # 
@@ -128,7 +128,7 @@
 # 
 # // Setting the boundary conditions
 # u.n[left] = dirichlet(0.);
-# u.t[left] = dirichlet(-0.001);
+# u.t[left] = dirichlet(-0.0001);
 # 
 # 
 # u.n[right] = dirichlet(0.);

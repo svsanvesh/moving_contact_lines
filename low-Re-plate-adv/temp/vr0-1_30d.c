@@ -21,7 +21,7 @@
 
 
 double Reynolds = 2.0;       // Reynolds number
-int maxlevel = 14;              // Maximum mesh refinement
+int maxlevel = 12;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
 char name_vtk[100];		// vtk file name decleration.
 double U0;
@@ -152,7 +152,7 @@ event logfile (i++)
 
 
 // Produce vorticity animation
-event movies (i += 30  ; t <= 200.)
+event movies (i += 10  ; t <= 1)
 {
         dump( );
         foreach()
