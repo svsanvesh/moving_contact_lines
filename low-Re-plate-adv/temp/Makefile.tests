@@ -1,0 +1,16 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	karman-sv.c \
+	vr0-1_30d.c \
+
+plots: \
+	vr0-1_30d/plots.page \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+	vr0-1_30d.c.page \
+

@@ -2,7 +2,8 @@
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN mm)
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
-//Date - 15-Nov-2021
+//The centre of the domain is at the centre of the left wall. 
+//Date - 3-dec-2021
 //Comments: 
 //Status : working 
 //
@@ -21,7 +22,7 @@
 
 
 double Reynolds = 2.0;       // Reynolds number
-int maxlevel = 14;              // Maximum mesh refinement
+int maxlevel = 12;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
 char name_vtk[100];		// vtk file name decleration.
 double U0;
@@ -63,15 +64,15 @@ int main()
         f.height = h;
 	display_control (maxlevel, 6, 15);
 
-	theta0 = 150; 
-	h.t[left] = contact_angle (theta0*pi/180.); // Left contact angle near the moving wall 
+	theta0 = 150*pi/180.0; 
+	h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
 	//The viscosity and desinties of the two fluids is specified here. 
 	rho1 = rhoL;   // fluid 1 is given by f = 1.
-	mu1 = muL;    
+	mu1 = muL;    // bottom fluid
 	rho2 = rhoG;   // fluid 2 is given by f =0. 
-	mu2 = muG;
+	mu2 = muG;  // top fluid 
 	
 	/*
 	const face vector muc[] = {.1,.1};
@@ -110,7 +111,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-	fraction (f,  y+0.0027/(tan(180-theta0)*exp(x/0.0027)));
+	fraction (f,  0.0013+ y+0.0027/(tan(theta0)*exp(x/0.0027)));
 
 	boundary ({f});
 }
@@ -152,7 +153,7 @@ event logfile (i++)
 
 
 // Produce vorticity animation
-event movies (i += 30  ; t <= 200.)
+event movies (i += 10  ; t <= 1)
 {
         dump( );
         foreach()

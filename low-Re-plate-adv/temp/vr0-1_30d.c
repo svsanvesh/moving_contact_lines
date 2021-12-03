@@ -63,8 +63,8 @@ int main()
         f.height = h;
 	display_control (maxlevel, 6, 15);
 
-	theta0 = 150; 
-	h.t[left] = contact_angle (theta0*pi/180.); // Left contact angle near the moving wall 
+	theta0 = 150*pi/180.0; 
+	h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
 	//The viscosity and desinties of the two fluids is specified here. 
@@ -110,7 +110,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-	fraction (f,  y+0.0027/(tan(180-theta0)*exp(x/0.0027)));
+	fraction (f,  0.0013+ y+0.0027/(tan(theta0)*exp(x/0.0027)));
 
 	boundary ({f});
 }
