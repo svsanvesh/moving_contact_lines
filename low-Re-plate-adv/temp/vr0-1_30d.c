@@ -15,9 +15,12 @@
 #include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
+/*
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2) )  // this code is incorperated from http://basilisk.fr/src/examples/bubble.c .
 #define rho(f)  (1./(clamp(f,0,1)*(1./rho1 - 1./rho2) + 1./rho2))
+*/
 #include "two-phase.h"
+
 
 
 double Reynolds = 2.0;       // Reynolds number
@@ -29,11 +32,11 @@ double H0;
 
 
 	#define grav  9.81 // gravitational acceleration
-        #define rhoL 1  //density of water
-        #define muL 10 //viscosity of water
-        #define surf  1  // surface tension air-water
+        #define rhoL 1000 //density of water
+        #define muL 0.001 //viscosity of water
+        #define surf  0.072  // surface tension air-water
         #define rhoG 1 //density of air
-        #define muG  1 // viscosity of air
+        #define muG  0.0000181 // viscosity of air
 	#define lc 2.7e-3// capillary length 
 double h0;
 
@@ -49,7 +52,7 @@ int main()
         L0 = 0.015;            // Size of the square box
 	h0=lc/tan(theta0); 
 //        H0 = 1.;            // Height of the channel
-	dt=0.1;
+//	dt=0.1;
         U0 = -0.001 ;             // Velocity of the left plate
         origin (0, -L0/2);  // Origin is at the bottom centre of the box
       //  mu = muv;           // constant viscosity. Exact value given below
@@ -63,15 +66,15 @@ int main()
         f.height = h;
 	display_control (maxlevel, 6, 15);
 
-	theta0 = 150*pi/180.0; 
+	theta0 = 120*pi/180.0; 
 	h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
 	//The viscosity and desinties of the two fluids is specified here. 
-	rho1 = rhoL;   // fluid 1 is given by f = 1.
-	mu1 = muL;    
-	rho2 = rhoG;   // fluid 2 is given by f =0. 
-	mu2 = muG;
+	rho2 = rhoL;   // fluid 2 is given by f = 0.
+	mu2 = muL;    
+	rho1 = rhoG;   // fluid 1 is given by f =1. 
+	mu1 = muG;
 	
 	/*
 	const face vector muc[] = {.1,.1};
@@ -93,7 +96,7 @@ event adapt (i++) {
           }
           boundary({impose_refine});
           boundary({f1});
-          adapt_wavelet({f1}, (double[]){1e-4}, maxlevel ,7 );
+          adapt_wavelet({f1}, (double[]){1e-2}, maxlevel ,7 );
 
         }
 
@@ -128,7 +131,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.0001);
+u.t[left] = dirichlet(-0.001);
 
 
 u.n[right] = dirichlet(0.);
@@ -151,14 +154,16 @@ event logfile (i++)
 
 
 
+char name[80];
 // Produce vorticity animation
-event movies (i += 10  ; t <= 1)
+event movies (i += 100    ; t <= 1)
 {
-        dump( );
-        foreach()
+        sprintf (name, "dump-%d", i);
+	dump (name);
+	foreach()
                 sprintf (name_vtk, "data-%d.vtk", i);
                 FILE * fpvtk = fopen (name_vtk, "w");
-                output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
+                output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
 /*dd
