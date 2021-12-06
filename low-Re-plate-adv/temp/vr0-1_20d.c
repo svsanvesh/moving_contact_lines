@@ -1,6 +1,6 @@
 //This is a simualtion to visualize the flow field near a moving contact line. 
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN mm)
-//it is a 15x15 square with interface in the middle, horizontally. 
+//it is a 25x25 square with interface in the middle, horizontally. 
 //Author- Anvesh 
 //Date - 15-Nov-2021
 //Comments: 
@@ -23,8 +23,8 @@
 
 
 
-double Reynolds = 2.0;       // Reynolds number
-int maxlevel = 10;              // Maximum mesh refinement
+//double Reynolds = 2.0;       // Reynolds number
+int maxlevel = 9;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
 char name_vtk[100];		// vtk file name decleration.
 double U0;
@@ -49,7 +49,7 @@ uf.n[top]    = 0.;
 uf.n[bottom] = 0.;
 int main() 
 {	
-        L0 = 0.015;            // Size of the square box
+        L0 = 0.025;            // Size of the square box
 	h0=lc/tan(theta0); 
 //        H0 = 1.;            // Height of the channel
 //	dt=0.1;
@@ -66,7 +66,7 @@ int main()
         f.height = h;
 	display_control (maxlevel, 6, 15);
 
-	theta0 = 120*pi/180.0; 
+	theta0 = 160*pi/180.0; 
 	h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
 	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 	
@@ -113,7 +113,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-	fraction (f,  0.0013+ y+0.0027/(tan(theta0)*exp(x/0.0027)));
+	fraction (f,  0.0020+ y+0.0027/(tan(theta0)*exp(x/0.0027)));
 
 	boundary ({f});
 }
@@ -131,7 +131,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.1);
+u.t[left] = dirichlet(-0.001);
 
 
 u.n[right] = dirichlet(0.);
@@ -156,22 +156,22 @@ event logfile (i++)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 1000    ; t <= 1)
+event movies (i += 10000    ; t <= 250)
 {
-        sprintf (name, "dump3-%d", i);
+        sprintf (name, "dump4-%d", i);
 	dump (name);
 	foreach()
-                sprintf (name_vtk, "data3-%d.vtk", i);
+                sprintf (name_vtk, "data4-%d.vtk", i);
                 FILE * fpvtk = fopen (name_vtk, "w");
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 		 scalar omega[];
 
 
 }
-event videos (i += 10    ; t <= 1)
+event videos (i += 100    ; t <= 1)
 {
 
-        output_ppm (f, file = "f3.mp4",8192,
+        output_ppm (f, file = "f4.mp4",8192,
                         min = 0, max = 1.0, linear = true);
 
 
