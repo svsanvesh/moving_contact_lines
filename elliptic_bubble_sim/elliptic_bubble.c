@@ -15,7 +15,8 @@
 #include "two-phase.h"
 #include "contact.h"
 #include "tension.h"
-
+// comment to check
+// 
 
 vector h[];  //HEIGHT FUNCTION 
 int maxlevel = 9;              // Maximum mesh refinement
