@@ -1,0 +1,14 @@
+In file included from elliptic_bubble_no_stokes.c:16:
+/home/fpl/Software/basilisk/src/contact.h:12: warning: "interface_normal" redefined
+   12 | #define interface_normal(point, c) interface_normal (point, c)
+      | 
+In file included from /home/fpl/Software/basilisk/src/draw.h:5,
+                 from /home/fpl/Software/basilisk/src/view.h:426,
+                 from /home/fpl/Software/basilisk/src/display.h:90,
+                 from /home/fpl/Software/basilisk/src/utils.h:391,
+                 from /home/fpl/Software/basilisk/src/run.h:11,
+                 from /home/fpl/Software/basilisk/src/navier-stokes/centered.h:27,
+                 from elliptic_bubble_no_stokes.c:12:
+/home/fpl/Software/basilisk/src/fractions.h:29: note: this is the location of the previous definition
+   29 | # define interface_normal(point, c) mycs (point, c)
+      | 
