@@ -18,26 +18,29 @@
 #include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
+/*
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2) )  // this code is incorperated from http://basilisk.fr/src/examples/bubble.c .
 #define rho(f)  (1./(clamp(f,0,1)*(1./rho1 - 1./rho2) + 1./rho2))
+*/
 #include "two-phase.h"
+
 
 
 double Reynolds = 2.0;       // Reynolds number
 int maxlevel = 12;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
-char name_vtk[100];		// vtk file name decleration.
+char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
 
 
-	#define grav  9.81 // gravitational acceleration
-        #define rhoL 1000  //density of water
-        #define muL 8.90e−4  // Pa·s //viscosity of water
-        #define surf  1  // surface tension air-water
-        #define rhoG 1 //  //density of air
-        #define muG  1.81e-5 // viscosity of air
-	#define lc 2.7e-3// capillary length 
+        #define grav  9.81 // gravitational acceleration
+        #define rhoL 1000 //density of water
+        #define muL 0.001 //viscosity of water
+        #define surf  0.072  // surface tension air-water
+        #define rhoG 1 //density of air
+        #define muG  0.0000181 // viscosity of air
+        #define lc 2.7e-3// capillary length 
 double h0;
 
 vector h[];  //HEIGHT FUNCTION 
@@ -47,68 +50,45 @@ uf.n[left]   = 0.;
 uf.n[right]  = 0.;
 uf.n[top]    = 0.;
 uf.n[bottom] = 0.;
-int main() 
-{	
+int main()
+{
         L0 = 0.015;            // Size of the square box
-	h0=lc/tan(theta0); 
+        h0=lc/tan(theta0);
 //        H0 = 1.;            // Height of the channel
-	dt=0.1;
+//      dt=0.1;
         U0 = -0.001 ;             // Velocity of the left plate
-        origin (0, -L0/2);  // Origin is at the bottom centre of the box
-      //  mu = muv;           // constant viscosity. Exact value given below
+        origin (0, -L0/2+0.0013);  // Origin is at the bottom centre of the box
 
-	if (t <0.0005)
-		N = 1024;
-	else 
-		N = 128;
-	stokes = true;
+                N = 128;
+        stokes = true;
         f.sigma = surf;
         f.height = h;
-	display_control (maxlevel, 6, 15);
+        display_control (maxlevel, 6, 15);
 
-	theta0 = 150*pi/180.0; 
-	h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
-	h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
-	
-	//The viscosity and desinties of the two fluids is specified here. 
-	rho1 = rhoL;   // fluid 1 is given by f = 1.
-	mu1 = muL;    // bottom fluid
-	rho2 = rhoG;   // fluid 2 is given by f =0. 
-	mu2 = muG;  // top fluid 
-	
-	/*
-	const face vector muc[] = {.1,.1};
-	mu = muc;
-	*/
+        theta0 = 120*pi/180.0;
+        h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
+        h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
+
+        //The viscosity and desinties of the two fluids is specified here. 
+        rho2 = rhoL;   // fluid 2 is given by f = 0.
+        mu2 = muL;
+        rho1 = rhoG;   // fluid 1 is given by f =1. 
+        mu1 = muG;
+
         run();
 
 }
-/*
-event adapt (i++) {
 
-                scalar impose_refine[], f1[];
-                foreach(){
-                  f1[] = f[];
-                  if(x<0.0015 && y<0.001 && y> -0.0001)
-                          impose_refine[] = noise();
-                  else
-                          impose_refine[] = 0;
-          }
-          boundary({impose_refine});
-          boundary({f1});
-          adapt_wavelet({f1}, (double[]){1e-4}, maxlevel ,7 );
 
-        }
-*/
 event init (t = 0)
 {
 //Here the approximate static meniscus shape is given as an initial condition.  
-//the top fluid has f = 1     and is gas and the bottom fluid is f =0 and is liquid. 
+//the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-	fraction (f,  0.0013 + y+0.0027/(tan(theta0)*exp(x/0.0027)));
+        fraction (f,   y+0.0027/(tan(theta0)*exp(x/0.0027)));
 
-	boundary ({f});
+        boundary ({f});
 }
 
 
@@ -124,7 +104,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.0001);
+u.t[left] = dirichlet(-0.001);
 
 
 u.n[right] = dirichlet(0.);
@@ -147,35 +127,23 @@ event logfile (i++)
 
 
 
+char name[80];
 // Produce vorticity animation
-event movies (i += 10  ; t <= 1)
+event movies (i += 100    ; t <= 1)
 {
-        dump( );
+        sprintf (name, "dump-%d", i);
+        dump (name);
         foreach()
                 sprintf (name_vtk, "data-%d.vtk", i);
                 FILE * fpvtk = fopen (name_vtk, "w");
-                output_vtk ({u.x,u.y,p,f},N,fpvtk,1);
+                output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
+
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-4}, maxlevel = 9);
+  adapt_wavelet ({f}, (double[]){1e-3}, maxlevel = 9);
 }
 
 
-
-
-/*dd
-// normal adapt wavelet based on f. 
-event adapt (i++)
-
-{
-        adapt_wavelet ((scalar*){f}, (double[]){0.1}, 15,maxlevel); // here maxlevel is given as the bottom limit. 
-}
-
-// Using adaptive grid based on interface position
-event adapt(i++){
- adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.0 ,0.0, 0.01}, maxlevel);
-}
-*/
 
