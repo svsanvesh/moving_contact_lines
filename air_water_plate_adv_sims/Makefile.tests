@@ -1,0 +1,16 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	karman-sv.c \
+	plate_adv_air_water.c \
+
+plots: \
+	plate_adv_air_water/plots.page \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+	plate_adv_air_water.c.page \
+

@@ -35,8 +35,8 @@ double H0;
         #define rhoL 1000  //density of water
         #define muL 8.90e−4  // Pa·s //viscosity of water
         #define surf  1  // surface tension air-water
-        #define rhoG 1.81e-5// Pa.s //density of air
-        #define muG  1 // viscosity of air
+        #define rhoG 1 //  //density of air
+        #define muG  1.81e-5 // viscosity of air
 	#define lc 2.7e-3// capillary length 
 double h0;
 
@@ -103,10 +103,10 @@ event adapt (i++) {
 event init (t = 0)
 {
 //Here the approximate static meniscus shape is given as an initial condition.  
-//the top fluid has f = 1 and is gas and the bottom fluid is f =0 and is liquid. 
+//the top fluid has f = 1     and is gas and the bottom fluid is f =0 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-	fraction (f,  0.0013+ y+0.0027/(tan(theta0)*exp(x/0.0027)));
+	fraction (f,  0.0013 + y+0.0027/(tan(theta0)*exp(x/0.0027)));
 
 	boundary ({f});
 }
