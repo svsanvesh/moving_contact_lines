@@ -7,8 +7,9 @@
 //  date: 8-Dec-2021
 //  status: 
 //  Libraries used -
+//FOR COMPILING : qcc  elliptic_bubble_no_stokes.c -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 
-
+#include "view.h"
 #include "navier-stokes/centered.h"
 #include "vtk.h"
 #include "adapt_wavelet_leave_interface.h"
@@ -124,7 +125,19 @@ event videos ( t+=0.00001   ; t <= 5)
 
         output_ppm (f, file = "f_elliptic_no_stokes.mp4",1024,
                         min = 0, max = 1.0, linear = true);
+	clear();
+	draw_vof ("f");
+	cells();
+	box(); 
+	save ("fscalar.mp4");
 
 
+
+/*
+	clear();
+	vectors ("u", scale = .0000025, lc = {0, 1, 0}, lw = .8);
+	box ();
+	save ("u.mp4");
+*/
 }
 
