@@ -22,3 +22,5 @@ log
 *.log
 *.tst
 *.log~
+dump*
+data*
