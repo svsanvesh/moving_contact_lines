@@ -95,12 +95,12 @@ event logfile (i++)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 1000    ; t <= 8 )
+event movies (i += 1000    ; t <= 5 )
 {
-        sprintf (name, "dump_elliptic_no_stokes-%d", i);
+        sprintf (name, "dump_elliptic_stokes-%d", i);
         dump (name);
         foreach()
-                sprintf (name_vtk, "datax_elliptic_no_stokes-%g.vtk", t);
+                sprintf (name_vtk, "datax_elliptic_stokes-%g.vtk", t);
                 FILE * fpvtk = fopen (name_vtk, "w");
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
@@ -110,7 +110,6 @@ event movies (i += 1000    ; t <= 8 )
 event init (t = 0)
 {
        // the interface shape is given here. 
-//      fraction (f , -y );
 
         fraction (f, sq(x/ 0.005 ) + sq(y/0.0015) - sq(1));
 
@@ -120,10 +119,10 @@ event init (t = 0)
 
 
 
-event videos (i += 10    ; t <=8 )
+event videos ( t+=0.00001    ; t <=5 )
 {
 
-        output_ppm (f, file = "f_elliptic_no_stokes.mp4",1024,
+        output_ppm (f, file = "f_elliptic_stokes.mp4",1024,
                         min = 0, max = 1.0, linear = true);
 
 

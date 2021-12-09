@@ -45,7 +45,7 @@ int main()
         origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
 
         N = 1 << 5;
-        stokes = true;
+//        stokes = true;
         f.sigma = surf;
         display_control (maxlevel, 6, 15);
 
@@ -65,7 +65,7 @@ int main()
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-3}, maxlevel );
+  adapt_wavelet ({f}, (double[]){1e-3}, maxlevel = 9);
 }
 
 
@@ -95,12 +95,12 @@ event logfile (i++)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 1000    ; t <= 8 )
+event movies (i += 1000    ; t <= 5 )
 {
         sprintf (name, "dump_elliptic_no_stokes-%d", i);
         dump (name);
         foreach()
-                sprintf (name_vtk, "datax_elliptic_no_stokes-%g.vtk", t);
+                sprintf (name_vtk, "datax_elliptic_no_stokes-%d.vtk", i);
                 FILE * fpvtk = fopen (name_vtk, "w");
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
@@ -110,7 +110,6 @@ event movies (i += 1000    ; t <= 8 )
 event init (t = 0)
 {
        // the interface shape is given here. 
-//      fraction (f , -y );
 
         fraction (f, sq(x/ 0.005 ) + sq(y/0.0015) - sq(1));
 
@@ -120,7 +119,7 @@ event init (t = 0)
 
 
 
-event videos (i += 10    ; t <=8 )
+event videos ( t+=0.00001   ; t <= 5)
 {
 
         output_ppm (f, file = "f_elliptic_no_stokes.mp4",1024,

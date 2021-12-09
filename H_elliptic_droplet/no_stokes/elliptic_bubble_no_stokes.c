@@ -4,7 +4,7 @@
 //  Domain size is 15x15(mmxmm)
 //
 //  Author : Anvesh 
-//  date: 6-Dec-2021
+//  date: 8-Dec-2021
 //  status: 
 //  Libraries used -
 
@@ -17,7 +17,7 @@
 
 
 vector h[];  //HEIGHT FUNCTION 
-int maxlevel = 10;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 
 
@@ -93,9 +93,9 @@ event logfile (i++)
 
 
 
-/*char name[80];
+char name[80];
 // Produce vorticity animation
-event movies (i += 1000    ; t <= 30)
+event movies (i += 1000    ; t <= 8 )
 {
         sprintf (name, "dump_elliptic_no_stokes-%d", i);
         dump (name);
@@ -103,11 +103,9 @@ event movies (i += 1000    ; t <= 30)
                 sprintf (name_vtk, "datax_elliptic_no_stokes-%d.vtk", i);
                 FILE * fpvtk = fopen (name_vtk, "w");
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
-                 scalar omega[];
 
 
 }
-*/
 
 event init (t = 0)
 {
@@ -122,7 +120,7 @@ event init (t = 0)
 
 
 
-event videos (i += 10    ; t <= 0.1)
+event videos (i += 10    ; t <= 8)
 {
 
         output_ppm (f, file = "f_elliptic_no_stokes.mp4",1024,
