@@ -22,7 +22,7 @@
 
 
 
-int maxlevel = 12;              // Maximum mesh refinement
+int maxlevel = 11;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -52,7 +52,7 @@ int main()
         origin (0, -L0/2+0.0013);  // Origin is at the bottom centre of the box
 
                 N = 128;
-        stokes = true;
+//        stokes = true;
         f.sigma = surf;
         f.height = h;
         display_control (maxlevel, 6, 15);
@@ -121,7 +121,7 @@ event logfile (i++)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 5000   ; t <= 5)
+event movies (i += 8000   ; t <= 5)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
@@ -131,7 +131,7 @@ event movies (i += 5000   ; t <= 5)
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
-event videos (i += 1    ; t <= 30)
+event videos ( t+= 0.00001   ; t <= 5)
 {
 
         output_ppm (f, file = "f_plate_adv.mp4",8192,
@@ -142,7 +142,7 @@ event videos (i += 1    ; t <= 30)
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-3}, maxlevel = 9);
+  adapt_wavelet ({f}, (double[]){1e-3}, maxlevel );
 }
 
 

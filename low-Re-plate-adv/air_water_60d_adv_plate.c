@@ -24,7 +24,7 @@
 
 
 double Reynolds = 2.0;       // Reynolds number
-int maxlevel = 12;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 //face vector muv[];             // viscosity
 char name_vtk[100];		// vtk file name decleration.
 double U0;
@@ -131,7 +131,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.001);
+u.t[left] = dirichlet(-0.1);
 
 
 u.n[right] = dirichlet(0.);
@@ -156,15 +156,21 @@ event logfile (i++)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 100    ; t <= 1)
+event movies (i += 1000    ; t <= 250)
 {
-        sprintf (name, "dump-%d", i);
+        sprintf (name, "dump_verify_JCP-%d", i);
 	dump (name);
 	foreach()
-                sprintf (name_vtk, "data-%d.vtk", i);
+                sprintf (name_vtk, "data_verify_JCP-%d.vtk", i);
                 FILE * fpvtk = fopen (name_vtk, "w");
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
+}
+event videos (i += 10    ; t <= 1)
+{
+
+        output_ppm (f, file = "f_verify_JCP.mp4",8192,
+                        min = 0, max = 1.0, linear = true);
 }
 /*dd
 // normal adapt wavelet based on f. 
