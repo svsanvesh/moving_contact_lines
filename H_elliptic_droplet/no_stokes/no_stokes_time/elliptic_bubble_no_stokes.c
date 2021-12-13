@@ -126,18 +126,21 @@ event videos ( t+=0.00001   ; t <= 5)
         output_ppm (f, file = "f_elliptic_no_stokes.mp4",1024,
                         min = 0, max = 1.0, linear = true);
         clear();
-        view (width = 1200, height = 1200);
+
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
-        char s[80];
-        sprintf (s, "t = %.6f & time step i = %d ", t, i );
-        draw_vof ("f" ) ;
-        draw_string (s, pos=2, size = 60);
+        char fname[100];
+
+
+
+
+        sprintf (fname, " t = %.6f ", t );
+        draw_string (fname, pos=2, size = 60);
         squares("f",min = 0, max = 1.0, linear = true);
         cells();
-        box(notics=true );
+        draw_vof ("f" ) ;
         save ("fscalar.mp4");
-
+        clear();
 
 
 /*
