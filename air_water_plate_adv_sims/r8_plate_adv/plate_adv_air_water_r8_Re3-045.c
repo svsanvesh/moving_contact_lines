@@ -4,7 +4,7 @@
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 10-dec-2021
+//Date - 13-dec-2021
 //
 //Comments: 
 //Status : working 
@@ -122,7 +122,7 @@ event logfile (i++)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 5000   ; t <= 5)
+event movies (i += 2000   ; t <= 5)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
