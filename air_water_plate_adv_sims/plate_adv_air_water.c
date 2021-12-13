@@ -4,11 +4,11 @@
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 8-dec-2021
+//Date - 10-dec-2021
 //
 //Comments: 
 //Status : working 
-//
+// FOR COMPILING : qcc  elliptic_bubble_no_stokes.c -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 //
 //Libraries used - 
 
@@ -18,11 +18,12 @@
 #include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
+#include "view.h"
 #include "two-phase.h"
 
 
 
-int maxlevel = 12;              // Maximum mesh refinement
+int maxlevel = 11;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -49,9 +50,9 @@ int main()
         L0 = 0.015;            // Size of the square box
         h0=lc/tan(theta0);
         U0 = -0.001 ;             // Velocity of the left plate
-        origin (0, -L0/2+0.0013);  // Origin is at the bottom centre of the box
+      origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
 
-                N = 128;
+        N = 128;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -78,7 +79,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-        fraction (f,   y+0.0027/(tan(theta0)*exp(x/0.0027)));
+        fraction (f,  y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
 
         boundary ({f});
 }
@@ -131,18 +132,33 @@ event movies (i += 5000   ; t <= 5)
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
-event videos (i += 1    ; t <= 30)
+event videos ( t+=0.00001   ; t <= 5 )
 {
 
         output_ppm (f, file = "f_plate_adv.mp4",8192,
                         min = 0, max = 1.0, linear = true);
 
+        clear();
+
+//      This snippet of code help put time on top right corner. 
+//      reference: http://basilisk.fr/src/examples/breaking.c
+        char fname[100];
+
+//	view (tx=-0.5, ty=-0.1,  width = 2000, height = 2000);
+
+        sprintf (fname, " t = %.6f ", t );
+        draw_string (fname, pos=2, size = 60);
+        squares("f",min = 0, max = 1.0, linear = true);
+        cells();
+        draw_vof ("f" );
+        save ("fd.mp4");
+        clear();
 
 }
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-3}, maxlevel = 9);
+  adapt_wavelet ({f}, (double[]){1e-12},maxlevel);
 }
 
 
