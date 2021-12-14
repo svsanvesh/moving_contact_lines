@@ -1,5 +1,5 @@
 //This is a simualtion to visualize the flow field near a moving contact line. 
-//The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN mm)
+//The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN m )
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
@@ -8,7 +8,9 @@
 //
 //Comments: 
 //Status : working 
-// FOR COMPILING : qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+/* FOR COMPILING :
+  qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+*/
 //
 //Libraries used - 
 
@@ -142,9 +144,6 @@ event videos ( t+=0.00001   ; t <= 5 )
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
         char fname[100];
-
-//	view (tx=-0.5, ty=-0.1,  width = 2000, height = 2000);
-
         sprintf (fname, " t = %.6f ", t );
         draw_string (fname, pos=2, size = 60);
         squares("f",min = 0, max = 1.0, linear = true);
