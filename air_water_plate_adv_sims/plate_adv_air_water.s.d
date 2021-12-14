@@ -4,18 +4,30 @@ plate_adv_air_water.s:	\
 	/home/fpl/softwares/basilisk/src/adapt_wavelet_leave_interface.h \
 	/home/fpl/softwares/basilisk/src/contact.h \
 	/home/fpl/softwares/basilisk/src/tension.h \
+	/home/fpl/softwares/basilisk/src/view.h \
 	/home/fpl/softwares/basilisk/src/two-phase.h \
 	/home/fpl/softwares/basilisk/src/vof.h \
 	/home/fpl/softwares/basilisk/src/fractions.h \
 	/home/fpl/softwares/basilisk/src/geometry.h \
 	/home/fpl/softwares/basilisk/src/myc2d.h \
 	/home/fpl/softwares/basilisk/src/myc.h \
+	/home/fpl/softwares/basilisk/src/utils.h \
+	/home/fpl/softwares/basilisk/src/input.h \
+	/home/fpl/softwares/basilisk/src/vertexbuffer.h \
+	/home/fpl/softwares/basilisk/src/draw.h \
+	/home/fpl/softwares/basilisk/src/draw_get.h \
+	/home/fpl/softwares/basilisk/src/parse.h \
+	/home/fpl/softwares/basilisk/src/fractions.h \
+	/home/fpl/softwares/basilisk/src/gl/font.h \
+	/home/fpl/softwares/basilisk/src/draw_json.h \
+	/home/fpl/softwares/basilisk/src/gl/og_font.h \
+	/home/fpl/softwares/basilisk/src/utils.h \
+	/home/fpl/softwares/basilisk/src/output.h \
 	/home/fpl/softwares/basilisk/src/iforce.h \
 	/home/fpl/softwares/basilisk/src/curvature.h \
 	/home/fpl/softwares/basilisk/src/heights.h \
 	/home/fpl/softwares/basilisk/src/parabola.h \
 	/home/fpl/softwares/basilisk/src/utils.h \
-	/home/fpl/softwares/basilisk/src/output.h \
 	/home/fpl/softwares/basilisk/src/fractions.h \
 	/home/fpl/softwares/basilisk/src/curvature.h \
 	/home/fpl/softwares/basilisk/src/run.h \

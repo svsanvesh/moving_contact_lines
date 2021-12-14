@@ -23,7 +23,7 @@
 
 
 
-int maxlevel = 8;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -36,7 +36,6 @@ double H0;
         #define rhoG 1 //density of air
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
-double h0;
 
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ;
@@ -48,7 +47,6 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
-        h0=lc/tan(theta0);
         U0 = -0.001 ;             // Velocity of the left plate
       origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
 
@@ -82,9 +80,8 @@ event init (t = 0)
         fraction (f,  y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
 
         boundary ({f});
+
 }
-
-
 
 // gravity is given in the vertically down direction.(-9.81)
 event acceleration (i++)

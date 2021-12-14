@@ -4,7 +4,7 @@
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 13-dec-2021
+//Date - 14-dec-2021
 //
 //Comments: 
 //Status : working 
@@ -23,7 +23,7 @@
 
 
 
-int maxlevel = 8;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -40,19 +40,19 @@ double h0;
 
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ;
+
 //make sure that the boundary conditions for the face-centered velocity field are consistent with the centered velocity field (this affects the advection term).
 uf.n[left]   = 0.;
 uf.n[right]  = 0.;
 uf.n[top]    = 0.;
 uf.n[bottom] = 0.;
+
 int main()
 {
         L0 = 0.015;            // Size of the square box
-        h0=lc/tan(theta0);
         U0 = -0.001 ;             // Velocity of the left plate
-      origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
-
-        N = 128;
+	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
+	N = 128;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -119,7 +119,6 @@ event logfile (i++)
 
 
 
-/*
 char name[80];
 // Produce vorticity animation
 event movies (i += 2000   ; t <= 5)
@@ -160,6 +159,4 @@ event videos ( t+=0.00001   ; t <= 5 )
 event adapt (i += 5) {
   adapt_wavelet ({f}, (double[]){1e-12},maxlevel);
 }
-*/
-
 

@@ -8,7 +8,7 @@
 //
 //Comments: 
 //Status : working 
-// FOR COMPILING : qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+// FOR COMPILING : qcc  elliptic_bubble_no_stokes.c -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 //
 //Libraries used - 
 
@@ -119,7 +119,7 @@ event logfile (i++)
 
 
 
-/*
+
 char name[80];
 // Produce vorticity animation
 event movies (i += 2000   ; t <= 5)
@@ -160,6 +160,6 @@ event videos ( t+=0.00001   ; t <= 5 )
 event adapt (i += 5) {
   adapt_wavelet ({f}, (double[]){1e-12},maxlevel);
 }
-*/
+
 
 
