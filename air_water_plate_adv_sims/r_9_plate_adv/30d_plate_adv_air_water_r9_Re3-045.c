@@ -54,13 +54,13 @@ int main()
         L0 = 0.015;            // Size of the square box
         U0 = -0.001 ;             // Velocity of the left plate
 	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
-	N = 128;
+	N = 256;
         stokes = true;
         f.sigma = surf;
         f.height = h;
         display_control (maxlevel, 6, 15);
 
-        theta0 = 120*pi/180.0;
+        theta0 = 150*pi/180.0;
         h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
         h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 
@@ -81,7 +81,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-        fraction (f,  y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
+        fraction (f, 0.0013+ y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
 
         boundary ({f});
 }
@@ -120,6 +120,16 @@ event logfile (i++)
         fprintf (stderr, "%d %g\n", i, t);
 
 
+// The interface profile is extracted for convergence check 
+// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
+event profile(t+=0.1   ; t <= 5) 
+{
+  char int_prof[80];
+  sprintf(int_prof,"interface_profile_t%2f.dat", t);
+  FILE * fp1 = fopen(int_prof,"w");
+  output_facets (f, fp1);
+}
+
 
 char name[80];
 // Produce vorticity animation
@@ -156,6 +166,6 @@ event videos ( t+=0.00001   ; t <= 5 )
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-12},maxlevel);
+  adapt_wavelet ({f}, (double[]){1e-12},maxlevel,7);
 }
 
