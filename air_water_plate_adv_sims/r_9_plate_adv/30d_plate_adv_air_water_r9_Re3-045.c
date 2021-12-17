@@ -81,7 +81,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-        fraction (f, 0.0013+ y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
+        fraction (f, 0.0013 + y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
 
         boundary ({f});
 }
