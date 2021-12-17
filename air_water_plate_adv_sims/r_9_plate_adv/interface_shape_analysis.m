@@ -12,20 +12,27 @@ X = linspace(0,Domain,100);
 Y = -0.0013 + 0.0027./(tan(theta0).*exp(X/0.0027));
 
 figure
-plot(x+Domain/2,yinit,'ko');
+plot(x,yinit,'ko');
 hold on
 
 A=load('interface_profile_t0.000000.dat');
 %A=sort(A,1);
 
-plot(A(:,1)+Domain/2,A(:,2),'r.');
+plot(A(:,1),A(:,2),'r.');
 
 
 B=load('interface_profile_t5.000000.dat');
 %A=sort(A,1);
 
-plot(B(:,1)+Domain/2,B(:,2),'b.'); 
+plot(B(:,1),B(:,2),'b*'); 
 hold off
+
+% B(:,1) = B(:,1) + Domain/2 ;
+% 
+ final_x_dat= B(:,1);
+ final_y_dat= B(:,2);
+
+plot(final_x_dat, final_y_dat,'r *');
 
 figure(1)
 hold on
@@ -33,31 +40,27 @@ plot(X,Y,'k--')
 hold off
 
 figure(1)
-axis equal
+% axis equal
 
 
 
-figure(1)
-hold on
-B1 = sort(B,1,'ascend');
-plot(B1(:,1)+Domain/2,B1(:,2),'k')
 
 %% Test the fit. 
-p1 = Interface_Shape_Steady.p1;
-p2 = Interface_Shape_Steady.p2;
-p3 = Interface_Shape_Steady.p3;
-p4 = Interface_Shape_Steady.p4;
-p5 = Interface_Shape_Steady.p5;
-p6 = Interface_Shape_Steady.p6;
-p7 = Interface_Shape_Steady.p7;
-p8 = Interface_Shape_Steady.p8;
-p9 = Interface_Shape_Steady.p9;
+p1 = steady_state_30d_init_meniscus.p1;
+p2 = steady_state_30d_init_meniscus.p2;
+p3 = steady_state_30d_init_meniscus.p3;
+p4 = steady_state_30d_init_meniscus.p4;
+p5 = steady_state_30d_init_meniscus.p5;
+p6 = steady_state_30d_init_meniscus.p6;
+p7 = steady_state_30d_init_meniscus.p7;
+p8 = steady_state_30d_init_meniscus.p8;
+p9 = steady_state_30d_init_meniscus.p9;
 
 xfit = B(:,1);
 yfit = p1*xfit.^8 + p2*xfit.^7 + p3*xfit.^6 + p4*xfit.^5 + p5*xfit.^4 + p6*xfit.^3 + p7*xfit.^2 + p8*xfit + p9;
 figure(1)
 hold on
-plot(xfit+Domain/2,yfit,'k*')
+plot(xfit,yfit,'r*')
 hold off
 
 

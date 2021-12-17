@@ -1,19 +1,15 @@
-
-// I ahve stopped this simulation in the middle get back to it later. 
-
 //This is a simualtion to visualize the flow field near a moving contact line. 
-//
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN m )
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 16-dec-2021
+//Date - 14-dec-2021
 //
 //Comments: 
 //Status : working 
 /* FOR COMPILING :
-  qcc 30d_plate_adv_air_water_r9_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+  qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 */
 //
 //Libraries used - 
@@ -29,7 +25,7 @@
 
 
 
-int maxlevel = 10;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -42,6 +38,20 @@ double H0;
         #define rhoG 1 //density of air
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
+//From here onwards we define the 9 constants for the 8 degree polynomial we are
+//fitting for the initial meniscus shape from the 
+//final steady state shape from earlier simulations
+
+	#define p1  9.3395e+13 
+	#define p2  -5.3835e+11
+	#define p3 -6.1069e+09
+	#define p4 2.0621e+07
+	#define p5 2.8029e+05 
+	#define p6 -1.6932e+03
+	#define p7 8.148
+	#define p8 -0.0486
+	#define p9 -0.0004953
+
 double h0;
 
 vector h[];  //HEIGHT FUNCTION 
@@ -85,7 +95,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-        fraction (f, 0.0013+ y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
+        fraction (f,y-( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9));
 
         boundary ({f});
 }
@@ -137,7 +147,7 @@ event profile(t+=0.1   ; t <= 5)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 2000   ; t <= 5)
+event movies (i += 2000   ; t <= 3)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
@@ -147,7 +157,7 @@ event movies (i += 2000   ; t <= 5)
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
-event videos ( t+=0.00001   ; t <= 5 )
+event videos ( t+=0.00001   ; t <= 3 )
 {
 
         output_ppm (f, file = "f_plate_adv.mp4",8192,
@@ -170,6 +180,6 @@ event videos ( t+=0.00001   ; t <= 5 )
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-12},maxlevel,6);
+  adapt_wavelet ({f}, (double[]){1e-12},maxlevel,7);
 }
 
