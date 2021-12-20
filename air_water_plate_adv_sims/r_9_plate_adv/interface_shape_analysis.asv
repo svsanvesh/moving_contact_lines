@@ -16,6 +16,7 @@ Y = -0.0013 + 0.0027./(tan(theta0).*exp(X/0.0027));
 
 figure
 % plot(x,yinit,'ko');
+A=load('interface_profile_t0.000000.dat');
 
 ms=10;
 lw=1
@@ -30,38 +31,17 @@ set(gca,'XMinorTick','on','YMinorTick','on','TickDir','in')
 setWH(gcf,5,3)
 hold on
 A=load('interface_profile_t0.000000.dat');
-ms=10;
-lw=1
 
+%A=sort(A,1);
 
-
-% plot(A(:,1),,'r.');
-plot(A(:,1) +Domain/2,A(:,2) ,'b*','LineWidth',lw, 'MarkerSize',ms )
-ylabel('Downward moving plate','FontWeight','Bold','FontSize',20);
-xlabel('Particle diameter (\mum)','FontWeight','Bold','FontSize',20);
-set(gca,'Fontsize',12,'Fontname','Times New Roman')
-set(gca,'XMinorTick','on','YMinorTick','on','TickDir','in')
-
-setWH(gcf,5,3)
-hold on
+plot(A(:,1),A(:,2),'r.');
 
 
 B=load('interface_profile_t5.000000.dat');
 %A=sort(A,1);
-ms=10;
-lw=1
 
-
-
-% plot(A(:,1),,'r.');
-plot(B(:,1) +Domain/2,B(:,2) ,'b*','LineWidth',lw, 'MarkerSize',ms )
-ylabel('Downward moving plate','FontWeight','Bold','FontSize',20);
-xlabel('Particle diameter (\mum)','FontWeight','Bold','FontSize',20);
-set(gca,'Fontsize',12,'Fontname','Times New Roman')
-set(gca,'XMinorTick','on','YMinorTick','on','TickDir','in')
-
-setWH(gcf,5,3)
-hold on
+plot(B(:,1),B(:,2),'b*'); 
+hold off
 
 % B(:,1) = B(:,1) + Domain/2 ;
 % 

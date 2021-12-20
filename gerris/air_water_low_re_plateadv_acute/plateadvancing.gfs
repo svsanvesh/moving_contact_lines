@@ -1,18 +1,21 @@
-#re=67.5;
+#re=0.3045;
 # This code is writted with two vertical boxes as the domain with interface in the middle. The centre(0,0) is at the centre of the top box. 
 # Edited by : Anvesh 
 # Status : working 
 #
-#angle = obtuse angle in water (120)
+#acute = obtuse angle in water (30)
 #2D couette flow
 # SI systems of units used for non-dimensionalising the results.
 #simulation time is 50 seconds
-#length of the domain 0.057m i.e 2*10*l_c
+# Domain 15x15 mmxmm.
 
 
 
 
-2 1 GfsSimulation GfsBox GfsGEdge { } {
+1 0 GfsSimulation GfsBox GfsGEdge { 
+   # Shift origin to 
+    y = 0.013
+} {
     GfsGlobal {  
 	#define rhoL 1  //density 
         #define rhoG 1000
@@ -21,15 +24,36 @@
 	#define g -9.81  // gravitational acceleration
         #define sigmaL1 0.072
 
-        #define Uplate 2.5e-2   // in m/s
-        #define theta 120       // (60)
+        #define Uplate -0.0001   // in m/s
+        #define theta 30       // (30)
         #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
-        #define Ldomain 10*Lc   // Domain size perpendicular to the moving plate
+        #define Ldomain 0.015   // Domain size perpendicular to the moving plate.
+
+//From here onwards we define the 9 constants for the 8 degree polynomial we are
+//fitting for the initial meniscus shape from the 
+//final steady state shape from earlier simulations
+
+        #define p1  9.3395e+13 
+        #define p2  -5.3835e+11
+        #define p3 -6.1069e+09
+        #define p4 2.0621e+07
+        #define p5 2.8029e+05 
+        #define p6 -1.6932e+03
+        #define p7 8.148
+        #define p8 -0.0486
+        #define p9 -0.0004953
 
         // refinement parameters
-        static int ref_far_interface = 5;
-        static int ref_near_interface = 7;
-        static int ref_domain = 5;
+        static int ref_max = 11;    // ref_max should be greater than ref_min+4
+        static int ref_min = 6;
+        static int ref_domain = 4;
+
+        #define x0 -Ldomain/2
+        #define x1 -Ldomain/2 + Ldomain/100
+        #define x2 -Ldomain/2 + Ldomain/25
+        #define x3 -Ldomain/2 + Ldomain/10
+        #define x4 -Ldomain/2 + Ldomain/5
+        #define x5 -Ldomain/2 + Ldomain/2
 	}
    
 
@@ -42,21 +66,26 @@
 	Refine ref_domain
         #GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = 9  minlevel =4 } B1
 	
-	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < 0.010125 ? ( x < 0.00675 ? (x < 0.0 ? (x  < -0.00675  ? (x < -0.010125 ?  6 :6 ):6) : 6): 7) : 8)  minlevel =5 } B1
+	#GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ? ( x < x2 ? (x < x3 ? 8 : 7) : 6) :5)   minlevel =5 } B1
+#	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ?  8 : 6)   minlevel =5 } B1
+	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ?  ref_max : (x < x2 ? ref_max-1 : (x < x3 ? ref_max-2 : (x < x4 ? ref_max-3: (x < x5 ? ref_max-4 : ref_min) ) ) ) )   minlevel = ref_min } B1
+
+
+#	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < 0.010125 ? ( x < 0.00675 ? (x < 0.0 ? (x  < -0.00675  ? (x < -0.010125 ?  6 :6 ):6) : 6): 7) : 8)  minlevel =5 } B1
         
 	
 	# Define physical parameters
 	GfsVariableCurvature KB B KBmax
         GfsSourceTension B sigmaL1 KB
 	Source {} V g
-	GfsPhysicalParams { L = 0.027 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }  #domain size is here 
+	GfsPhysicalParams { L = 0.015 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }  #domain size is here 
 
         SourceViscosity {} ((muL*B+(1-B)*muG))
 	 
 
         # Running the simulation here
-	GfsTime { start =0 end = 10 dtmax= 0.01 }  
-	GfsInitFraction {} B (y + 0.0135 )   # initial interface position
+	GfsTime { start =0 end = 5 }  
+	GfsInitFraction {} B (y-( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9) )   # initial interface position
 
         # Saving the output
         OutputTime { istep = 1 } stderr
@@ -66,38 +95,23 @@
 }
 #box 1      
 	GfsBox {
-	top = Boundary {	
-	BcDirichlet U 0
-        BcDirichlet V 0
-         }
-        left = Boundary{
-        BcDirichlet U 0
-        BcDirichlet V 0
-        BcAngle B 90
+	  top = Boundary {	
+	     BcDirichlet U 0
+             BcDirichlet V 0
+          }
+          left = Boundary {
+             BcDirichlet U 0
+             BcDirichlet V Uplate 
+             BcAngle B theta
+          }
+          right = Boundary {
+             BcDirichlet U 0
+             BcDirichlet V 0 
+             BcAngle B 90
+          }
+          bottom = Boundary {
+             BcDirichlet U 0
+             BcDirichlet V 0 
+          }
         }
 
-        right = Boundary{
-        BcDirichlet U 0
-        BcDirichlet V Uplate
-        BcAngle B theta
-	}
-}
-#box2
-GfsBox {
-        left = Boundary {
-        BcDirichlet U 0
-        BcDirichlet V 0
-	BcAngle B 90
-         }
-        right = Boundary{
-        BcDirichlet U 0
-        BcDirichlet V Uplate
-	BcAngle B theta
-        }
-        bottom = Boundary{
-        BcDirichlet U 0
-        BcDirichlet V 0
-        }
-}
-
-1 2 bottom
