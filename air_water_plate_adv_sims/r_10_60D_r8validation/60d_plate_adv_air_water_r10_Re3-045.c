@@ -1,28 +1,22 @@
-
-
-// The code has a floating point error issue do not use. Take from other refinement -9 or 10 case. 
-//
-
-
-
 //This is a simualtion to visualize the flow field near a moving contact line. 
-//The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN mm)
+//The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN m )
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 13-dec-2021
+//Date - 14-dec-2021
 //
 //Comments: 
 //Status : working 
-// FOR COMPILING : qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+/* FOR COMPILING :
+  qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+*/
 //
 //Libraries used - 
 
 //#include "navier-stokes/conserving.h"
 #include "navier-stokes/centered.h"
 #include "vtk.h"
-#include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
 #include "view.h"
@@ -30,7 +24,7 @@
 
 
 
-int maxlevel = 8;              // Maximum mesh refinement
+int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -47,19 +41,19 @@ double h0;
 
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ;
+
 //make sure that the boundary conditions for the face-centered velocity field are consistent with the centered velocity field (this affects the advection term).
 uf.n[left]   = 0.;
 uf.n[right]  = 0.;
 uf.n[top]    = 0.;
 uf.n[bottom] = 0.;
+
 int main()
 {
         L0 = 0.015;            // Size of the square box
-        h0=lc/tan(theta0);
         U0 = -0.001 ;             // Velocity of the left plate
-      origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
-
-        N = 128;
+	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
+	N = 256;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -125,8 +119,17 @@ event logfile (i++)
         fprintf (stderr, "%d %g\n", i, t);
 
 
+// The interface profile is extracted for convergence check 
+// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
+event profile(t+=0.1   ; t <= 5) 
+{
+  char int_prof[80];
+  sprintf(int_prof,"interface_profile_t%2f.dat", t);
+  FILE * fp1 = fopen(int_prof,"w");
+  output_facets (f, fp1);
+}
 
-/*
+
 char name[80];
 // Produce vorticity animation
 event movies (i += 2000   ; t <= 5)
@@ -150,9 +153,6 @@ event videos ( t+=0.00001   ; t <= 5 )
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
         char fname[100];
-
-//	view (tx=-0.5, ty=-0.1,  width = 2000, height = 2000);
-
         sprintf (fname, " t = %.6f ", t );
         draw_string (fname, pos=2, size = 60);
         squares("f",min = 0, max = 1.0, linear = true);
@@ -165,8 +165,6 @@ event videos ( t+=0.00001   ; t <= 5 )
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-12},maxlevel);
+  adapt_wavelet ({f}, (double[]){1e-12},maxlevel,7);
 }
-*/
-
 

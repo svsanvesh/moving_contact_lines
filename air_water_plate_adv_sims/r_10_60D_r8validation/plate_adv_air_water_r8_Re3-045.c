@@ -1,10 +1,3 @@
-
-
-// The code has a floating point error issue do not use. Take from other refinement -9 or 10 case. 
-//
-
-
-
 //This is a simualtion to visualize the flow field near a moving contact line. 
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN mm)
 //it is a 15x15 square with interface in the middle, horizontally. 
@@ -15,14 +8,15 @@
 //
 //Comments: 
 //Status : working 
-// FOR COMPILING : qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
-//
+/* FOR COMPILING :
+  qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+*/
 //Libraries used - 
 
 //#include "navier-stokes/conserving.h"
 #include "navier-stokes/centered.h"
 #include "vtk.h"
-#include "adapt_wavelet_leave_interface.h"
+//#include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
 #include "view.h"
@@ -30,7 +24,7 @@
 
 
 
-int maxlevel = 8;              // Maximum mesh refinement
+int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -126,7 +120,6 @@ event logfile (i++)
 
 
 
-/*
 char name[80];
 // Produce vorticity animation
 event movies (i += 2000   ; t <= 5)
@@ -165,8 +158,7 @@ event videos ( t+=0.00001   ; t <= 5 )
 
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-12},maxlevel);
+  adapt_wavelet ({f}, (double[]){1e-12},maxlevel,6);
 }
-*/
 
 
