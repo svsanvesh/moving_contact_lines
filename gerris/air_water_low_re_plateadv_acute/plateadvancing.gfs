@@ -12,10 +12,7 @@
 
 
 
-1 0 GfsSimulation GfsBox GfsGEdge { 
-   # Shift origin to 
-    y = 0.013
-} {
+1 0 GfsSimulation GfsBox GfsGEdge {} {
     GfsGlobal {  
 	#define rhoL 1  //density 
         #define rhoG 1000
@@ -82,14 +79,18 @@
 
         SourceViscosity {} ((muL*B+(1-B)*muG))
 	 
+        # Balance the number of elements across parallel subdomains at every
+        # timestep if the imbalance is larger than 0.1 (i.e. 10% difference
+        # between the largest and smallest subdomains).
+          EventBalance { istep = 1 } 0.1
 
         # Running the simulation here
 	GfsTime { start =0 end = 5 }  
-	GfsInitFraction {} B (y-( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9) )   # initial interface position
+	GfsInitFraction {} B (- y + ( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9) )   # initial interface position
 
         # Saving the output
-        OutputTime { istep = 1 } stderr
-	OutputSimulation { start=0 step=0.1} alpha-%g.gfs {variables = B,U,V,P}
+        OutputTime { istep = 20 } stderr
+	OutputSimulation { start=0 step=0.001} alpha-%g.gfs {variables = B,U,V,P}
 	OutputPPM {step=.001} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
 
 }
@@ -99,19 +100,19 @@
 	     BcDirichlet U 0
              BcDirichlet V 0
           }
-          left = Boundary {
+          bottom = Boundary {
              BcDirichlet U 0
-             BcDirichlet V Uplate 
-             BcAngle B theta
+             BcDirichlet V 0 
           }
           right = Boundary {
              BcDirichlet U 0
              BcDirichlet V 0 
              BcAngle B 90
           }
-          bottom = Boundary {
+          left = Boundary {
              BcDirichlet U 0
-             BcDirichlet V 0 
+             BcDirichlet V -0.01
+             BcAngle B 45
           }
         }
 

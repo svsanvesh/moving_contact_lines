@@ -9,7 +9,7 @@
 //Comments: 
 //Status : working 
 /* FOR COMPILING :
-  qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+  qcc   -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 */
 //
 //Libraries used - 
