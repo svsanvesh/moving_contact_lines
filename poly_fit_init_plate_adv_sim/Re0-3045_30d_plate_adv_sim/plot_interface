@@ -1,0 +1,27 @@
+% This is a matlab code to plot INterface shapes extracted Basilisk
+% simulation. 
+% Author- Anvesh 
+% Date- 2nd jan 2022
+% The setWH function is used to generate high quality plots
+
+clear all
+clc
+
+Domain = 0.015;  % The domain size is taken from the Basilisk code i.e. 15mm 
+theta0 = 30*pi/180;
+
+ms=8;
+lw=1.5;
+
+% The shape of the static initial meniscus is plotted for reference . 
+
+x = linspace(-Domain/2,Domain/2,100);
+yinit = -0.0013 + 0.0027./(tan(theta0).*exp((x+ 0.0075)/0.0027));
+
+
+plot(x +Domain/2,yinit,'k','LineWidth',lw, 'MarkerSize',ms )
+ylabel('Downward moving plate','FontWeight','Bold','FontSize',20);
+xlabel('15mm domain ','FontWeight','Bold','FontSize',20);
+set(gca,'Fontsize',12,'Fontname','Times New Roman')
+set(gca,'XMinorTick','on','YMinorTick','on','TickDir','in')
+

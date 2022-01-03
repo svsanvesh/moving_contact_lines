@@ -27,8 +27,6 @@
 
 int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
-double U0;
-double H0;
 
 
         #define grav  9.81 // gravitational acceleration
@@ -38,6 +36,8 @@ double H0;
         #define rhoG 1 //density of air
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
+	#define T_end 0.01
+	#define Uplate -0.0001 // plate velocity 
 //From here onwards we define the 9 constants for the 8 degree polynomial we are
 //fitting for the initial meniscus shape from the 
 //final steady state shape from earlier simulations
@@ -66,9 +66,8 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
-        U0 = -0.001 ;             // Velocity of the left plate
 	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
-	N = 256;
+	N = 64;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -113,7 +112,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(-0.0001);
+u.t[left] = dirichlet(Uplate);
 
 
 u.n[right] = dirichlet(0.);
@@ -130,13 +129,13 @@ u.t[bottom] = dirichlet(0.0);
 
 
 // Printing out standard text outputs on the screen
-event logfile (i++)
+event logfile (i+=10 )
         fprintf (stderr, "%d %g\n", i, t);
 
 
 // The interface profile is extracted for convergence check 
-// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
-event profile(t+=0.1   ; t <= 5) 
+/// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
+event profile(t+=0.001   ; t <= T_end ) 
 {
   char int_prof[80];
   sprintf(int_prof,"interface_profile_t%2f.dat", t);
@@ -147,7 +146,7 @@ event profile(t+=0.1   ; t <= 5)
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 2000   ; t <= 0.001)
+event movies (i += 2   ; t <= T_end)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
@@ -157,7 +156,7 @@ event movies (i += 2000   ; t <= 0.001)
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
-event videos ( t+=0.00001   ; t <= 0.001 )
+event videos ( t+=0.00001   ; t <= T_end )
 {
 
         output_ppm (f, file = "f_plate_adv.mp4",8192,
@@ -177,9 +176,14 @@ event videos ( t+=0.00001   ; t <= 0.001 )
         clear();
 
 }
-
+double DoC = 1./20.; //Use 20 to 40 cells per radius
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){1e-8},maxlevel,7);
-}
+	scalar KAPPA[];
+	curvature(f, KAPPA);      
+	boundary ((scalar *){KAPPA});
+adapt_wavelet ({KAPPA},(double[]){DoC}, 10,6);
 
+
+
+}

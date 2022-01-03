@@ -51,7 +51,7 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
-        U0 = -0.001 ;             // Velocity of the left plate
+        U0 = -0.0001 ;             // Velocity of the left plate
 	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
 	N = 256;
         stokes = true;
