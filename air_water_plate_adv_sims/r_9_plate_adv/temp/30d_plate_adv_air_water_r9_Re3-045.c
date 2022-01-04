@@ -4,12 +4,12 @@
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 4 -jan-2022
+//Date - 14-dec-2021
 //
 //Comments: 
 //Status : working 
 /* FOR COMPILING :
-  qcc   -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
+  qcc  plate_adv_air_water_r8_Re3-045.c  -L$BASILISK/gl -lglutils -lfb_osmesa -lGLU -lOSMesa -lm
 */
 //
 //Libraries used - 
@@ -27,6 +27,8 @@
 
 int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
+double U0;
+double H0;
 
 
         #define grav  9.81 // gravitational acceleration
@@ -36,24 +38,6 @@ char name_vtk[100];             // vtk file name decleration.
         #define rhoG 1 //density of air
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
-	#define T_end 0.01
-	#define Uplate -0.0001 // plate velocity 
-	#define f_tol 1e-12    // The tolerance given to the vof field f.  
-
-//From here onwards we define the 9 constants for the 8 degree polynomial we are
-//fitting for the initial meniscus shape from the 
-//final steady state shape from earlier simulations
-
-	#define p1  9.3395e+13 
-	#define p2  -5.3835e+11
-	#define p3 -6.1069e+09
-	#define p4 2.0621e+07
-	#define p5 2.8029e+05 
-	#define p6 -1.6932e+03
-	#define p7 8.148
-	#define p8 -0.0486
-	#define p9 -0.0004953
-
 double h0;
 
 vector h[];  //HEIGHT FUNCTION 
@@ -68,8 +52,9 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
+        U0 = -0.001 ;             // Velocity of the left plate
 	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
-	N = 64;
+	N = 256;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -82,8 +67,8 @@ int main()
         //The viscosity and desinties of the two fluids is specified here. 
         rho2 = rhoL;   // fluid 2 is given by f = 0.
         mu2 = muL;
-	rho1 = rhoG;   // fluid 1 is given by f =1. 
-	mu1 = muG;
+        rho1 = rhoG;   // fluid 1 is given by f =1. 
+        mu1 = muG;
 
         run();
 
@@ -95,15 +80,11 @@ event init (t = 0)
 //Here the approximate static meniscus shape is given as an initial condition.  
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
-//here instead of the static meniscus I have fit a 8th degree polynomial to a previusly run siimulation and using the same to initialise the current simulation. 
 
-        fraction (f,y-( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9));
+        fraction (f, 0.0013 + y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
 
         boundary ({f});
-
-	f.refine = f.prolongation = fraction_refine;
 }
-
 
 
 
@@ -118,7 +99,7 @@ event acceleration (i++)
 
 // Setting the boundary conditions
 u.n[left] = dirichlet(0.);
-u.t[left] = dirichlet(Uplate);
+u.t[left] = dirichlet(-0.001);
 
 
 u.n[right] = dirichlet(0.);
@@ -135,13 +116,13 @@ u.t[bottom] = dirichlet(0.0);
 
 
 // Printing out standard text outputs on the screen
-event logfile (i+=10 )
+event logfile (i++)
         fprintf (stderr, "%d %g\n", i, t);
 
 
 // The interface profile is extracted for convergence check 
-/// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
-event profile(t+=0.001   ; t <= T_end ) 
+// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
+event profile(t+=0.1   ; t <= 5) 
 {
   char int_prof[80];
   sprintf(int_prof,"interface_profile_t%2f.dat", t);
@@ -152,7 +133,7 @@ event profile(t+=0.001   ; t <= T_end )
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 2   ; t <= T_end)
+event movies (i += 2000   ; t <= 5)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
@@ -162,7 +143,7 @@ event movies (i += 2   ; t <= T_end)
                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
 }
-event videos ( t+=0.00001   ; t <= T_end )
+event videos ( t+=0.00001   ; t <= 5 )
 {
 
         output_ppm (f, file = "f_plate_adv.mp4",8192,
@@ -182,17 +163,9 @@ event videos ( t+=0.00001   ; t <= T_end )
         clear();
 
 }
-/*
-double DoC = 0.1 ; //Use 20 to 40 cells per radius
+
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-	scalar KAPPA[];
-	curvature(f, KAPPA);      
-	boundary ((scalar *){KAPPA});
-adapt_wavelet ({KAPPA},(double[]){DoC}, 10,6);
+  adapt_wavelet ({f}, (double[]){1e-12},maxlevel,7);
 }
-*/
 
-event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){f_tol},maxlevel,7);
-}
