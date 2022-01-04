@@ -4,7 +4,7 @@
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 14-dec-2021
+//Date - 4 -jan-2022
 //
 //Comments: 
 //Status : working 
