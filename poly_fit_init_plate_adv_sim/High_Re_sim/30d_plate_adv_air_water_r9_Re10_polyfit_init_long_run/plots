@@ -4,7 +4,7 @@
 # //Author- Anvesh 
 # //The centre of the domain is at the centre of the left wall. 
 # //We are working in SI units. 
-# //Date - 5 -jan-2022
+# //Date - 6 -jan-2022
 # //
 # //Comments: 
 # //Status : working 
@@ -20,7 +20,7 @@
 # #include "adapt_wavelet_leave_interface.h"
 # #include "contact.h"
 # #include "tension.h"
-# #include "view.h"
+# //#include "view.h"
 # #include "two-phase.h"
 # 
 # 
@@ -36,7 +36,7 @@
 #         #define rhoG 1 //density of air
 #         #define muG  0.0000181 // viscosity of air
 #         #define lc 2.7e-3// capillary length 
-# 	#define T_end 5
+# 	#define T_end 20 
 # 	#define Uplate -0.003296 // plate velocity 
 # 	#define f_tol 1e-10    // The tolerance given to the vof field f.  
 # 
@@ -164,7 +164,7 @@
 #         output_ppm (f, file = "f_plate_adv.mp4",8192,
 #                         min = 0, max = 1.0, linear = true);
 # 
-#         clear();
+# /*        clear();
 # 
 # //      This snippet of code help put time on top right corner. 
 # //      reference: http://basilisk.fr/src/examples/breaking.c
@@ -176,7 +176,7 @@
 #         draw_vof ("f" );
 #         save ("fd.mp4");
 #         clear();
-# 
+# */
 # }
 # 
 # event adapt (i += 5) {
