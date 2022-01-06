@@ -25,7 +25,7 @@
 
 
 
-int maxlevel = 9;              // Maximum mesh refinement
+int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 
 
@@ -68,14 +68,14 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
-	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
+	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
 	N = 64;
         stokes = true;
         f.sigma = surf;
         f.height = h;
         display_control (maxlevel, 6, 15);
 
-        theta0 = 150*pi/180.0;
+        theta0 = 110*pi/180.0;
         h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
         h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 
@@ -97,8 +97,7 @@ event init (t = 0)
 //refer: http://basilisk.fr/src/two-phase.h
 //here instead of the static meniscus I have fit a 8th degree polynomial to a previusly run siimulation and using the same to initialise the current simulation. 
 
-        fraction (f,y-( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9));
-
+	fraction (f, 0.0013 + y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
         boundary ({f});
 
 	f.refine = f.prolongation = fraction_refine;
@@ -141,7 +140,7 @@ event logfile (i+=50 )
 
 // The interface profile is extracted for convergence check 
 /// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
-event profile(t+=0.1   ; t <= T_end ) 
+event profile(t+= 1   ; t <= T_end ) 
 {
   char int_prof[80];
   sprintf(int_prof,"interface_profile_t%2f.dat", t);

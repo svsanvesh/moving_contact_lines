@@ -1,4 +1,6 @@
+//////////////////////////LOW ST //////////////////////////////
 //This is a simualtion to visualize the flow field near a moving contact line. 
+//
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN m )
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
@@ -25,14 +27,14 @@
 
 
 
-int maxlevel = 9;              // Maximum mesh refinement
+int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 
 
         #define grav  9.81 // gravitational acceleration
         #define rhoL 1000 //density of water
         #define muL 0.00089 //viscosity of water
-        #define surf  0.072  // surface tension air-water
+        #define surf  0.72  // surface tension air-water
         #define rhoG 1 //density of air
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
