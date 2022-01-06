@@ -1,0 +1,13 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	30d_plate_adv_air_water_r12_Re10_polyfit_init_long_run.c \
+
+plots: \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+
