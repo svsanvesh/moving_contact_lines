@@ -1,4 +1,5 @@
 //This is a simualtion to visualize the flow field near a moving contact line. 
+//
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN m )
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
@@ -24,7 +25,7 @@
 
 
 
-int maxlevel = 10;              // Maximum mesh refinement
+int maxlevel = 12;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 
 
@@ -36,7 +37,7 @@ char name_vtk[100];             // vtk file name decleration.
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
 	#define T_end 100
-	#define Uplate -0.003296 // plate velocity 
+	#define Uplate -0.000025 // plate velocity 
 	#define f_tol 1e-10    // The tolerance given to the vof field f.  
 
 //From here onwards we define the 9 constants for the 8 degree polynomial we are
@@ -67,14 +68,14 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
-	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
+	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
 	N = 64;
         stokes = true;
         f.sigma = surf;
         f.height = h;
         display_control (maxlevel, 6, 15);
 
-        theta0 = 120*pi/180.0;
+        theta0 = 115*pi/180.0;
         h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
         h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 
@@ -139,7 +140,7 @@ event logfile (i+=50 )
 
 // The interface profile is extracted for convergence check 
 /// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
-event profile(t+= 1   ; t <= T_end ) 
+event profile(t+=0.1   ; t <= T_end ) 
 {
   char int_prof[80];
   sprintf(int_prof,"interface_profile_t%2f.dat", t);
@@ -150,7 +151,7 @@ event profile(t+= 1   ; t <= T_end )
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 50000  ; t <= T_end)
+event movies (i += 50000   ; t <= T_end)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
@@ -178,5 +179,5 @@ event videos ( t+=0.0001   ; t <= T_end )
 }
 
 event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){f_tol},maxlevel,maxlevel-2);
+  adapt_wavelet ({f}, (double[]){f_tol},maxlevel,7);
 }
