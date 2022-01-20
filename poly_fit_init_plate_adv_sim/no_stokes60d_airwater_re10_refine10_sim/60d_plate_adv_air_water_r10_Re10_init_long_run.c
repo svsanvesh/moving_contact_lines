@@ -60,7 +60,7 @@ int main()
         L0 = 0.015;            // Size of the square box
 	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
 	N = 64;
-        stokes = true;
+        stokes = false;
         f.sigma = surf;
         f.height = h;
         display_control (maxlevel, 6, 15);

@@ -24,7 +24,7 @@
 	#define g -9.81          // gravitational acceleration
         #define sigmaL1 0.072    // surface tension
 
-        #define Uplate -0.003296   // in m/s = 0.025 mm/sec = 25 micrometer/sec
+        #define Uplate -0.003296   // 
         #define theta 60       // (60)
         #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
         #define Ldomain 0.015   // Domain size perpendicular to the moving plate.
@@ -33,17 +33,6 @@
 //fitting for the initial meniscus shape from the 
 //final steady state shape from earlier simulations
 
-        #define p1  9.3395e+13 
-        #define p2  -5.3835e+11
-        #define p3 -6.1069e+09
-        #define p4 2.0621e+07
-        #define p5 2.8029e+05 
-        #define p6 -1.6932e+03
-        #define p7 8.148
-        #define p8 -0.0486
-        #define p9 -0.0004953
-
-        // refinement parameters
         static int ref_max = 14;    // Note: ref_max-8 > ref_min
         static int ref_min = 5;
         static int ref_domain = 4;
@@ -68,7 +57,7 @@
         
 	# Define grid refinement
 	Refine ref_domain
-        GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = 10  minlevel =6 } B1
+        GfsAdaptGradient { istep = 1 }{cmax = 1e-10 maxlevel = 10  minlevel = 7 } B1
 	
 	#GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ? ( x < x2 ? (x < x3 ? 8 : 7) : 6) :5)   minlevel =5 } B1
 #
@@ -95,12 +84,12 @@
 
         # Running the simulation here
 	GfsTime { start =0 end = 100}  
-	GfsInitFraction {} B ( 0.0013 + y+0.0027/(tan((180-theta)*3.14159/180.0)*exp((x+0.0075)/0.0027))  )   # initial interface position
+	GfsInitFraction {} B ( -( 0.0013 + y+0.0027/(tan((180-theta)*3.14159/180.0)*exp((x+0.0075)/0.0027)))  )   # initial interface position
 
         # Saving the output
         OutputTime { istep = 20 } stderr
 	OutputSimulation { start=0 step=0.1} alpha-%g.gfs {variables = B,U,V,P}
- 	OutputPPM {step=.001} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
+# 	OutputPPM {step=.001} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
 
 }
 #box 1      

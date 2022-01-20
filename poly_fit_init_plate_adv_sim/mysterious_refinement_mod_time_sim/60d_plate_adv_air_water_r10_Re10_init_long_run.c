@@ -19,7 +19,7 @@
 #include "vtk.h"
 #include "contact.h"
 #include "tension.h"
-//#include "view.h"
+#include "view.h"
 #include "two-phase.h"
 
 
@@ -35,7 +35,7 @@ char name_vtk[100];             // vtk file name decleration.
         #define rhoG 1 //density of air
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
-	#define T_end 100
+	#define T_end 0.2 
 	#define Uplate -0.003296 // plate velocity 
 	#define f_tol 1e-10    // The tolerance given to the vof field f.  
 
@@ -141,7 +141,7 @@ event profile(t+= 1   ; t <= T_end )
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 50000  ; t <= T_end)
+event movies (i += 5000  ; t <= T_end)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
@@ -153,7 +153,7 @@ event videos ( t+=0.0001   ; t <= T_end )
         output_ppm (f, file = "f_plate_adv.mp4",8192,
                         min = 0, max = 1.0, linear = true);
 
-/*        clear();
+        clear();
 
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
@@ -165,7 +165,7 @@ event videos ( t+=0.0001   ; t <= T_end )
         draw_vof ("f" );
         save ("fd.mp4");
         clear();
-*/
+
 }
 
 event adapt (i += 5) {
