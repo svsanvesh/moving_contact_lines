@@ -38,11 +38,7 @@ char name_vtk[100];             // vtk file name decleration.
         #define lc 2.7e-3// capillary length 
 	#define T_end 100
 	#define Uplate -0.000025 // plate velocity 
-<<<<<<< HEAD
-	#define f_tol 1e-5    // The tolerance given to the vof field f.  
-=======
 	#define f_tol 1e-4    // The tolerance given to the vof field f.  
->>>>>>> ff0842f2ec9f3dfe6ed78c1c5d9d5168d578349a
 
 //From here onwards we define the 9 constants for the 8 degree polynomial we are
 //fitting for the initial meniscus shape from the 
@@ -101,11 +97,7 @@ event init (t = 0)
 //refer: http://basilisk.fr/src/two-phase.h
 //here instead of the static meniscus I have fit a 8th degree polynomial to a previusly run siimulation and using the same to initialise the current simulation. 
 	
-<<<<<<< HEAD
 	fraction (f, 0.0023 + y+0.0027/(tan(theta0)*exp((x+ 0.0100)/0.0027)));
-=======
-	fraction (f,0.0023+0.0027/(tan(theta0)*exp((x+ 0.0100)/0.0027)));
->>>>>>> ff0842f2ec9f3dfe6ed78c1c5d9d5168d578349a
         boundary ({f});
 
 	f.refine = f.prolongation = fraction_refine;
