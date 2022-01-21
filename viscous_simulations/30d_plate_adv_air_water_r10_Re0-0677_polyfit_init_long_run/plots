@@ -25,7 +25,7 @@
 # 
 # 
 # 
-# int maxlevel = 9;              // Maximum mesh refinement
+# int maxlevel = 10;              // Maximum mesh refinement
 # char name_vtk[100];             // vtk file name decleration.
 # 
 # 
@@ -38,7 +38,7 @@
 #         #define lc 2.7e-3// capillary length 
 # 	#define T_end 100
 # 	#define Uplate -0.000025 // plate velocity 
-# 	#define f_tol 1e-6    // The tolerance given to the vof field f.  
+# 	#define f_tol 1e-4    // The tolerance given to the vof field f.  
 # 
 # //From here onwards we define the 9 constants for the 8 degree polynomial we are
 # //fitting for the initial meniscus shape from the 
