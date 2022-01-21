@@ -44,10 +44,15 @@ char name_vtk[100];             // vtk file name decleration.
 //fitting for the initial meniscus shape from the 
 //final steady state shape from earlier simulations
 
-	#define p1 -2.799e+4 
-	#define p2  231.6
-	#define p3 -1.018
-	#define p4 0.001773
+        #define p1  9.3395e+13 
+        #define p2  -5.3835e+11
+        #define p3 -6.1069e+09
+        #define p4 2.0621e+07
+        #define p5 2.8029e+05 
+        #define p6 -1.6932e+03
+        #define p7 8.148
+        #define p8 -0.0486
+        #define p9 -0.0004953
 
 double h0;
 
@@ -63,7 +68,7 @@ uf.n[bottom] = 0.;
 int main()
 {
         L0 = 0.015;            // Size of the square box
-	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
+	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
 	N = 64;
         stokes = true;
         f.sigma = surf;
@@ -91,8 +96,8 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 //here instead of the static meniscus I have fit a 8th degree polynomial to a previusly run siimulation and using the same to initialise the current simulation. 
-        fraction (f,y-( p1*x*x*x + p2*x*x + p3*x + p4));
-
+	
+	fraction (f, 0.0013 + y+0.0027/(tan(theta0)*exp((x+ 0.0075)/0.0027)));
         boundary ({f});
 
 	f.refine = f.prolongation = fraction_refine;
@@ -146,7 +151,7 @@ event profile(t+=0.1   ; t <= T_end )
 
 char name[80];
 // Produce vorticity animation
-event movies (i += 50000   ; t <= T_end)
+event movies (i += 10000  ; t <= T_end)
 {
         sprintf (name, "dump-%d", i);
         dump (name);
