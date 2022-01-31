@@ -1,0 +1,15 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	30d_plate_adv_air_water_r10_Re0-3045_poly_fit_init.c \
+
+plots: \
+	30d_plate_adv_air_water_r10_Re0-3045_poly_fit_init/plots.page \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+	30d_plate_adv_air_water_r10_Re0-3045_poly_fit_init.c.page \
+
