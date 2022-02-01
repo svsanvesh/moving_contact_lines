@@ -1,0 +1,5 @@
+30d_plate_adv_air_water_r10_Re0-0677_polyfit_init_long_run.c: In function ‘adapt_0’:
+30d_plate_adv_air_water_r10_Re0-0677_polyfit_init_long_run.c:182:33: warning: initialization of ‘scalar *’ {aka ‘struct <anonymous> *’} from incompatible pointer type ‘vector *’ {aka ‘struct <anonymous> *’} [-Wincompatible-pointer-types]
+  182 |   adapt_wavelet ({u}, (double[]){u_tol},maxlevel,maxlevel-2);
+      |                                 ^
+30d_plate_adv_air_water_r10_Re0-0677_polyfit_init_long_run.c:182:33: note: (near initialization for ‘(anonymous).slist’)

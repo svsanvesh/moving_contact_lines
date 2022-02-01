@@ -99,8 +99,8 @@ event init (t = 0)
 	
 	fraction (f, 0.0023 + y+0.0027/(tan(theta0)*exp((x+ 0.0100)/0.0027)));
         boundary ({f});
-
-	f.refine = f.prolongation = fraction_refine;
+//        restore (file = "dump-650000");
+//	f.refine = f.prolongation = fraction_refine;
 }
 
 

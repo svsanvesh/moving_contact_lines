@@ -1,10 +1,11 @@
 //This is a simualtion to visualize the flow field near a moving contact line. 
+//
 //The geometry of the problem is a sqaure domain of size L=5*l_c ; where l_c = 3. (ALL LENGTHS IN m )
 //it is a 15x15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 27-jan-2022
+//Date - 21 -jan-2022
 //
 //Comments: 
 //Status : working 
@@ -17,16 +18,15 @@
 //#include "navier-stokes/conserving.h"
 #include "navier-stokes/centered.h"
 #include "vtk.h"
-#include "adapt_wavelet_leave_interface.h"
 #include "contact.h"
 #include "tension.h"
-#define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
+//#include "view.h"
 #include "two-phase.h"
+
+
 
 int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
-double U0;
-double H0;
 
 
         #define grav  -9.81 // gravitational acceleration
@@ -37,21 +37,22 @@ double H0;
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
 	#define T_end 100
-        #define Uplate  -0.0001 // plate velocity 
-        #define f_tol 1e-4    // The tolerance given to the vof field f. 
+	#define Uplate -0.000025 // plate velocity 
+	#define f_tol 1e-4    // The tolerance given to the vof field f.  
+	#define u_tol 1e-1    // The tolerance given to the vof field f.  
 //From here onwards we define the 9 constants for the 8 degree polynomial we are
 //fitting for the initial meniscus shape from the 
 //final steady state shape from earlier simulations
 
-	#define p1  9.3395e+13 
-	#define p2  -5.3835e+11
-	#define p3 -6.1069e+09
-	#define p4 2.0621e+07
-	#define p5 2.8029e+05 
-	#define p6 -1.6932e+03
-	#define p7 8.148
-	#define p8 -0.0486
-	#define p9 -0.0004953
+        #define p1  9.3395e+13 
+        #define p2  -5.3835e+11
+        #define p3 -6.1069e+09
+        #define p4 2.0621e+07
+        #define p5 2.8029e+05 
+        #define p6 -1.6932e+03
+        #define p7 8.148
+        #define p8 -0.0486
+        #define p9 -0.0004953
 
 double h0;
 
@@ -66,10 +67,9 @@ uf.n[bottom] = 0.;
 
 int main()
 {
-        L0 = 0.015;            // Size of the square box
-        U0 = -0.001 ;             // Velocity of the left plate
-	origin (-L0/2, -L0/2+0.0013);  // Origin is at the bottom centre of the box
-	N = 128;
+        L0 = 0.020;            // Size of the square box
+	origin (-L0/2, -L0/2);  // Origin is at the bottom centre of the box
+	N = 64;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -95,12 +95,14 @@ event init (t = 0)
 //Here the approximate static meniscus shape is given as an initial condition.  
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
-
-        fraction (f,y-( p1*x*x*x*x*x*x*x*x + p2*x*x*x*x*x*x*x + p3*x*x*x*x*x*x + p4*x*x*x*x*x + p5*x*x*x*x + p6*x*x*x + p7*x*x + p8*x + p9));
-        f.refine = f.prolongation = fraction_refine;
-
+//here instead of the static meniscus I have fit a 8th degree polynomial to a previusly run siimulation and using the same to initialise the current simulation. 
+	
+	fraction (f, 0.0023 + y+0.0027/(tan(theta0)*exp((x+ 0.0100)/0.0027)));
         boundary ({f});
+//        restore (file = "dump-650000");
+	f.refine = f.prolongation = fraction_refine;
 }
+
 
 
 
@@ -132,12 +134,12 @@ u.t[bottom] = dirichlet(0.0);
 
 
 // Printing out standard text outputs on the screen
-event logfile (i+=50)
+event logfile (i+=50 )
         fprintf (stderr, "%d %g\n", i, t);
 
 
 // The interface profile is extracted for convergence check 
-// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
+/// the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
 event profile(t+=0.1   ; t <= T_end ) 
 {
   char int_prof[80];
@@ -155,12 +157,14 @@ event movies (i += 10000  ; t <= T_end)
         dump (name);
 
 }
-event videos ( t+=0.00001   ; t <= T_end )
+event videos ( t+=0.0001   ; t <= T_end )
 {
 
         output_ppm (f, file = "f_plate_adv.mp4",8192,
                         min = 0, max = 1.0, linear = true);
-/*
+
+/*        clear();
+
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
         char fname[100];
@@ -173,8 +177,7 @@ event videos ( t+=0.00001   ; t <= T_end )
         clear();
 */
 }
-//Here the code makes sure the refinement of the interface is high. 
-event adapt (i += 5) {
-  adapt_wavelet ({f}, (double[]){f_tol},maxlevel,maxlevel-2);
-}
 
+event adapt (i += 5) {
+  adapt_wavelet ({u}, (double[]){u_tol},maxlevel,maxlevel-2);
+}
