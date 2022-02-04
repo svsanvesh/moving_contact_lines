@@ -30,7 +30,7 @@ setWH(gcf,9,6)
 % The file ' interface_profile_t4.600000.dat ' is loaded in as an array and is
 % used to plot the interafce shape at the corresponding timestep. 
 
-A=load('interface_profile_t4.600000.dat');
+A=load('interface_profile_t0.000000.dat');
 A= sortrows(A);
 
 plot(A(:,1) +Domain/2,A(:,2), 'b','LineWidth',2, 'MarkerSize',10 )

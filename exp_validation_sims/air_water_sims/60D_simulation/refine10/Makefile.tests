@@ -1,0 +1,15 @@
+# Automatically generated using 'make Makefile.tests'
+# DO NOT EDIT, edit 'Makefile' instead
+ALLTESTS = \
+	plate_advancing.c \
+
+plots: \
+	plate_advancing/plots.page \
+
+TESTS = \
+
+SPECIAL_TESTS = \
+
+ALLPAGES = \
+	plate_advancing.c.page \
+
