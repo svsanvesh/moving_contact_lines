@@ -138,10 +138,18 @@ event logfile (i+=50)
 // the reference code is taken from: http://basilisk.fr/Miguel/spreading.c 
 event profile(t+=0.1   ; t <= T_end ) 
 {
-  char int_prof[80];
+  scalar pos[];
+  position (f, pos, {0,1});
+  double max = statsf(pos).max; 
+       
+
+
+	char int_prof[80];
   sprintf(int_prof,"interface_profile_t%2f.dat", t);
-  FILE * fp1 = fopen(int_prof,"w");
-  output_facets (f, fp1);
+  FILE * fp  = fopen(int_prof,"w");
+ fprintf (fp , " %g\n" , max);
+  fflush (fp);
+
 }
 
 

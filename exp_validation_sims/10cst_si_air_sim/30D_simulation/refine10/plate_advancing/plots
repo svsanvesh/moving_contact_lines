@@ -5,8 +5,9 @@
 # //Contact angle -60
 # //Interface Refinement-10
 # //Global Refinement- 10-3=7  
+# // l_c - 0.00151
 # //Phase A - air 
-# //Phase Bi - Water 
+# //Phase B  - 10cst silicone 
 # //Updated - Yes
 # //#################################******************************##########################/////////
 # //#################################******************************##########################/////////
@@ -40,12 +41,12 @@
 # 
 # 
 #         #define grav  -9.81 // gravitational acceleration
-#         #define rhoL 996 //density of water
-#         #define muL 0.00089 //viscosity of water
-#         #define surf  0.072  // surface tension air-water
+#         #define rhoL 0.0088 //density of liquid
+#         #define muL 0.00089 //viscosity of liquid
+#         #define surf  0.021  // surface tension air-liquid
 #         #define rhoG 1.2 //density of air
 #         #define muG  0.0000181 // viscosity of air
-#         #define lc 2.7e-3// capillary length 
+#         #define lc 1.51e-3// capillary length 
 # 	#define T_end 100 
 #         #define Uplate  -0.000025 // plate velocity 
 #         #define f_tol 1e-2    // The tolerance given to the vof field f. 
@@ -75,7 +76,7 @@
 #         f.height = h;
 #         display_control (maxlevel, 6, 15);
 # 
-#         theta0 = 120*pi/180.0;
+#         theta0 = 140*pi/180.0;
 #         h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
 #         h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 # 
@@ -97,7 +98,7 @@
 # //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 # //refer: http://basilisk.fr/src/two-phase.h
 # 
-#         fraction (f,  0.001557050 + y + 0.0027/(tan(theta0)*exp((x)/0.0027)));
+#         fraction (f,  0.001557050 + y + lc/(tan(theta0)*exp((x)/lc)));
 # 	boundary ({f});
 # }
 # 
