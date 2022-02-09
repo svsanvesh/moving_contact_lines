@@ -1,13 +1,12 @@
 # //#################################******************************##########################/////////
 # //#################################***Simulation Paramaeters***##########################/////////
 # //#################################******************************##########################/////////
-# //Reynolds Number -0.0758 
+# //Reynolds Number -0.1895 
 # //Contact angle -60
 # //Interface Refinement-10
 # //Global Refinement- 10-3=7  
-# // l_c - 0.00151
 # //Phase A - air 
-# //Phase B  - 10cst silicone 
+# //Phase Bi - Water 
 # //Updated - Yes
 # //#################################******************************##########################/////////
 # //#################################******************************##########################/////////
@@ -17,7 +16,7 @@
 # //Author- Anvesh 
 # //The centre of the domain is at the centre of the left wall. 
 # //We are working in SI units. 
-# //Date - 4-Feb-2022
+# //Date - 8-Feb-2022
 # //Comments: 
 # //Status : working 
 # /* FOR COMPILING :
@@ -31,6 +30,7 @@
 # #include "adapt_wavelet_leave_interface.h"
 # #include "contact.h"
 # #include "tension.h"
+# #define FILTERED 1
 # #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
 # #include "two-phase.h"
 # 
@@ -41,14 +41,14 @@
 # 
 # 
 #         #define grav  -9.81 // gravitational acceleration
-#         #define rhoL 940 //density of liquid
-#         #define muL 0.0088 //viscosity of liquid
-#         #define surf  0.021  // surface tension air-liquid
+#         #define rhoL 996 //density of water
+#         #define muL 0.00089 //viscosity of water
+#         #define surf  0.072  // surface tension air-water
 #         #define rhoG 1.2 //density of air
 #         #define muG  0.0000181 // viscosity of air
-#         #define lc 1.51e-3// capillary length 
+#         #define lc 2.7e-3// capillary length 
 # 	#define T_end 100 
-#         #define Uplate  -0.000025 // plate velocity 
+#         #define Uplate  -0.0000625 // plate velocity 
 #         #define f_tol 1e-2    // The tolerance given to the vof field f. 
 # //From here onwards we define the 9 constants for the 8 degree polynomial we are
 # //fitting for the initial meniscus shape from the 
@@ -76,7 +76,7 @@
 #         f.height = h;
 #         display_control (maxlevel, 6, 15);
 # 
-#         theta0 = 140*pi/180.0;
+#         theta0 = 120*pi/180.0;
 #         h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
 #         h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 # 
@@ -98,7 +98,7 @@
 # //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 # //refer: http://basilisk.fr/src/two-phase.h
 # 
-#         fraction (f,  0.001557050 + y + lc/(tan(theta0)*exp((x)/lc)));
+#         fraction (f,  0.001557050 + y + 0.0027/(tan(theta0)*exp((x)/0.0027)));
 # 	boundary ({f});
 # }
 # 
@@ -155,12 +155,15 @@
 # 
 # }
 # char name_vtk[100];             // vtk file name decleration.
-# event videos ( t+=0.0001   ; t <= T_end )
+# event videos ( t+=10   ; t <= T_end )
 # {
+#         foreach()
+#                 sprintf (name_vtk, "data-%d.vtk", i);
+#                 FILE * fpvtk = fopen (name_vtk, "w");
+#                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 # 
-#         output_ppm (f, file = "f_plate_adv.mp4",8192,
-#                         min = 0, max = 1.0, linear = true);
-# 
+# 		
+# 		
 # //      This snippet of code help put time on top right corner. 
 # //      reference: http://basilisk.fr/src/examples/breaking.c
 # //        char fname[100];
@@ -180,6 +183,6 @@
 # */
 # 
 # event adapt(i++){
-#  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.10,0.1, f_tol}, maxlevel,maxlevel-3);
+#  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.010,0.01, 0.0001}, maxlevel,maxlevel-3);
 # }
 # 

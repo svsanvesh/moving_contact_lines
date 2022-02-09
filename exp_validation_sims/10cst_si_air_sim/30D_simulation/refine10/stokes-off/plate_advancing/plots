@@ -41,8 +41,8 @@
 # 
 # 
 #         #define grav  -9.81 // gravitational acceleration
-#         #define rhoL 940 //density of liquid
-#         #define muL 0.0088 //viscosity of liquid
+#         #define rhoL 0.0088 //density of liquid
+#         #define muL 0.00089 //viscosity of liquid
 #         #define surf  0.021  // surface tension air-liquid
 #         #define rhoG 1.2 //density of air
 #         #define muG  0.0000181 // viscosity of air
@@ -71,7 +71,7 @@
 #         L0 = 0.0225;   // Size of the square box -- Upon checking where the interface becomes flat
 # 	origin (0, -L0/2);  // Origin is at the bottom centre of the box
 # 	N = 1024;
-#         stokes = true;
+#         stokes = false;
 #         f.sigma = surf;
 #         f.height = h;
 #         display_control (maxlevel, 6, 15);
@@ -155,12 +155,15 @@
 # 
 # }
 # char name_vtk[100];             // vtk file name decleration.
-# event videos ( t+=0.0001   ; t <= T_end )
+# event videos ( t+=10   ; t <= T_end )
 # {
+#         foreach()
+#                 sprintf (name_vtk, "data-%d.vtk", i);
+#                 FILE * fpvtk = fopen (name_vtk, "w");
+#                 output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 # 
-#         output_ppm (f, file = "f_plate_adv.mp4",8192,
-#                         min = 0, max = 1.0, linear = true);
-# 
+# 		
+# 		
 # //      This snippet of code help put time on top right corner. 
 # //      reference: http://basilisk.fr/src/examples/breaking.c
 # //        char fname[100];
@@ -180,6 +183,6 @@
 # */
 # 
 # event adapt(i++){
-#  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.10,0.1, f_tol}, maxlevel,maxlevel-3);
+#  adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.010,0.01, 0.0001}, maxlevel,maxlevel-3);
 # }
 # 
