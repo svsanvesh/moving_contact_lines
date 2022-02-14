@@ -1,12 +1,13 @@
 //#################################******************************##########################/////////
 //#################################***Simulation Paramaeters***##########################/////////
 //#################################******************************##########################/////////
-//Reynolds Number -0.0758 
-//Contact angle -60
+//Reynolds Number -0.00458 
+//Contact angle -40
 //Interface Refinement-10
 //Global Refinement- 10-3=7  
+// l_c - 0.00151
 //Phase A - air 
-//Phase Bi - Water 
+//Phase B  - 10cst silicone 
 //Updated - Yes
 //#################################******************************##########################/////////
 //#################################******************************##########################/////////
@@ -40,12 +41,12 @@ double H0;
 
 
         #define grav  -9.81 // gravitational acceleration
-        #define rhoL 996 //density of water
-        #define muL 0.00089 //viscosity of water
-        #define surf  0.072  // surface tension air-water
+        #define rhoL 940 //density of liquid
+        #define muL 0.0088 //viscosity of liquid
+        #define surf  0.021  // surface tension air-liquid
         #define rhoG 1.2 //density of air
         #define muG  0.0000181 // viscosity of air
-        #define lc 2.7e-3// capillary length 
+        #define lc 1.51e-3// capillary length 
 	#define T_end 100 
         #define Uplate  -0.000025 // plate velocity 
         #define f_tol 1e-2    // The tolerance given to the vof field f. 
@@ -75,7 +76,7 @@ int main()
         f.height = h;
         display_control (maxlevel, 6, 15);
 
-        theta0 = 120*pi/180.0;
+        theta0 = 140*pi/180.0;
         h.t[left] = contact_angle (theta0); // Left contact angle near the moving wall 
         h.t[right] = contact_angle (pi/2);  // right contact angle of 90 degrees. 
 
@@ -97,7 +98,7 @@ event init (t = 0)
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
-        fraction (f,  0.001557050 + y + 0.0027/(tan(theta0)*exp((x)/0.0027)));
+        fraction (f,  0.001557050 + y + lc/(tan(theta0)*exp((x)/lc)));
 	boundary ({f});
 }
 
@@ -153,16 +154,14 @@ event movies (i += 10000  ; t <= T_end)
         dump (name);
 
 }
-char name_vtk[100];             // vtk file name decleration.
-event videos ( t+=10   ; t <= T_end )
-{
-        foreach()
-                sprintf (name_vtk, "data-%d.vtk", i);
-                FILE * fpvtk = fopen (name_vtk, "w");
-                output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
-		
-		
+
+  event videos ( t+=0.0001   ; t <= T_end )
+{
+
+        output_ppm (f, file = "f_plate_adv.mp4",8192,
+                        min = 0, max = 1.0, linear = true);
+
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
 //        char fname[100];
@@ -182,6 +181,6 @@ event adapt (i += 5) {
 */
 
 event adapt(i++){
- adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.010,0.01, 0.0001}, maxlevel,maxlevel-3);
+ adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.10,0.1, f_tol}, maxlevel,maxlevel-3);
 }
 

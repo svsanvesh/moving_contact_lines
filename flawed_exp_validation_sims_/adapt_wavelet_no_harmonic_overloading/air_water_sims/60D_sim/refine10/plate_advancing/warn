@@ -1,0 +1,14 @@
+In file included from plate_advancing.c:31:
+/home/fpl/softwares/basilisk/src/contact.h:12: warning: "interface_normal" redefined
+   12 | #define interface_normal(point, c) interface_normal (point, c)
+      | 
+In file included from /home/fpl/softwares/basilisk/src/draw.h:5,
+                 from /home/fpl/softwares/basilisk/src/view.h:426,
+                 from /home/fpl/softwares/basilisk/src/display.h:90,
+                 from /home/fpl/softwares/basilisk/src/utils.h:391,
+                 from /home/fpl/softwares/basilisk/src/run.h:11,
+                 from /home/fpl/softwares/basilisk/src/navier-stokes/centered.h:27,
+                 from plate_advancing.c:28:
+/home/fpl/softwares/basilisk/src/fractions.h:29: note: this is the location of the previous definition
+   29 | # define interface_normal(point, c) mycs (point, c)
+      | 
