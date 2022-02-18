@@ -178,9 +178,20 @@ event videos ( t+=10   ; t <= T_end )
 //        save ("fd.mp4");
 //        clear();
 }
+
+
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
   adapt_wavelet ((scalar*){f,u}, (double[]){f_tol,ux_tol,uy_tol},maxlevel , maxlevel-3 );
 }
 
 
+/*
+event adapt (i++)
+{
+        scalar f1[];
+        foreach()
+                f1[] = f[];
+        adapt_wavelet ({f1}, (double[]){1e-3}, minlevel = 5, maxlevel = 8);
+
+}*/

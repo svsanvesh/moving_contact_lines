@@ -24,15 +24,14 @@
 */
 //Libraries used - 
 
+//#include "grid/octree.h"
 //#include "navier-stokes/conserving.h"
 #include "navier-stokes/centered.h"
-#include "vtk.h"
-#include "adapt_wavelet_leave_interface.h"
+#include "vof.h"
 #include "contact.h"
 #include "tension.h"
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
 #include "two-phase.h"
-#include "view.h"
 
 int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
@@ -49,16 +48,19 @@ double H0;
         #define lc 2.7e-3// capillary length 
 	#define T_end 100 
         #define Uplate  -0.000025 // plate velocity 
-        #define f_tol 1e-2    // The tolerance given to the vof field f. 
+        #define f_tol 0.1    // The tolerance given to the vof field f. 
+        #define ux_tol 0.05    // The tolerance given to the ux 
+        #define uy_tol 0.05    // The tolerance given to the uy. 
 //From here onwards we define the 9 constants for the 8 degree polynomial we are
 //fitting for the initial meniscus shape from the 
 //final steady state shape from earlier simulations
 
 
-double h0;
 
 vector h[];  //HEIGHT FUNCTION 
 double theta0 ;
+
+scalar f[], * interfaces = {f}; //The interface scalar variable has been defined here. 
 
 //make sure that the boundary conditions for the face-centered velocity field are consistent with the centered velocity field (this affects the advection term).
 uf.n[left]   = 0.;
@@ -70,7 +72,7 @@ int main()
 {
         L0 = 0.0225;   // Size of the square box -- Upon checking where the interface becomes flat
 	origin (0, -L0/2);  // Origin is at the bottom centre of the box
-	N = 512;
+	N = 1024;
         stokes = true;
         f.sigma = surf;
         f.height = h;
@@ -103,6 +105,7 @@ event init (t = 0)
 }
 
 
+
 // gravity is given in the vertically down direction.(-9.81)
 event acceleration (i++)
 {
@@ -115,8 +118,11 @@ event acceleration (i++)
 u.n[left] = dirichlet(0.);
 u.t[left] = dirichlet(Uplate);
 
+
 u.n[right] = dirichlet(0.);
 u.t[right] = dirichlet(0.);
+
+
 
 u.n[top] = dirichlet(0.);
 u.t[top] = dirichlet(0.);
@@ -151,29 +157,29 @@ event movies (i += 10000  ; t <= T_end)
 
 }
 char name_vtk[100];             // vtk file name decleration.
-event videos ( t+=0.00001   ; t <= T_end )
+event videos ( t+=10   ; t <= T_end )
 {
+        foreach()
+                sprintf (name_vtk, "data-%d.vtk", i);
+                FILE * fpvtk = fopen (name_vtk, "w");
+                output_vtk ({u.x,u.y,mu.x,mu.y,rho,p,f},N,fpvtk,1);
 
+		
+		
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
-        char fname[100];
-        sprintf (fname, " t = %.6f ", t );
-        draw_string (fname, pos=2, size = 60);
-        squares("f",min = 0, max = 1.0, linear = true);
-        cells();
-        draw_vof ("f" );
-	translate(-L0/2,0);
-        save ("fd.mp4");
-        clear();
+//        char fname[100];
+//        sprintf (fname, " t = %.6f ", t );
+//        draw_string (fname, pos=2, size = 60);
+//        squares("f",min = 0, max = 1.0, linear = true);
+//        cells();
+//        draw_vof ("f" );
+//        save ("fd.mp4");
+//        clear();
 }
-/*
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
-  adapt_wavelet ((scalar*){f}, (double[]){f_tol},maxlevel);
+  adapt_wavelet ((scalar*){f,u}, (double[]){f_tol,ux_tol,uy_tol},maxlevel , maxlevel-3 );
 }
-*/
 
-event adapt(i++){
- adapt_wavelet_leave_interface((scalar *){u},{f},(double[]){0.010,0.01, 0.0001}, maxlevel,maxlevel-3);
-}
 

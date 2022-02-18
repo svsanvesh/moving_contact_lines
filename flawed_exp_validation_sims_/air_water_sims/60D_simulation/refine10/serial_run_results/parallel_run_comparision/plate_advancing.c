@@ -32,7 +32,7 @@
 #include "tension.h"
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
 #include "two-phase.h"
-#include "view.h"
+//#include "view.h"
 
 int maxlevel = 10;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
@@ -156,7 +156,7 @@ event videos ( t+=0.00001   ; t <= T_end )
 
 //      This snippet of code help put time on top right corner. 
 //      reference: http://basilisk.fr/src/examples/breaking.c
-        char fname[100];
+/*        char fname[100];
         sprintf (fname, " t = %.6f ", t );
         draw_string (fname, pos=2, size = 60);
         squares("f",min = 0, max = 1.0, linear = true);
@@ -164,8 +164,11 @@ event videos ( t+=0.00001   ; t <= T_end )
         draw_vof ("f" );
 	translate(-L0/2,0);
         save ("fd.mp4");
-        clear();
+  
+  	clear();
+*/
 }
+
 /*
 //Here the code makes sure the refinement of the interface is high. 
 event adapt (i += 5) {
