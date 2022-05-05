@@ -1,7 +1,7 @@
 //#################################******************************##########################/////////
 //#################################***Simulation Paramaeters***##########################/////////
 //#################################******************************##########################/////////
-//Reynolds Number -0.0758 
+//Reynolds Number - 0.4
 //Contact angle -60
 //Interface Refinement-10
 //Global Refinement- 10-3=7  
@@ -11,12 +11,12 @@
 //#################################******************************##########################/////////
 //#################################******************************##########################/////////
 //This is a simualtion to visualize the flow field near a moving contact line. 
-//The geometry of the problem is a sqaure domain of size 22.5 x 22.5 (ALL LENGTHS IN mm )
-//it is a 22.5 x 22.5 square with interface in the middle, horizontally. 
+//The geometry of the problem is a sqaure domain of size 15 x 15 (ALL LENGTHS IN mm )
+//it is a 15 x 15 square with interface in the middle, horizontally. 
 //Author- Anvesh 
 //The centre of the domain is at the centre of the left wall. 
 //We are working in SI units. 
-//Date - 4-Feb-2022
+//Date -13-April-2022
 //Comments: 
 //Status : working 
 /* FOR COMPILING :
@@ -46,7 +46,7 @@ double H0;
         #define muG  0.0000181 // viscosity of air
         #define lc 2.7e-3// capillary length 
 	#define T_end 100 
-        #define Uplate  -0.000025 // plate velocity 
+        #define Uplate  -0.00013145 // plate velocity 
         #define f_tol 0.1    // The tolerance given to the vof field f. 
         #define ux_tol 0.05    // The tolerance given to the ux 
         #define uy_tol 0.05    // The tolerance given to the uy. 
@@ -68,7 +68,7 @@ uf.n[bottom] = 0.;
 
 int main()
 {
-        L0 = 0.0225;   // Size of the square box -- Upon checking where the interface becomes flat
+        L0 = 0.015;   // Size of the square box -- Upon checking where the interface becomes flat
 	origin (0, -L0/2);  // Origin is at the bottom centre of the box
 	N = 1024;
         stokes = true;
