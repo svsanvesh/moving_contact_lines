@@ -31,8 +31,9 @@
 #include "tension.h"
 #define mu(f)  (1./(clamp(f,0,1)*(1./mu1 - 1./mu2) + 1./mu2))
 #include "two-phase.h"
+#include "output_vtu_foreach.h"
 
-int maxlevel = 10;              // Maximum mesh refinement
+int maxlevel = 9;              // Maximum mesh refinement
 char name_vtk[100];             // vtk file name decleration.
 double U0;
 double H0;
@@ -94,18 +95,34 @@ int main()
 
 event init (t = 0)
 {
-//Here the approximate static meniscus shape is given as an initial condition.  
+	if(!restore (file = "---- "))
+		{
+	//Here the approximate static meniscus shape is given as an initial condition.  
 //the top fluid has f = 0 and is gas and the bottom fluid is f =1 and is liquid. 
 //refer: http://basilisk.fr/src/two-phase.h
 
         fraction (f,  0.001557050 + y + 0.0027/(tan(theta0)*exp((x)/0.0027)));
-	boundara ({f});
+	boundary ({f});
+/*
+		foreach()
+		{
+		
+			foreach_dimension()
+			{
+			u.x[]=0.0;
+
+			}
+		
+		}
+*/
+		}
+
 }
 
 
 
 // gravity is given in the vertically down direction.(-9.81)
-event acceleration (i++)
+event acceleration (i++
 {
         face vector av = a;
         foreach_face(x)
@@ -145,34 +162,61 @@ event profile(t+=0.1   ; t <= T_end )
   output_facets (f, fp1);
 }
 
-
-char name[80];
-// Produce vorticity animation
-event movies (i += 10000  ; t <= T_end)
+/*
+void backup_fields(scalar f,vector u,int nf)
 {
-        sprintf (name, "dump-%d", i);
-        dump (name);
+    char name[80], subname[80];
+    FILE *fp;
+    nf > 0 ? sprintf(name,"sol-%4.4d_n%3.3d.vtu",nf,pid()) : sprintf(name,"sol-0_n%3.3d.vtu",pid());
+    fp = fopen(name,"w");
+    output_vtu_ascii_foreach((scalar *){f},(vector *){u},N,fp,false);
+    fclose(fp);
 
+    #if _MPI
+        if (pid() == 0)
+        {
+            nf > 0 ? sprintf(name,"sol-%d.pvtu",nf) : sprintf(name,"sol-0.pvtu");
+            nf > 0 ? sprintf(subname,"sol-%4.4d",nf) : sprintf(subname,"sol-0");
+            fp = fopen(name,"w");
+            output_pvtu_ascii((scalar *){f},(vector *){u},N,fp,subname);
+            fclose (fp);
+        }
+        MPI_Barrier(MPI_COMM_WORLD);
+    #endif
 }
-char name_vtk[100];             // vtk file name decleration.
-event videos ( t+=10   ; t <= T_end )
+
+*/
+event dumpfile(t = 0; t+= 0.01; t <= T_end)
 {
-		
-		
-//      This snippet of code help put time on top right corner. 
-//      reference: http://basilisk.fr/src/examples/breaking.c
-//        char fname[100];
-//        sprintf (fname, " t = %.6f ", t );
-//        draw_string (fname, pos=2, size = 60);
-//        squares("f",min = 0, max = 1.0, linear = true);
-//        cells();
-//        draw_vof ("f" );
-//        save ("fd.mp4");
-//        clear();
+    char name[80];
+    sprintf(name,"dump-%g",t*100);
+    scalar pid[];
+    foreach()
+    {
+        pid[] = fmod(pid()*(npe() + 37),npe());
+    }
+    boundary({pid});
+    dump(name);
 }
-//Here the code makes sure the refinement of the interface is high. 
-event adapt (i += 5) {
+
+
+		
+event adapt (i++) {
   adapt_wavelet ((scalar*){f,u}, (double[]){f_tol,ux_tol,uy_tol},maxlevel , maxlevel-3 );
 }
-
-
+/*
+event logfile (t = 0; t += 0.01; t <= T_end)
+{
+    if (pid() == 0)
+    {
+        FILE *trackfile;
+        trackfile = fopen("track.out","aw");
+        fprintf (trackfile,"%.4e\t %.4e\n",t,dt);
+        fclose(trackfile);
+    }  
+ 
+    static int nf = 0;
+    backup_fields(f,u,nf);
+    nf++;
+}
+*/

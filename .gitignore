@@ -19,10 +19,10 @@ fail
 log
 *.s
 *.py
-*.log
 *.tst
-*.log~
 dump*
 data*
 alpha*
 interface_profile_t*
+snap*
+bview*
