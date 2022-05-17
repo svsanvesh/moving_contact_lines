@@ -1,0 +1,110 @@
+#re=0.0161;
+#The code simulates a plate advancing setup with 1 box and left plate moving down. 
+# Edited by : Anvesh 
+# Status : working 
+# Date - 16th May 2022
+# SI systems of units used for non-dimensionalising the results.
+#simulation time is 50 seconds
+# Domain 15x15 mmxmm.
+# Reynolds Number -0.0758 
+# Contact angle -60
+# Interface Refinement-10
+# Global Refinement- 11-3=7  
+# Phase A - air 
+# Phase B  - 20cSt si oil  
+
+
+1 0 GfsSimulation GfsBox GfsGEdge { 
+} {
+    GfsGlobal {  
+	#define rhoG 1.2   //density 
+        #define rhoL 950
+        #define muG 0.0183e-3
+	#define muL 1.9e-3
+	#define g -9.81  // gravitational acceleration
+        #define sigmaL1 0.021
+
+        #define Uplate -0.00015   // in m/s
+        #define theta 60       // (30)
+//        #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
+        #define Lc 0.00151   // capillary length
+        #define Ldomain 0.015   // Domain size perpendicular to the moving plate.
+        #define theta0 120.0*3.14159/180.0 
+
+        // refinement parameters
+        static int ref_max = 10;    // ref_max should be greater than ref_min+4
+        static int ref_min = 6;
+        static int ref_domain = 4;
+
+        #define x0 -Ldomain/2
+        #define x1 -Ldomain/2 + Ldomain/100
+        #define x2 -Ldomain/2 + Ldomain/25
+        #define x3 -Ldomain/2 + Ldomain/10
+        #define x4 -Ldomain/2 + Ldomain/5
+        #define x5 -Ldomain/2 + Ldomain/3
+	}
+   
+
+        # Define filtered B field
+	VariableTracerVOFHeight {} B
+	GfsVariableFiltered B1 B 1
+	#GfsAdaptGradient { istep = 1 } { minlevel = 4 maxlevel = 6 cmax=1e-2 } B1
+        
+	# Define grid refinement
+	Refine ref_domain
+        #GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = 9  minlevel =4 } B1
+	
+	#GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ? ( x < x2 ? (x < x3 ? 8 : 7) : 6) :5)   minlevel =5 } B1
+#	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ?  8 : 6)   minlevel =5 } B1
+	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < x1 ?  ref_max : (x < x2 ? ref_max-1 : (x < x3 ? ref_max-2 : (x < x4 ? ref_max-3: (x < x5 ? ref_max-4 : ref_min) ) ) ) )   minlevel = ref_min } B1
+
+
+#	GfsAdaptGradient { istep = 1 }{cmax = 1e-2 maxlevel = (x < 0.010125 ? ( x < 0.00675 ? (x < 0.0 ? (x  < -0.00675  ? (x < -0.010125 ?  6 :6 ):6) : 6): 7) : 8)  minlevel =5 } B1
+        
+	
+	# Define physical parameters
+	GfsVariableCurvature KB B KBmax
+        GfsSourceTension B sigmaL1 KB
+	Source {} V g
+	GfsPhysicalParams { L = 0.015 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }  #domain size is here 
+
+        SourceViscosity {} ((muL*B+(1-B)*muG))
+	 
+        # Balance the number of elements across parallel subdomains at every
+        # timestep if the imbalance is larger than 0.1 (i.e. 10% difference
+        # between the largest and smallest subdomains).
+          EventBalance { istep = 1 } 0.1
+
+        # Running the simulation here
+	GfsTime { start =0 end = 5 }  
+#	GfsInitFraction {} B ( -( y + 0.00174533*x)    )   # initial interface position
+	GfsInitFraction {} B ( -( y + Lc/(tan(theta0)*exp((x+0.0075)/Lc))) )   # initial interface position
+       
+	 # Saving the output
+#        OutputTime { istep = 200} stderr
+#	OutputSimulation { start=0 step=0.01} alpha-%g.gfs {variables = B,U,V,P}
+#	OutputPPM {step=.001} { ppm2mpeg > t.mpg } {	min = 0 max = 1 v = B	}
+
+}
+#box 1      
+	GfsBox {
+	  top = Boundary {	
+	     BcDirichlet U 0
+             BcDirichlet V 0
+          }
+          bottom = Boundary {
+             BcDirichlet U 0
+             BcDirichlet V 0 
+          }
+          right = Boundary {
+             BcDirichlet U 0
+             BcDirichlet V 0 
+             BcAngle B 90
+          }
+          left = Boundary {
+             BcDirichlet U 0
+             BcDirichlet V Uplate
+             BcAngle B theta
+          }
+        }
+

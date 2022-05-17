@@ -1,0 +1,1044 @@
+# Gerris Flow Solver 2D version 1.3.2 (131206-155120)
+256 480 GfsSimulation GfsBox GfsGEdge { rootlevel = 4 x = -0.46875 y = -0.46875 version = 131206 binary = 1 } {
+  GfsGlobal {  
+	#define rhoG 1.2   //density 
+        #define rhoL 950
+        #define muG 0.0183e-3
+	#define muL 8.8e-3
+	#define g -9.81  // gravitational acceleration
+        #define sigmaL1 0.021
+
+        #define Uplate -0.0001   // in m/s
+        #define theta 60       // (30)
+//        #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
+        #define Lc 0.00151   // capillary length
+        #define Ldomain 0.015   // Domain size perpendicular to the moving plate.
+        #define theta0 120.0*3.14159/180.0 
+
+        // refinement parameters
+        static int ref_max = 10;    // ref_max should be greater than ref_min+4
+        static int ref_min = 6;
+        static int ref_domain = 4;
+
+        #define x0 -Ldomain/2
+        #define x1 -Ldomain/2 + Ldomain/100
+        #define x2 -Ldomain/2 + Ldomain/25
+        #define x3 -Ldomain/2 + Ldomain/10
+        #define x4 -Ldomain/2 + Ldomain/5
+        #define x5 -Ldomain/2 + Ldomain/3
+	}
+  GfsTime { i = 1050500 t = 5 end = 10 }
+  GfsVariableTracerVOFHeight { istep = 1073741823 } B {
+  cfl      = 0.5
+  gradient = gfs_center_van_leer_gradient
+  flux     = gfs_face_advection_flux
+  average  = 0
+  scheme   = godunov
+}
+  GfsVariableFiltered { istep = 1 } B1 B 1
+  GfsAdaptGradient { istep = 1 } { minlevel = ref_min maxlevel = (x < x1 ?  ref_max : (x < x2 ? ref_max-1 : (x < x3 ? ref_max-2 : (x < x4 ? ref_max-3: (x < x5 ? ref_max-4 : ref_min) ) ) ) ) cmax = 0.01 } B1
+  GfsVariableCurvature { istep = 1 } KB B KBmax
+  GfsSourceTension { istep = 1 } B sigmaL1 KB
+  GfsSource { istep = 1 } V g
+  GfsSourceViscosity { istep = 1 } ((muL*B+(1-B)*muG)) {
+  tolerance = 1e-06
+  nrelax    = 4
+  erelax    = 1
+  minlevel  = 0
+  nitermax  = 100
+  nitermin  = 1
+  weighted  = 0
+  beta      = 1
+}
+  GfsEventBalance { istep = 1 } 0.1
+  GfsOutputTime { istep = 200 } stderr
+  GfsOutputSimulation { step = 0.01 } alpha-%g.gfs { variables = B,U,V,P }
+  GfsPhysicalParams { g = 1 L = 0.015 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }
+  GfsAdvectionParams {
+  cfl      = 0.8
+  gradient = gfs_center_gradient
+  flux     = gfs_face_velocity_advection_flux
+  average  = 1
+  scheme   = godunov
+}
+  GfsApproxProjectionParams {
+  tolerance = 0.001
+  nrelax    = 4
+  erelax    = 1
+  minlevel  = 0
+  nitermax  = 100
+  nitermin  = 1
+  weighted  = 0
+  beta      = 1
+}
+  GfsProjectionParams {
+  tolerance = 0.001
+  nrelax    = 4
+  erelax    = 1
+  minlevel  = 0
+  nitermax  = 100
+  nitermin  = 1
+  weighted  = 0
+  beta      = 1
+}
+}
+GfsBox { id = 1 pid = 2 size = 16 x = -0.46875 y = -0.46875 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 2 pid = 0 size = 16 x = -0.46875 y = -0.40625 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 3 pid = 1 size = 16 x = -0.40625 y = -0.40625 z = 0 }
+GfsBox { id = 4 pid = 3 size = 16 x = -0.40625 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 5 pid = 4 size = 16 x = -0.46875 y = -0.28125 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 6 pid = 5 size = 16 x = -0.40625 y = -0.28125 z = 0 }
+GfsBox { id = 7 pid = 6 size = 16 x = -0.46875 y = -0.34375 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 8 pid = 7 size = 16 x = -0.40625 y = -0.34375 z = 0 }
+GfsBox { id = 9 pid = 8 size = 16 x = -0.34375 y = -0.28125 z = 0 }
+GfsBox { id = 10 pid = 9 size = 16 x = -0.28125 y = -0.28125 z = 0 }
+GfsBox { id = 11 pid = 10 size = 16 x = -0.34375 y = -0.34375 z = 0 }
+GfsBox { id = 12 pid = 11 size = 16 x = -0.28125 y = -0.34375 z = 0 }
+GfsBox { id = 13 pid = 12 size = 16 x = -0.34375 y = -0.40625 z = 0 }
+GfsBox { id = 14 pid = 13 size = 16 x = -0.28125 y = -0.40625 z = 0 }
+GfsBox { id = 15 pid = 14 size = 16 x = -0.34375 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 16 pid = 15 size = 16 x = -0.28125 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 17 pid = 16 size = 16 x = -0.46875 y = -0.03125 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 18 pid = 17 size = 16 x = -0.40625 y = -0.03125 z = 0 }
+GfsBox { id = 19 pid = 18 size = 16 x = -0.46875 y = -0.09375 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 20 pid = 19 size = 16 x = -0.40625 y = -0.09375 z = 0 }
+GfsBox { id = 21 pid = 20 size = 16 x = -0.34375 y = -0.03125 z = 0 }
+GfsBox { id = 22 pid = 21 size = 16 x = -0.28125 y = -0.03125 z = 0 }
+GfsBox { id = 23 pid = 22 size = 16 x = -0.34375 y = -0.09375 z = 0 }
+GfsBox { id = 24 pid = 23 size = 16 x = -0.28125 y = -0.09375 z = 0 }
+GfsBox { id = 25 pid = 24 size = 16 x = -0.46875 y = -0.15625 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 26 pid = 25 size = 16 x = -0.40625 y = -0.15625 z = 0 }
+GfsBox { id = 27 pid = 26 size = 16 x = -0.46875 y = -0.21875 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 28 pid = 27 size = 16 x = -0.40625 y = -0.21875 z = 0 }
+GfsBox { id = 29 pid = 28 size = 16 x = -0.34375 y = -0.15625 z = 0 }
+GfsBox { id = 30 pid = 29 size = 16 x = -0.28125 y = -0.15625 z = 0 }
+GfsBox { id = 31 pid = 30 size = 16 x = -0.34375 y = -0.21875 z = 0 }
+GfsBox { id = 32 pid = 31 size = 16 x = -0.28125 y = -0.21875 z = 0 }
+GfsBox { id = 33 pid = 32 size = 16 x = -0.21875 y = -0.03125 z = 0 }
+GfsBox { id = 34 pid = 33 size = 16 x = -0.15625 y = -0.03125 z = 0 }
+GfsBox { id = 35 pid = 34 size = 16 x = -0.21875 y = -0.09375 z = 0 }
+GfsBox { id = 36 pid = 35 size = 16 x = -0.15625 y = -0.09375 z = 0 }
+GfsBox { id = 37 pid = 36 size = 16 x = -0.09375 y = -0.03125 z = 0 }
+GfsBox { id = 38 pid = 37 size = 16 x = -0.03125 y = -0.03125 z = 0 }
+GfsBox { id = 39 pid = 38 size = 16 x = -0.09375 y = -0.09375 z = 0 }
+GfsBox { id = 40 pid = 39 size = 16 x = -0.03125 y = -0.09375 z = 0 }
+GfsBox { id = 41 pid = 40 size = 16 x = -0.21875 y = -0.15625 z = 0 }
+GfsBox { id = 42 pid = 41 size = 16 x = -0.15625 y = -0.15625 z = 0 }
+GfsBox { id = 43 pid = 42 size = 16 x = -0.21875 y = -0.21875 z = 0 }
+GfsBox { id = 44 pid = 43 size = 16 x = -0.15625 y = -0.21875 z = 0 }
+GfsBox { id = 45 pid = 44 size = 16 x = -0.09375 y = -0.15625 z = 0 }
+GfsBox { id = 46 pid = 45 size = 16 x = -0.03125 y = -0.15625 z = 0 }
+GfsBox { id = 47 pid = 46 size = 16 x = -0.09375 y = -0.21875 z = 0 }
+GfsBox { id = 48 pid = 47 size = 16 x = -0.03125 y = -0.21875 z = 0 }
+GfsBox { id = 49 pid = 48 size = 16 x = -0.21875 y = -0.28125 z = 0 }
+GfsBox { id = 50 pid = 49 size = 16 x = -0.15625 y = -0.28125 z = 0 }
+GfsBox { id = 51 pid = 50 size = 16 x = -0.21875 y = -0.34375 z = 0 }
+GfsBox { id = 52 pid = 51 size = 16 x = -0.15625 y = -0.34375 z = 0 }
+GfsBox { id = 53 pid = 52 size = 16 x = -0.09375 y = -0.28125 z = 0 }
+GfsBox { id = 54 pid = 53 size = 16 x = -0.03125 y = -0.28125 z = 0 }
+GfsBox { id = 55 pid = 54 size = 16 x = -0.09375 y = -0.34375 z = 0 }
+GfsBox { id = 56 pid = 55 size = 16 x = -0.03125 y = -0.34375 z = 0 }
+GfsBox { id = 57 pid = 56 size = 16 x = -0.21875 y = -0.40625 z = 0 }
+GfsBox { id = 58 pid = 57 size = 16 x = -0.15625 y = -0.40625 z = 0 }
+GfsBox { id = 59 pid = 58 size = 16 x = -0.21875 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 60 pid = 59 size = 16 x = -0.15625 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 61 pid = 60 size = 16 x = -0.09375 y = -0.40625 z = 0 }
+GfsBox { id = 62 pid = 61 size = 16 x = -0.03125 y = -0.40625 z = 0 }
+GfsBox { id = 63 pid = 62 size = 16 x = -0.09375 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 64 pid = 63 size = 16 x = -0.03125 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 65 pid = 64 size = 16 x = -0.46875 y = 0.46875 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 66 pid = 65 size = 16 x = -0.40625 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 67 pid = 66 size = 16 x = -0.46875 y = 0.40625 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 68 pid = 67 size = 16 x = -0.40625 y = 0.40625 z = 0 }
+GfsBox { id = 69 pid = 68 size = 16 x = -0.34375 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 70 pid = 69 size = 16 x = -0.28125 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 71 pid = 70 size = 16 x = -0.34375 y = 0.40625 z = 0 }
+GfsBox { id = 72 pid = 71 size = 16 x = -0.28125 y = 0.40625 z = 0 }
+GfsBox { id = 73 pid = 72 size = 16 x = -0.46875 y = 0.34375 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 74 pid = 73 size = 16 x = -0.40625 y = 0.34375 z = 0 }
+GfsBox { id = 75 pid = 74 size = 16 x = -0.46875 y = 0.28125 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 76 pid = 75 size = 16 x = -0.40625 y = 0.28125 z = 0 }
+GfsBox { id = 77 pid = 76 size = 16 x = -0.34375 y = 0.34375 z = 0 }
+GfsBox { id = 78 pid = 77 size = 16 x = -0.28125 y = 0.34375 z = 0 }
+GfsBox { id = 79 pid = 78 size = 16 x = -0.34375 y = 0.28125 z = 0 }
+GfsBox { id = 80 pid = 79 size = 16 x = -0.28125 y = 0.28125 z = 0 }
+GfsBox { id = 81 pid = 80 size = 16 x = -0.21875 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 82 pid = 81 size = 16 x = -0.15625 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 83 pid = 82 size = 16 x = -0.21875 y = 0.40625 z = 0 }
+GfsBox { id = 84 pid = 83 size = 16 x = -0.15625 y = 0.40625 z = 0 }
+GfsBox { id = 85 pid = 84 size = 16 x = -0.09375 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 86 pid = 85 size = 16 x = -0.03125 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 87 pid = 86 size = 16 x = -0.09375 y = 0.40625 z = 0 }
+GfsBox { id = 88 pid = 87 size = 16 x = -0.03125 y = 0.40625 z = 0 }
+GfsBox { id = 89 pid = 88 size = 16 x = -0.21875 y = 0.34375 z = 0 }
+GfsBox { id = 90 pid = 89 size = 16 x = -0.15625 y = 0.34375 z = 0 }
+GfsBox { id = 91 pid = 90 size = 16 x = -0.21875 y = 0.28125 z = 0 }
+GfsBox { id = 92 pid = 91 size = 16 x = -0.15625 y = 0.28125 z = 0 }
+GfsBox { id = 93 pid = 92 size = 16 x = -0.09375 y = 0.34375 z = 0 }
+GfsBox { id = 94 pid = 93 size = 16 x = -0.03125 y = 0.34375 z = 0 }
+GfsBox { id = 95 pid = 94 size = 16 x = -0.09375 y = 0.28125 z = 0 }
+GfsBox { id = 96 pid = 95 size = 16 x = -0.03125 y = 0.28125 z = 0 }
+GfsBox { id = 97 pid = 96 size = 16 x = -0.46875 y = 0.21875 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 98 pid = 97 size = 16 x = -0.40625 y = 0.21875 z = 0 }
+GfsBox { id = 99 pid = 98 size = 16 x = -0.46875 y = 0.15625 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 100 pid = 99 size = 16 x = -0.40625 y = 0.15625 z = 0 }
+GfsBox { id = 101 pid = 100 size = 16 x = -0.34375 y = 0.21875 z = 0 }
+GfsBox { id = 102 pid = 101 size = 16 x = -0.28125 y = 0.21875 z = 0 }
+GfsBox { id = 103 pid = 102 size = 16 x = -0.34375 y = 0.15625 z = 0 }
+GfsBox { id = 104 pid = 103 size = 16 x = -0.28125 y = 0.15625 z = 0 }
+GfsBox { id = 105 pid = 104 size = 16 x = -0.46875 y = 0.09375 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 106 pid = 105 size = 16 x = -0.40625 y = 0.09375 z = 0 }
+GfsBox { id = 107 pid = 106 size = 16 x = -0.46875 y = 0.03125 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 108 pid = 107 size = 16 x = -0.40625 y = 0.03125 z = 0 }
+GfsBox { id = 109 pid = 108 size = 16 x = -0.34375 y = 0.09375 z = 0 }
+GfsBox { id = 110 pid = 109 size = 16 x = -0.28125 y = 0.09375 z = 0 }
+GfsBox { id = 111 pid = 110 size = 16 x = -0.34375 y = 0.03125 z = 0 }
+GfsBox { id = 112 pid = 111 size = 16 x = -0.28125 y = 0.03125 z = 0 }
+GfsBox { id = 113 pid = 112 size = 16 x = -0.21875 y = 0.21875 z = 0 }
+GfsBox { id = 114 pid = 113 size = 16 x = -0.15625 y = 0.21875 z = 0 }
+GfsBox { id = 115 pid = 114 size = 16 x = -0.21875 y = 0.15625 z = 0 }
+GfsBox { id = 116 pid = 115 size = 16 x = -0.15625 y = 0.15625 z = 0 }
+GfsBox { id = 117 pid = 116 size = 16 x = -0.09375 y = 0.21875 z = 0 }
+GfsBox { id = 118 pid = 117 size = 16 x = -0.03125 y = 0.21875 z = 0 }
+GfsBox { id = 119 pid = 118 size = 16 x = -0.09375 y = 0.15625 z = 0 }
+GfsBox { id = 120 pid = 119 size = 16 x = -0.03125 y = 0.15625 z = 0 }
+GfsBox { id = 121 pid = 120 size = 16 x = -0.21875 y = 0.09375 z = 0 }
+GfsBox { id = 122 pid = 121 size = 16 x = -0.15625 y = 0.09375 z = 0 }
+GfsBox { id = 123 pid = 122 size = 16 x = -0.21875 y = 0.03125 z = 0 }
+GfsBox { id = 124 pid = 123 size = 16 x = -0.15625 y = 0.03125 z = 0 }
+GfsBox { id = 125 pid = 124 size = 16 x = -0.09375 y = 0.09375 z = 0 }
+GfsBox { id = 126 pid = 125 size = 16 x = -0.03125 y = 0.09375 z = 0 }
+GfsBox { id = 127 pid = 126 size = 16 x = -0.09375 y = 0.03125 z = 0 }
+GfsBox { id = 128 pid = 127 size = 16 x = -0.03125 y = 0.03125 z = 0 }
+GfsBox { id = 129 pid = 128 size = 16 x = 0.03125 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 130 pid = 129 size = 16 x = 0.09375 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 131 pid = 130 size = 16 x = 0.03125 y = 0.40625 z = 0 }
+GfsBox { id = 132 pid = 131 size = 16 x = 0.09375 y = 0.40625 z = 0 }
+GfsBox { id = 133 pid = 132 size = 16 x = 0.15625 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 134 pid = 133 size = 16 x = 0.21875 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 135 pid = 134 size = 16 x = 0.15625 y = 0.40625 z = 0 }
+GfsBox { id = 136 pid = 135 size = 16 x = 0.21875 y = 0.40625 z = 0 }
+GfsBox { id = 137 pid = 136 size = 16 x = 0.03125 y = 0.34375 z = 0 }
+GfsBox { id = 138 pid = 137 size = 16 x = 0.09375 y = 0.34375 z = 0 }
+GfsBox { id = 139 pid = 138 size = 16 x = 0.03125 y = 0.28125 z = 0 }
+GfsBox { id = 140 pid = 139 size = 16 x = 0.09375 y = 0.28125 z = 0 }
+GfsBox { id = 141 pid = 140 size = 16 x = 0.15625 y = 0.34375 z = 0 }
+GfsBox { id = 142 pid = 141 size = 16 x = 0.21875 y = 0.34375 z = 0 }
+GfsBox { id = 143 pid = 142 size = 16 x = 0.15625 y = 0.28125 z = 0 }
+GfsBox { id = 144 pid = 143 size = 16 x = 0.21875 y = 0.28125 z = 0 }
+GfsBox { id = 145 pid = 144 size = 16 x = 0.28125 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 146 pid = 145 size = 16 x = 0.34375 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 147 pid = 146 size = 16 x = 0.28125 y = 0.40625 z = 0 }
+GfsBox { id = 148 pid = 147 size = 16 x = 0.34375 y = 0.40625 z = 0 }
+GfsBox { id = 149 pid = 148 size = 16 x = 0.40625 y = 0.46875 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 150 pid = 149 size = 16 x = 0.46875 y = 0.46875 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 151 pid = 150 size = 16 x = 0.40625 y = 0.40625 z = 0 }
+GfsBox { id = 152 pid = 151 size = 16 x = 0.46875 y = 0.40625 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 153 pid = 152 size = 16 x = 0.28125 y = 0.34375 z = 0 }
+GfsBox { id = 154 pid = 153 size = 16 x = 0.34375 y = 0.34375 z = 0 }
+GfsBox { id = 155 pid = 154 size = 16 x = 0.28125 y = 0.28125 z = 0 }
+GfsBox { id = 156 pid = 155 size = 16 x = 0.34375 y = 0.28125 z = 0 }
+GfsBox { id = 157 pid = 156 size = 16 x = 0.40625 y = 0.34375 z = 0 }
+GfsBox { id = 158 pid = 157 size = 16 x = 0.46875 y = 0.34375 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 159 pid = 158 size = 16 x = 0.40625 y = 0.28125 z = 0 }
+GfsBox { id = 160 pid = 159 size = 16 x = 0.46875 y = 0.28125 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 161 pid = 160 size = 16 x = 0.03125 y = 0.21875 z = 0 }
+GfsBox { id = 162 pid = 161 size = 16 x = 0.09375 y = 0.21875 z = 0 }
+GfsBox { id = 163 pid = 162 size = 16 x = 0.03125 y = 0.15625 z = 0 }
+GfsBox { id = 164 pid = 163 size = 16 x = 0.09375 y = 0.15625 z = 0 }
+GfsBox { id = 165 pid = 164 size = 16 x = 0.15625 y = 0.21875 z = 0 }
+GfsBox { id = 166 pid = 165 size = 16 x = 0.21875 y = 0.21875 z = 0 }
+GfsBox { id = 167 pid = 166 size = 16 x = 0.15625 y = 0.15625 z = 0 }
+GfsBox { id = 168 pid = 167 size = 16 x = 0.21875 y = 0.15625 z = 0 }
+GfsBox { id = 169 pid = 168 size = 16 x = 0.03125 y = 0.09375 z = 0 }
+GfsBox { id = 170 pid = 169 size = 16 x = 0.09375 y = 0.09375 z = 0 }
+GfsBox { id = 171 pid = 170 size = 16 x = 0.03125 y = 0.03125 z = 0 }
+GfsBox { id = 172 pid = 171 size = 16 x = 0.09375 y = 0.03125 z = 0 }
+GfsBox { id = 173 pid = 172 size = 16 x = 0.15625 y = 0.09375 z = 0 }
+GfsBox { id = 174 pid = 173 size = 16 x = 0.21875 y = 0.09375 z = 0 }
+GfsBox { id = 175 pid = 174 size = 16 x = 0.15625 y = 0.03125 z = 0 }
+GfsBox { id = 176 pid = 175 size = 16 x = 0.21875 y = 0.03125 z = 0 }
+GfsBox { id = 177 pid = 176 size = 16 x = 0.28125 y = 0.21875 z = 0 }
+GfsBox { id = 178 pid = 177 size = 16 x = 0.34375 y = 0.21875 z = 0 }
+GfsBox { id = 179 pid = 178 size = 16 x = 0.28125 y = 0.15625 z = 0 }
+GfsBox { id = 180 pid = 179 size = 16 x = 0.34375 y = 0.15625 z = 0 }
+GfsBox { id = 181 pid = 180 size = 16 x = 0.40625 y = 0.21875 z = 0 }
+GfsBox { id = 182 pid = 181 size = 16 x = 0.46875 y = 0.21875 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 183 pid = 182 size = 16 x = 0.40625 y = 0.15625 z = 0 }
+GfsBox { id = 184 pid = 183 size = 16 x = 0.46875 y = 0.15625 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 185 pid = 184 size = 16 x = 0.28125 y = 0.09375 z = 0 }
+GfsBox { id = 186 pid = 185 size = 16 x = 0.34375 y = 0.09375 z = 0 }
+GfsBox { id = 187 pid = 186 size = 16 x = 0.28125 y = 0.03125 z = 0 }
+GfsBox { id = 188 pid = 187 size = 16 x = 0.34375 y = 0.03125 z = 0 }
+GfsBox { id = 189 pid = 188 size = 16 x = 0.40625 y = 0.09375 z = 0 }
+GfsBox { id = 190 pid = 189 size = 16 x = 0.46875 y = 0.09375 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 191 pid = 190 size = 16 x = 0.40625 y = 0.03125 z = 0 }
+GfsBox { id = 192 pid = 191 size = 16 x = 0.46875 y = 0.03125 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 193 pid = 192 size = 16 x = 0.03125 y = -0.03125 z = 0 }
+GfsBox { id = 194 pid = 193 size = 16 x = 0.09375 y = -0.03125 z = 0 }
+GfsBox { id = 195 pid = 194 size = 16 x = 0.03125 y = -0.09375 z = 0 }
+GfsBox { id = 196 pid = 195 size = 16 x = 0.09375 y = -0.09375 z = 0 }
+GfsBox { id = 197 pid = 196 size = 16 x = 0.15625 y = -0.03125 z = 0 }
+GfsBox { id = 198 pid = 197 size = 16 x = 0.21875 y = -0.03125 z = 0 }
+GfsBox { id = 199 pid = 198 size = 16 x = 0.15625 y = -0.09375 z = 0 }
+GfsBox { id = 200 pid = 199 size = 16 x = 0.21875 y = -0.09375 z = 0 }
+GfsBox { id = 201 pid = 200 size = 16 x = 0.03125 y = -0.15625 z = 0 }
+GfsBox { id = 202 pid = 201 size = 16 x = 0.09375 y = -0.15625 z = 0 }
+GfsBox { id = 203 pid = 202 size = 16 x = 0.03125 y = -0.21875 z = 0 }
+GfsBox { id = 204 pid = 203 size = 16 x = 0.09375 y = -0.21875 z = 0 }
+GfsBox { id = 205 pid = 204 size = 16 x = 0.15625 y = -0.15625 z = 0 }
+GfsBox { id = 206 pid = 205 size = 16 x = 0.21875 y = -0.15625 z = 0 }
+GfsBox { id = 207 pid = 206 size = 16 x = 0.15625 y = -0.21875 z = 0 }
+GfsBox { id = 208 pid = 207 size = 16 x = 0.21875 y = -0.21875 z = 0 }
+GfsBox { id = 209 pid = 208 size = 16 x = 0.28125 y = -0.03125 z = 0 }
+GfsBox { id = 210 pid = 209 size = 16 x = 0.34375 y = -0.03125 z = 0 }
+GfsBox { id = 211 pid = 210 size = 16 x = 0.28125 y = -0.09375 z = 0 }
+GfsBox { id = 212 pid = 211 size = 16 x = 0.34375 y = -0.09375 z = 0 }
+GfsBox { id = 213 pid = 212 size = 16 x = 0.40625 y = -0.03125 z = 0 }
+GfsBox { id = 214 pid = 213 size = 16 x = 0.46875 y = -0.03125 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 215 pid = 214 size = 16 x = 0.40625 y = -0.09375 z = 0 }
+GfsBox { id = 216 pid = 215 size = 16 x = 0.46875 y = -0.09375 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 217 pid = 216 size = 16 x = 0.28125 y = -0.15625 z = 0 }
+GfsBox { id = 218 pid = 217 size = 16 x = 0.34375 y = -0.15625 z = 0 }
+GfsBox { id = 219 pid = 218 size = 16 x = 0.28125 y = -0.21875 z = 0 }
+GfsBox { id = 220 pid = 219 size = 16 x = 0.34375 y = -0.21875 z = 0 }
+GfsBox { id = 221 pid = 220 size = 16 x = 0.40625 y = -0.15625 z = 0 }
+GfsBox { id = 222 pid = 221 size = 16 x = 0.46875 y = -0.15625 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 223 pid = 222 size = 16 x = 0.40625 y = -0.21875 z = 0 }
+GfsBox { id = 224 pid = 223 size = 16 x = 0.46875 y = -0.21875 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 225 pid = 224 size = 16 x = 0.03125 y = -0.28125 z = 0 }
+GfsBox { id = 226 pid = 225 size = 16 x = 0.09375 y = -0.28125 z = 0 }
+GfsBox { id = 227 pid = 226 size = 16 x = 0.03125 y = -0.34375 z = 0 }
+GfsBox { id = 228 pid = 227 size = 16 x = 0.09375 y = -0.34375 z = 0 }
+GfsBox { id = 229 pid = 228 size = 16 x = 0.15625 y = -0.28125 z = 0 }
+GfsBox { id = 230 pid = 229 size = 16 x = 0.21875 y = -0.28125 z = 0 }
+GfsBox { id = 231 pid = 230 size = 16 x = 0.15625 y = -0.34375 z = 0 }
+GfsBox { id = 232 pid = 231 size = 16 x = 0.21875 y = -0.34375 z = 0 }
+GfsBox { id = 233 pid = 232 size = 16 x = 0.03125 y = -0.40625 z = 0 }
+GfsBox { id = 234 pid = 233 size = 16 x = 0.09375 y = -0.40625 z = 0 }
+GfsBox { id = 235 pid = 234 size = 16 x = 0.03125 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 236 pid = 235 size = 16 x = 0.09375 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 237 pid = 236 size = 16 x = 0.15625 y = -0.40625 z = 0 }
+GfsBox { id = 238 pid = 237 size = 16 x = 0.21875 y = -0.40625 z = 0 }
+GfsBox { id = 239 pid = 238 size = 16 x = 0.15625 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 240 pid = 239 size = 16 x = 0.21875 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 241 pid = 240 size = 16 x = 0.28125 y = -0.28125 z = 0 }
+GfsBox { id = 242 pid = 241 size = 16 x = 0.34375 y = -0.28125 z = 0 }
+GfsBox { id = 243 pid = 242 size = 16 x = 0.28125 y = -0.34375 z = 0 }
+GfsBox { id = 244 pid = 243 size = 16 x = 0.34375 y = -0.34375 z = 0 }
+GfsBox { id = 245 pid = 244 size = 16 x = 0.40625 y = -0.28125 z = 0 }
+GfsBox { id = 246 pid = 245 size = 16 x = 0.46875 y = -0.28125 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 247 pid = 246 size = 16 x = 0.40625 y = -0.34375 z = 0 }
+GfsBox { id = 248 pid = 247 size = 16 x = 0.46875 y = -0.34375 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 249 pid = 248 size = 16 x = 0.28125 y = -0.40625 z = 0 }
+GfsBox { id = 250 pid = 249 size = 16 x = 0.34375 y = -0.40625 z = 0 }
+GfsBox { id = 251 pid = 250 size = 16 x = 0.28125 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 252 pid = 251 size = 16 x = 0.34375 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 253 pid = 252 size = 16 x = 0.40625 y = -0.40625 z = 0 }
+GfsBox { id = 254 pid = 253 size = 16 x = 0.46875 y = -0.40625 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 255 pid = 254 size = 16 x = 0.40625 y = -0.46875 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 256 pid = 255 size = 16 x = 0.46875 y = -0.46875 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+1 4 right
+2 1 bottom
+2 3 right
+7 2 bottom
+3 4 bottom
+8 3 bottom
+13 3 left
+15 4 left
+5 7 bottom
+5 6 right
+27 5 bottom
+6 8 bottom
+9 6 left
+28 6 bottom
+7 8 right
+11 8 left
+9 11 bottom
+9 10 right
+31 9 bottom
+10 12 bottom
+32 10 bottom
+49 10 left
+11 12 right
+13 11 top
+14 12 top
+51 12 left
+13 15 bottom
+13 14 right
+14 16 bottom
+57 14 left
+15 16 right
+59 16 left
+17 19 bottom
+17 18 right
+107 17 bottom
+18 20 bottom
+21 18 left
+108 18 bottom
+19 20 right
+25 19 top
+23 20 left
+26 20 top
+21 23 bottom
+21 22 right
+111 21 bottom
+22 24 bottom
+33 22 left
+112 22 bottom
+23 24 right
+29 23 top
+30 24 top
+35 24 left
+25 27 bottom
+25 26 right
+26 28 bottom
+29 26 left
+27 28 right
+31 28 left
+29 31 bottom
+29 30 right
+30 32 bottom
+41 30 left
+31 32 right
+43 32 left
+33 35 bottom
+33 34 right
+123 33 bottom
+34 36 bottom
+37 34 left
+124 34 bottom
+35 36 right
+41 35 top
+39 36 left
+42 36 top
+37 39 bottom
+37 38 right
+127 37 bottom
+38 40 bottom
+128 38 bottom
+193 38 left
+39 40 right
+45 39 top
+46 40 top
+195 40 left
+41 43 bottom
+41 42 right
+42 44 bottom
+45 42 left
+43 44 right
+49 43 top
+47 44 left
+50 44 top
+45 47 bottom
+45 46 right
+46 48 bottom
+201 46 left
+47 48 right
+53 47 top
+54 48 top
+203 48 left
+49 51 bottom
+49 50 right
+50 52 bottom
+53 50 left
+51 52 right
+57 51 top
+55 52 left
+58 52 top
+53 55 bottom
+53 54 right
+54 56 bottom
+225 54 left
+55 56 right
+61 55 top
+62 56 top
+227 56 left
+57 59 bottom
+57 58 right
+58 60 bottom
+61 58 left
+59 60 right
+63 60 left
+61 63 bottom
+61 62 right
+62 64 bottom
+233 62 left
+63 64 right
+235 64 left
+65 67 bottom
+65 66 right
+66 68 bottom
+69 66 left
+67 68 right
+73 67 top
+71 68 left
+74 68 top
+69 71 bottom
+69 70 right
+70 72 bottom
+81 70 left
+71 72 right
+77 71 top
+78 72 top
+83 72 left
+73 75 bottom
+73 74 right
+74 76 bottom
+77 74 left
+75 76 right
+97 75 top
+79 76 left
+98 76 top
+77 79 bottom
+77 78 right
+78 80 bottom
+89 78 left
+79 80 right
+101 79 top
+91 80 left
+102 80 top
+81 83 bottom
+81 82 right
+82 84 bottom
+85 82 left
+83 84 right
+89 83 top
+87 84 left
+90 84 top
+85 87 bottom
+85 86 right
+86 88 bottom
+129 86 left
+87 88 right
+93 87 top
+94 88 top
+131 88 left
+89 91 bottom
+89 90 right
+90 92 bottom
+93 90 left
+91 92 right
+113 91 top
+95 92 left
+114 92 top
+93 95 bottom
+93 94 right
+94 96 bottom
+137 94 left
+95 96 right
+117 95 top
+118 96 top
+139 96 left
+97 99 bottom
+97 98 right
+98 100 bottom
+101 98 left
+99 100 right
+105 99 top
+103 100 left
+106 100 top
+101 103 bottom
+101 102 right
+102 104 bottom
+113 102 left
+103 104 right
+109 103 top
+110 104 top
+115 104 left
+105 107 bottom
+105 106 right
+106 108 bottom
+109 106 left
+107 108 right
+111 108 left
+109 111 bottom
+109 110 right
+110 112 bottom
+121 110 left
+111 112 right
+123 112 left
+113 115 bottom
+113 114 right
+114 116 bottom
+117 114 left
+115 116 right
+121 115 top
+119 116 left
+122 116 top
+117 119 bottom
+117 118 right
+118 120 bottom
+161 118 left
+119 120 right
+125 119 top
+126 120 top
+163 120 left
+121 123 bottom
+121 122 right
+122 124 bottom
+125 122 left
+123 124 right
+127 124 left
+125 127 bottom
+125 126 right
+126 128 bottom
+169 126 left
+127 128 right
+171 128 left
+129 131 bottom
+129 130 right
+130 132 bottom
+133 130 left
+131 132 right
+137 131 top
+135 132 left
+138 132 top
+133 135 bottom
+133 134 right
+134 136 bottom
+145 134 left
+135 136 right
+141 135 top
+142 136 top
+147 136 left
+137 139 bottom
+137 138 right
+138 140 bottom
+141 138 left
+139 140 right
+161 139 top
+143 140 left
+162 140 top
+141 143 bottom
+141 142 right
+142 144 bottom
+153 142 left
+143 144 right
+165 143 top
+155 144 left
+166 144 top
+145 147 bottom
+145 146 right
+146 148 bottom
+149 146 left
+147 148 right
+153 147 top
+151 148 left
+154 148 top
+149 151 bottom
+149 150 right
+150 152 bottom
+151 152 right
+157 151 top
+158 152 top
+153 155 bottom
+153 154 right
+154 156 bottom
+157 154 left
+155 156 right
+177 155 top
+159 156 left
+178 156 top
+157 159 bottom
+157 158 right
+158 160 bottom
+159 160 right
+181 159 top
+182 160 top
+161 163 bottom
+161 162 right
+162 164 bottom
+165 162 left
+163 164 right
+169 163 top
+167 164 left
+170 164 top
+165 167 bottom
+165 166 right
+166 168 bottom
+177 166 left
+167 168 right
+173 167 top
+174 168 top
+179 168 left
+169 171 bottom
+169 170 right
+170 172 bottom
+173 170 left
+171 172 right
+193 171 top
+175 172 left
+194 172 top
+173 175 bottom
+173 174 right
+174 176 bottom
+185 174 left
+175 176 right
+197 175 top
+187 176 left
+198 176 top
+177 179 bottom
+177 178 right
+178 180 bottom
+181 178 left
+179 180 right
+185 179 top
+183 180 left
+186 180 top
+181 183 bottom
+181 182 right
+182 184 bottom
+183 184 right
+189 183 top
+190 184 top
+185 187 bottom
+185 186 right
+186 188 bottom
+189 186 left
+187 188 right
+209 187 top
+191 188 left
+210 188 top
+189 191 bottom
+189 190 right
+190 192 bottom
+191 192 right
+213 191 top
+214 192 top
+193 195 bottom
+193 194 right
+194 196 bottom
+197 194 left
+195 196 right
+201 195 top
+199 196 left
+202 196 top
+197 199 bottom
+197 198 right
+198 200 bottom
+209 198 left
+199 200 right
+205 199 top
+206 200 top
+211 200 left
+201 203 bottom
+201 202 right
+202 204 bottom
+205 202 left
+203 204 right
+225 203 top
+207 204 left
+226 204 top
+205 207 bottom
+205 206 right
+206 208 bottom
+217 206 left
+207 208 right
+229 207 top
+219 208 left
+230 208 top
+209 211 bottom
+209 210 right
+210 212 bottom
+213 210 left
+211 212 right
+217 211 top
+215 212 left
+218 212 top
+213 215 bottom
+213 214 right
+214 216 bottom
+215 216 right
+221 215 top
+222 216 top
+217 219 bottom
+217 218 right
+218 220 bottom
+221 218 left
+219 220 right
+241 219 top
+223 220 left
+242 220 top
+221 223 bottom
+221 222 right
+222 224 bottom
+223 224 right
+245 223 top
+246 224 top
+225 227 bottom
+225 226 right
+226 228 bottom
+229 226 left
+227 228 right
+233 227 top
+231 228 left
+234 228 top
+229 231 bottom
+229 230 right
+230 232 bottom
+241 230 left
+231 232 right
+237 231 top
+238 232 top
+243 232 left
+233 235 bottom
+233 234 right
+234 236 bottom
+237 234 left
+235 236 right
+239 236 left
+237 239 bottom
+237 238 right
+238 240 bottom
+249 238 left
+239 240 right
+251 240 left
+241 243 bottom
+241 242 right
+242 244 bottom
+245 242 left
+243 244 right
+249 243 top
+247 244 left
+250 244 top
+245 247 bottom
+245 246 right
+246 248 bottom
+247 248 right
+253 247 top
+254 248 top
+249 251 bottom
+249 250 right
+250 252 bottom
+253 250 left
+251 252 right
+255 252 left
+253 255 bottom
+253 254 right
+254 256 bottom
+255 256 right
