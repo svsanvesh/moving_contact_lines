@@ -26,3 +26,5 @@ alpha*
 interface_profile_t*
 snap*
 bview*
+*.zip 
+*.tar*
