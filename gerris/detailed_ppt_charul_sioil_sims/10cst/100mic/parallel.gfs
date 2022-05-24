@@ -27,7 +27,7 @@
         #define x4 -Ldomain/2 + Ldomain/5
         #define x5 -Ldomain/2 + Ldomain/3
 	}
-  GfsTime { i = 10505000 t = 50 end = 80 }
+  GfsTime { i = 10502899 t = 49.99 end = 50.05 }
   GfsVariableTracerVOFHeight { istep = 1073741823 } B {
   cfl      = 0.5
   gradient = gfs_center_van_leer_gradient

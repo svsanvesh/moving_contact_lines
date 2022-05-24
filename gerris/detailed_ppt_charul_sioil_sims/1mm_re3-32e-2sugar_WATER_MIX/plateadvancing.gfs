@@ -1,45 +1,45 @@
-#150 microns/sec
-#Re= 0.024
-#Ca= 6.28e-5
-#Oh= 5.1e-2
+#1 mm/sec
+#Re= 0.0332
+#Ca= 1.3e-3
+#Oh= 0.197
 #Lc = 1.51mm
-#Contact angle ~ 23
-#Rolling motion
-#Theory: Rolling motion
+#Contact angle ~ 20
 
 
 #The code simulates a plate advancing setup with 1 box and left plate moving down. 
 # Edited by : Anvesh 
 # Status : working 
-# Date - 16th May 2022
+# Date - 23rd  May 2022
 # SI systems of units used for non-dimensionalising the results.
 #simulation time is 50 seconds
 # Domain 15x15 mmxmm.
+# Reynolds Number -0.0758 
+# Contact angle -60
 # Interface Refinement-10
 # Global Refinement- 11-3=7  
 # Phase A - air 
-# Phase B  - 10cSt si oil  
+# Phase B  - sugar water mix 
 
 
 1 0 GfsSimulation GfsBox GfsGEdge { 
 } {
     GfsGlobal {  
 	#define rhoG 1.2   //density 
-        #define rhoL 950
+        #define rhoL 1320
         #define muG 0.0183e-3
-	#define muL 8.8e-3
+	#define muL 0.0934
 	#define g -9.81  // gravitational acceleration
-        #define sigmaL1 0.021
+        #define sigmaL1 0.072
 
-        #define Uplate -0.00015   // in m/s
-        #define theta 23       // (30)
+        #define Uplate -0.0001   // in m/s
+        #define theta 79.8       // (30)
 //        #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
-        #define Lc 0.00151   // capillary length
+        #define Lc 0.00235   // capillary length
         #define Ldomain 0.015   // Domain size perpendicular to the moving plate.
-        #define theta0 157.0*3.14159/180.0 
+        #define theta0 100.2*3.14159265/180.0 
 
         // refinement parameters
-        static int ref_max = 10;    // ref_max should be greater than ref_min+4
+        static int ref_max = 11;    // ref_max should be greater than ref_min+4
         static int ref_min = 6;
         static int ref_domain = 4;
 

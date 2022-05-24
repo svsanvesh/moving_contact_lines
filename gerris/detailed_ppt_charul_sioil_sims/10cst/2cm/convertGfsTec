@@ -1,0 +1,7 @@
+#!/bin/bash
+
+for i in alpha-49.98.gfs 
+do
+	gerris2D -e "OutputSimulation { step = 1 } sol-%g.dat {variables = U,V,B format = Tecplot} " $i > /dev/null
+	echo $i
+done
