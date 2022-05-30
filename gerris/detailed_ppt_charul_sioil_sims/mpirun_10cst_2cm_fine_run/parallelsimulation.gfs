@@ -1,0 +1,182 @@
+# Gerris Flow Solver 2D version 1.3.2 (131206-155120)
+16 24 GfsSimulation GfsBox GfsGEdge { rootlevel = 2 x = -0.375 y = -0.375 version = 131206 } {
+  GfsGlobal {  
+	#define rhoG 1.2   //density 
+        #define rhoL 950
+        #define muG 0.0183e-3
+	#define muL 8.8e-3
+	#define g -9.81  // gravitational acceleration
+        #define sigmaL1 0.021
+
+        #define Uplate -0.02   // in m/s
+        #define theta 60      // (30)
+//        #define Lc sqrt(sigmaL1/((rhoL-rhoG)*g)   // capillary length
+        #define Lc 0.00151   // capillary length
+        #define Ldomain 0.015   // Domain size perpendicular to the moving plate.
+        #define theta0 120.0*3.14159/180.0 
+
+        // refinement parameters
+        static int ref_max = 11;    // ref_max should be greater than ref_min+4
+        static int ref_min = 7;
+        static int ref_domain = 4;
+
+        #define x0 -Ldomain/2
+        #define x1 -Ldomain/2 + Ldomain/100
+        #define x2 -Ldomain/2 + Ldomain/25
+        #define x3 -Ldomain/2 + Ldomain/10
+        #define x4 -Ldomain/2 + Ldomain/5
+        #define x5 -Ldomain/2 + Ldomain/3
+	}
+  GfsTime { i = 0 t = 0 end = 50 }
+  GfsRefine ref_domain
+  GfsVariableTracerVOFHeight { istep = 1073741823 } B {
+  cfl      = 0.5
+  gradient = gfs_center_van_leer_gradient
+  flux     = gfs_face_advection_flux
+  average  = 0
+  scheme   = godunov
+}
+  GfsVariableFiltered { istep = 1 } B1 B 1
+  GfsAdaptGradient { istep = 1 } { minlevel = ref_min maxlevel = (x < x1 ?  ref_max : (x < x2 ? ref_max-1 : (x < x3 ? ref_max-2 : (x < x4 ? ref_max-3: (x < x5 ? ref_max-4 : ref_min) ) ) ) ) cmax = 0.01 } B1
+  GfsVariableCurvature { istep = 1 } KB B KBmax
+  GfsSourceTension { istep = 1 } B sigmaL1 KB
+  GfsSource { istep = 1 } V g
+  GfsSourceViscosity { istep = 1 } ((muL*B+(1-B)*muG)) {
+  tolerance = 1e-06
+  nrelax    = 4
+  erelax    = 1
+  minlevel  = 0
+  nitermax  = 100
+  nitermin  = 1
+  weighted  = 0
+  beta      = 1
+}
+  GfsEventBalance { istep = 1 } 0.1
+  GfsInitFraction { } B ( -( y + Lc/(tan(theta0)*exp((x+0.0075)/Lc))) ) {}
+  GfsOutputTime { istep = 200 } stderr
+  GfsOutputSimulation { step = 0.01 } alpha-%g.gfs { variables = B,U,V,P }
+  GfsPhysicalParams { g = 1 L = 0.015 alpha = 1./(B1*rhoL+(1-B1)*rhoG) }
+  GfsAdvectionParams {
+  cfl      = 0.8
+  gradient = gfs_center_gradient
+  flux     = gfs_face_velocity_advection_flux
+  average  = 1
+  scheme   = godunov
+}
+  GfsApproxProjectionParams {
+  tolerance = 0.001
+  nrelax    = 4
+  erelax    = 1
+  minlevel  = 0
+  nitermax  = 100
+  nitermin  = 1
+  weighted  = 0
+  beta      = 1
+}
+  GfsProjectionParams {
+  tolerance = 0.001
+  nrelax    = 4
+  erelax    = 1
+  minlevel  = 0
+  nitermax  = 100
+  nitermin  = 1
+  weighted  = 0
+  beta      = 1
+}
+}
+GfsBox { id = 1 pid = 11 size = 1 x = -0.375 y = -0.375 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 2 pid = 4 size = 1 x = -0.375 y = -0.125 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 3 pid = 0 size = 1 x = -0.125 y = -0.125 z = 0 }
+GfsBox { id = 4 pid = 5 size = 1 x = -0.125 y = -0.375 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 5 pid = 9 size = 1 x = -0.375 y = 0.375 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 6 pid = 3 size = 1 x = -0.125 y = 0.375 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 7 pid = 7 size = 1 x = -0.375 y = 0.125 z = 0 left = GfsBoundary {
+GfsBcAngle B theta
+GfsBcDirichlet V Uplate
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 8 pid = 7 size = 1 x = -0.125 y = 0.125 z = 0 }
+GfsBox { id = 9 pid = 3 size = 1 x = 0.125 y = 0.375 z = 0 top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 10 pid = 10 size = 1 x = 0.375 y = 0.375 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} top = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 11 pid = 3 size = 1 x = 0.125 y = 0.125 z = 0 }
+GfsBox { id = 12 pid = 2 size = 1 x = 0.375 y = 0.125 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 13 pid = 8 size = 1 x = 0.125 y = -0.125 z = 0 }
+GfsBox { id = 14 pid = 8 size = 1 x = 0.375 y = -0.125 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 15 pid = 1 size = 1 x = 0.125 y = -0.375 z = 0 bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+GfsBox { id = 16 pid = 6 size = 1 x = 0.375 y = -0.375 z = 0 right = GfsBoundary {
+GfsBcAngle B 90
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} bottom = GfsBoundary {
+GfsBcDirichlet V 0
+GfsBcDirichlet U 0
+} }
+2 1 bottom
+1 4 right
+7 2 bottom
+2 3 right
+13 3 left
+8 3 bottom
+3 4 bottom
+15 4 left
+5 6 right
+5 7 bottom
+9 6 left
+6 8 bottom
+7 8 right
+11 8 left
+9 10 right
+9 11 bottom
+10 12 bottom
+13 11 top
+11 12 right
+14 12 top
+13 14 right
+13 15 bottom
+14 16 bottom
+15 16 right
